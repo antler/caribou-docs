@@ -1,0 +1,30 @@
+{{< templates/layout.html}}
+{{#body}}
+
+  <h1>Edit Document</h1>
+
+  <form method="POST" action="{{route-for :save_document {} }}">
+    <input type="hidden" name="id" value="{{document.id}}" />
+    <fieldset>
+      <ul>
+        <li>Title: <input name="title" type="text" value="{{document.title}}"> </li>
+        <li>Slug: {{document.slug}}</li>
+        <li>Body:<br />
+          <textarea rows="30" cols="50" name="body" class="mdm-input">{{document.body}}</textarea>
+        </li>
+      </ul>
+    </fieldset>
+    <input type="submit" value="Save" />
+  </form>
+
+
+
+<script src="/mdmagick/vendor/jquery.js" type="text/javascript" charset="utf-8"></script>
+<script src="/mdmagick/vendor/a-tools.js" type="text/javascript" charset="utf-8"></script>
+<script src="/mdmagick/vendor/showdown.js" type="text/javascript" charset="utf-8"></script> 
+<script src="/mdmagick/lib/mdmagick.js" type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet" href="/mdmagick/assets/mdmagick.css" ></style>
+<link rel="stylesheet" href="/mdmagick/assets/icon_font/style.css" />
+<!--[if lte IE 7]><script src="/mdmagick/assets/icon_font/lte-ie7.js"></script><![endif]-->
+</script>
+{{/body}}

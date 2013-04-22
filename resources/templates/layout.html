@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>caribou-docs - Powered By Caribou</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <style>
+      body {
+      padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
+
+    <link href="/css/caribou-docs.css" type="text/css" rel="stylesheet" />
+    <link href="/SyntaxHighlighter/styles/shCore.css" rel="stylesheet" />
+    <link href="/SyntaxHighlighter/styles/shThemeDefault.css" rel="stylesheet" />
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li>
+                <a class="brand" href="/">caribou-docs</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="grid-block">
+        <div class="col-6">
+          {{< body}}
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/SyntaxHighlighter/scripts/shCore.js"></script>
+    <script type="text/javascript" src="/SyntaxHighlighter/scripts/shBrushClojure.js"></script>
+    <script type="text/javascript" src="/SyntaxHighlighter/scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="/js/caribou-docs.js"></script>
+  </body>
+</html>
+

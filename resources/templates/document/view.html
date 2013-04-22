@@ -1,0 +1,23 @@
+{{< templates/layout.html }}
+{{#body}}
+  <h1>{{document.title}}{{#session.admin.user}}</h1>
+  (<a href="{{route-for :edit_document {:id document.id} }}">edit</a> | <a href="#" onclick="return deleteDocument()">delete</a>){{/session.admin.user}}
+
+  <p>{{{wikify document.body-markdown}}}</p>
+
+<script type="text/javascript">
+function deleteDocument() {
+  if (confirm("Really?  It will be forever removed from the tundra...")) {
+    $.ajax({
+      type:'POST',
+      url:'{{route-for :delete_document {:id document.id} }}',
+      success: function(error) {
+        window.location.href = '/'
+      }
+    });
+  }
+  return false;
+}
+</script>
+
+{{/body}}
