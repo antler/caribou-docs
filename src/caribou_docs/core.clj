@@ -88,6 +88,8 @@
         (wrap-params)
         (db/wrap-db @config/db)
         (wrap-content-type)
-        (wrap-session)
+        (wrap-session {:store (cookie-store {:key "$ch33ze!?Tr33z!$"})
+                       :cookie-name "docs-session"
+                       :cookie-attrs {:max-age (* 60 60 24 90)}})
         (wrap-cookies))))
 
