@@ -1,7 +1,7 @@
 {{< templates/layout.html }}
 {{#body}}
-  <h1>{{document.title}}{{#session.admin.user}}</h1>
-  (<a href="{{route-for :edit_document {:id document.id} }}">edit</a> | <a href="#" onclick="return deleteDocument()">delete</a>){{/session.admin.user}}
+  <h1>{{document.title}}</h1>
+  {{#session.admin.user}}(<a href="{{route-for :edit_document {:id document.id} }}">edit</a> | <a href="#" onclick="return deleteDocument()">delete</a>){{/session.admin.user}}
 
   <p>{{{wikify document.body-markdown}}}</p>
 
