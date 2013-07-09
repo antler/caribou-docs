@@ -1,2 +1,4 @@
 *.trace.db
 .DS_Store
+clucy-index
+target

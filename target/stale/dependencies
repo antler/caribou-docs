@@ -1,1 +1,0 @@
-([:dependencies [[org.clojure/clojure "1.4.0"] [antler/caribou-frontend "0.10.0"] [antler/caribou-admin "0.10.2"] [antler/caribou-api "0.10.0"] [markdown-clj "0.9.19"] [swank-clojure "1.4.2"] [ring-server "0.2.1"]]])
