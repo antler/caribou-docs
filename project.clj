@@ -1,11 +1,10 @@
-(defproject caribou-docs "0.10.0"
+(defproject caribou-docs "0.11.0"
   :description "The page routing ring handler for caribou"
   :dependencies [[org.clojure/clojure "1.4.0"]
-                 [antler/caribou-frontend "0.10.0"]
-                 [antler/caribou-admin "0.10.2"]
-                 [antler/caribou-api "0.10.0"]
-                 [markdown-clj "0.9.19"]
-                 [swank-clojure "1.4.2"]]
+                 [antler/caribou-frontend "0.11.24"]
+                 [antler/caribou-admin "0.11.30"]
+                 [antler/caribou-api "0.11.20"]
+                 [markdown-clj "0.9.19"]]
   :jvm-opts ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n"]
   :source-paths ["src" "../src"]
   :resource-paths ["resources/" "../resources/"]
@@ -14,4 +13,4 @@
   :ring {:handler caribou-docs.core/handler
          :servlet-name "caribou-docs-frontend"
          :init caribou-docs.core/init
-         :port 33333})
+         :port 32223})

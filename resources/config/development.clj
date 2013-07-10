@@ -1,12 +1,12 @@
-{:logging {:loggers [{:type :stdout :level :debug}
-                     ;; {:type :remote :host "beast.local" :level :debug}
-                     ;; {:type :file :file "caribou-logging.out" :level :debug}
-                     ]}
+{:logging {:loggers [{:type :stdout :level :debug}]}
  :database {:classname    "org.h2.Driver"
             :subprotocol  "h2"
+            :protocol     "file"
+            :path         "./"
+            :database     "caribou_docs"
             :host         "localhost"
-            :subname      "file:caribou_docs"
             :user         "h2"
             :password     ""}
  :controller {:namespace  "caribou-docs.controllers" :reload true}
+ :nrepl {:port 43334}
  :cache-templates :never}

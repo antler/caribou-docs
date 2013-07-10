@@ -13,12 +13,14 @@
         [ring.middleware.session.cookie :only (cookie-store)]
         [ring.middleware.cookies :only (wrap-cookies)]
         [ring.middleware.content-type :only (wrap-content-type)])
-  (:require [swank.swank :as swank]
+  (:require [ring.adapter.jetty :as jetty]
             [lichen.core :as lichen]
             [caribou.config :as config]
             [caribou.db :as db]
             [caribou.model :as model]
             [caribou.logger :as log]
+            [caribou.repl :as repl]
+            [caribou.core :as caribou]
             [caribou.app.i18n :as i18n]
             [caribou.app.pages :as pages]
             [caribou.app.template :as template]
@@ -30,7 +32,8 @@
             [caribou.admin.core :as admin-core]
             [caribou.api.routes :as api-routes]
             [caribou.api.core :as api-core]
-            [caribou.app.handler :as handler]))
+            [caribou.app.handler :as handler]
+            [caribou-docs.boot :as boot]))
 
 (declare handler)
 
@@ -43,10 +46,6 @@
 (defn reload-pages
   []
   (pages/add-page-routes
-   (pages/all-pages)
-   (-> @config/app :controller :namespace))
-
-  (pages/add-page-routes
    admin-routes/admin-routes
    'caribou.admin.controllers
    "/_admin"
@@ -56,40 +55,74 @@
    api-routes/api-routes
    'caribou.api.controllers
    "/_api"
-   api-core/api-wrapper))
+   api-core/api-wrapper)
+
+  (pages/add-page-routes
+   (pages/all-pages)
+   (config/draw :controller :namespace)))
 
 (defn init
   []
-  (config/init)
-  (model/init)
-  (i18n/init)
-  (template/init)
-  (reload-pages)
-  (halo/init
-   {:reload-pages reload-pages
-    :halo-reset (fn [])})
+  (let [config (boot/boot)]
+    (caribou/with-caribou config
+      (reload-pages)
+      (repl/repl-init)
+      (def handler
+        (-> (handler/handler reload-pages)
+            (provide-helpers)
+            (wrap-reload)
+            (wrap-file (config/draw :assets :dir))
+            (wrap-resource (config/draw :app :public-dir))
+            (wrap-file-info)
+            (wrap-head)
+            (lichen/wrap-lichen (config/draw :assets :dir))
+            (middleware/wrap-servlet-path-info)
+            (middleware/wrap-xhr-request)
+            (request/wrap-request-map)
+            (wrap-json-params)
+            (wrap-multipart-params)
+            (wrap-keyword-params)
+            (wrap-nested-params)
+            (wrap-params)
+            (wrap-content-type)
+            (handler/wrap-caribou config)
+            (wrap-session {:store (cookie-store {:key "$ch33ze!?Tr33z!$"})
+                           :cookie-name "docs-session"
+                           :cookie-attrs {:max-age (* 60 60 24 90)}})
+            (wrap-cookies))))))
 
-  (def handler
-    (-> (handler/handler)
-        (provide-helpers)
-        (wrap-reload)
-        (wrap-file (@config/app :asset-dir))
-        (wrap-resource (@config/app :public-dir))
-        (wrap-file-info)
-        (wrap-head)
-        (lichen/wrap-lichen (@config/app :asset-dir))
-        (middleware/wrap-servlet-path-info)
-        (middleware/wrap-xhr-request)
-        (request/wrap-request-map)
-        (wrap-json-params)
-        (wrap-multipart-params)
-        (wrap-keyword-params)
-        (wrap-nested-params)
-        (wrap-params)
-        (db/wrap-db @config/db)
-        (wrap-content-type)
-        (wrap-session {:store (cookie-store {:key "$ch33ze!?Tr33z!$"})
-                       :cookie-name "docs-session"
-                       :cookie-attrs {:max-age (* 60 60 24 90)}})
-        (wrap-cookies))))
+;; (defn init
+;;   []
+;;   (config/init)
+;;   (model/init)
+;;   (i18n/init)
+;;   (template/init)
+;;   (reload-pages)
+;;   (halo/init
+;;    {:reload-pages reload-pages
+;;     :halo-reset (fn [])})
+
+;;   (def handler
+;;     (-> (handler/handler)
+;;         (provide-helpers)
+;;         (wrap-reload)
+;;         (wrap-file (@config/app :asset-dir))
+;;         (wrap-resource (@config/app :public-dir))
+;;         (wrap-file-info)
+;;         (wrap-head)
+;;         (lichen/wrap-lichen (@config/app :asset-dir))
+;;         (middleware/wrap-servlet-path-info)
+;;         (middleware/wrap-xhr-request)
+;;         (request/wrap-request-map)
+;;         (wrap-json-params)
+;;         (wrap-multipart-params)
+;;         (wrap-keyword-params)
+;;         (wrap-nested-params)
+;;         (wrap-params)
+;;         (db/wrap-db @config/db)
+;;         (wrap-content-type)
+;;         (wrap-session {:store (cookie-store {:key "$ch33ze!?Tr33z!$"})
+;;                        :cookie-name "docs-session"
+;;                        :cookie-attrs {:max-age (* 60 60 24 90)}})
+;;         (wrap-cookies))))
 
