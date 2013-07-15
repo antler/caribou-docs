@@ -1,0 +1,38 @@
+* What is Caribou?
+* Getting Started
+** Installing Caribou
+** Creating a New Site
+** Default Directory Structure
+** Running the Site
+* Intro to Data Modeling
+** Creating Models
+** Field Types
+** Associations
+** Creating Content
+** Retrieving Content
+* Defining Pages and Routes 
+** Routes are Matched based on Paths
+** Route Elements can be Variable
+** Pages can be Nested
+** Paths are Inherited from Parent Pages
+** Pages Tie Routes to Controllers and Templates
+* Writing Controllers
+** Controllers are Triggered by a Matching Route
+** Caribou is written in Clojure
+** Controllers are Functions
+** Parameters from Routes are Available in Controllers
+** Rendering Provides Data to Templates
+* Rendering Templates
+** Data from the Render Map is Accessible in Templates
+** Functions from the Render Map can be Called in Templates
+** Templates can Inherit Structure from other Templates
+** Templates can Invoke other Templates as Partials
+* Using the Admin
+** Caribou comes with a Default Admin
+** Creating Models in the Admin
+** Creating Pages and Routes in the Admin
+** Managing Content in the Admin
+** Accounts in the Admin
+* Using the API
+** All Content is Accessible from the API
+** Options in the API
