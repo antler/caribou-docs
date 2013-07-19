@@ -91,38 +91,3 @@
                            :cookie-attrs {:max-age (* 60 60 24 90)}})
             (wrap-cookies))))))
 
-;; (defn init
-;;   []
-;;   (config/init)
-;;   (model/init)
-;;   (i18n/init)
-;;   (template/init)
-;;   (reload-pages)
-;;   (halo/init
-;;    {:reload-pages reload-pages
-;;     :halo-reset (fn [])})
-
-;;   (def handler
-;;     (-> (handler/handler)
-;;         (provide-helpers)
-;;         (wrap-reload)
-;;         (wrap-file (@config/app :asset-dir))
-;;         (wrap-resource (@config/app :public-dir))
-;;         (wrap-file-info)
-;;         (wrap-head)
-;;         (lichen/wrap-lichen (@config/app :asset-dir))
-;;         (middleware/wrap-servlet-path-info)
-;;         (middleware/wrap-xhr-request)
-;;         (request/wrap-request-map)
-;;         (wrap-json-params)
-;;         (wrap-multipart-params)
-;;         (wrap-keyword-params)
-;;         (wrap-nested-params)
-;;         (wrap-params)
-;;         (db/wrap-db @config/db)
-;;         (wrap-content-type)
-;;         (wrap-session {:store (cookie-store {:key "$ch33ze!?Tr33z!$"})
-;;                        :cookie-name "docs-session"
-;;                        :cookie-attrs {:max-age (* 60 60 24 90)}})
-;;         (wrap-cookies))))
-
