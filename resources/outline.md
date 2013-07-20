@@ -1,6 +1,6 @@
-* What is Caribou?
-* Getting Started
-** Installing Caribou
+# What is Caribou?
+# Getting Started
+## Installing Caribou
 
 Caribou depends on the java runtime, so the zeroth step would be to install a JVM if you don't have one already: http://www.java.com/en/download/help/index_installing.xml
 The first step is to install Leiningen: http://leiningen.org/
@@ -18,7 +18,7 @@ Create a file called `~/.lein/profiles.clj` with the following contents:
 
 Run `lein help` to test out your setup.  If you see some helpful output you are ready to go!
 
-** Creating a New Site
+## Creating a New Site
 
 To create a new Caribou project, type this at the command line:
 
@@ -29,7 +29,7 @@ To create a new Caribou project, type this at the command line:
 This will create a new directory structure under the name `taiga` and prime a new H2 database for use with Caribou.
 If you don't want to use H2 you can configure Caribou to use other database backends.
 
-** Running the Site
+## Running the Site
 
 To run the site as it exists, simply:
 
@@ -41,11 +41,11 @@ To run the site as it exists, simply:
 A new window will appear in your browser under http://localhost:33333 .  
 Congratulations!  You are now running Caribou.
 
-* Components of a Caribou Project
+# Components of a Caribou Project
 
 Caribou for practical reasons is decomposed into a number of standalone projects.  
 
-** Core
+## Core
 
 Core handles all of the model dynamics that underlie the rest of a Caribou project.  Theoretically `caribou.core` can 
 be used on its own if all you need is the dynamic models as an interface to a database backend.   In practice 
@@ -62,7 +62,7 @@ the Caribou paradigm.
 
 https://github.com/antler/caribou-core
 
-** Frontend
+## Frontend
 
 Frontend uses Core as the data layer foundation and is built on the Clojure Ring protocol:  https://github.com/ring-clojure/ring
 Ring is a flexible HTTP protocol for Clojure that abstracts over the HTTP request and response lifecycle, 
@@ -76,7 +76,7 @@ in the controllers.
 
 https://github.com/antler/caribou-frontend
 
-** Admin
+## Admin
 
 Admin provides a browser-based interface to all of the Caribou functionality.  Things you would previously
 need someone to code for you can be done with the click of a button.  Adding new Models, adding new Fields to 
@@ -88,7 +88,7 @@ Caribou to build your site.
 
 https://github.com/antler/caribou-admin
 
-** API
+## API
 
 API provides a RESTful json (or xml or csv) interface to any content you create in Caribou.  Create a new Model, 
 instantly an endpoint representing that Model is available.  Add some content for that Model, the content
@@ -98,12 +98,12 @@ of Caribou's Model as Data approach.
 
 https://github.com/antler/caribou-api
 
-* Basic Concepts
-** Models
-** Pages
-** Templates
-* Configuring Caribou
-** Default Directory Structure
+# Basic Concepts
+## Models
+## Pages
+## Templates
+# Configuring Caribou
+## Default Directory Structure
 
 The Caribou directory structure is designed to be simple and flexible.  
 Running `tree` in the root illuminates the structure:
@@ -155,18 +155,18 @@ Running `tree` in the root illuminates the structure:
 
 There are some main features to take note of for now.
 
-*** project.clj
+### project.clj
 
 First is the `project.clj`, which configures `lein` and holds information about dependencies and plugins.  
 You will be editing this when you want to add a new Clojure library to your project, for instance.
 Also, this is where you define various options about how the site runs, including the port, the handler 
 and an init function that is run on boot.  Full details can be found in the configuration section on project.clj.
 
-*** resources
+### resources
 
 The `resources` directory has three branches: `config`, `public`, and `templates`.
 
-**** config
+#### config
 The first, `config`, holds all the configuration files for the various environments that your Caribou app 
 will eventually run in.  The name of each environment maps to a configuration file with the same name and 
 suffixed by `.clj`.  So in the "development" environment Caribou will use the `development.clj` config file.
@@ -174,18 +174,18 @@ For now the app defaults to `development`, but there are things you will want to
 that are helpful in development, like automatic code reloading.  For this Caribou provides a `production.clj` 
 with its own set of configuration options.  
 
-**** public
+#### public
 Anything in `public` will be accessible as a static resource under the URL that maps to this directory structure.  
 If all you have is static content, just throw a bunch of files in here where you want them to be accessed and 
 you are good to go!  We have put some helpful files in here to get you started, (css and js) but nothing is 
 set in stone.  Have at!
 
-**** templates
+#### templates
 Here is where all of the dynamic templates go.  In Caribou, you can create content that can then be accessed 
 from templates.  Caribou uses a template engine called Antlers by default: https://github.com/antler/antlers . 
 The docs for using antlers are all on that page.
 
-*** src
+### src
 
 `src` holds all of the Clojure files that run your Caribou site.  
 There is an `immutant` subdirectory for configuring Immutant (which is an optional app container): http://immutant.org/ . 
@@ -195,19 +195,19 @@ All of your site specific code will go in here.
 
 There are some notable entries in your project source folder:
 
-**** core.clj
+#### core.clj
 
 This is the entry point into your Caribou project, and ultimately what gets executed on boot.  
 You can change everything about how Caribou runs from inside this file, from replacing pages and models to 
 defining configuration to executing handlers for every request.  For now, the structure is set up to run 
 Caribou how it was designed to be run, but never forget that you have ultimate control of this.
 
-**** boot.clj
+#### boot.clj
 
 This file governs which configuration file gets loaded.  You can also change configuration options inside 
 this file that apply to all running environments, if you wish.  
 
-**** migrations
+#### migrations
 
 This directory contains data migrations that specify how your data evolves over time.  
 You can add your own migrations in addition to the migrations necessary to run your site for the first time.  
@@ -215,25 +215,25 @@ Any migration files added here must be included in `order.clj`.  This is necessa
 knows what order to run the migrations in.  The database keeps track of which migrations have been run, so no 
 migration is ever run twice on one database.  
 
-**** hooks
+#### hooks
 
 Hooks are defined per model.  There are a variety of points in the content lifecycle where custom code can be 
 run, if desired.  This is covered in the configuration section on hooks.
 
-**** controllers
+#### controllers
 
 Controllers are called when an http request is matched by a page that references that controller.
 This is how routes are linked to actual Clojure functions that eventually render a template or a return a 
 valid response of some kind.
 
-*** The default H2 database
+### The default H2 database
 
 This will be named after your project with the suffix "_development.h2.db".  
 By default Caribou uses H2 because it is an all java database which requires no native dependencies.  
 You will probably want to swap this out with your own database backend, but Caribou will work fine if all 
 you ever want to use is H2.
 
-** How Configuration Works in Caribou
+## How Configuration Works in Caribou
 
 Caribou avoids holding any global state and elects rather to store state particular to the application
 in a configuration map that is owned by the user.  This has a number of advantages, the first being that 
@@ -254,7 +254,7 @@ Once you have a configuration map, you can call any Caribou methods inside of a 
 
 As we progress we will illuminate a number of Caribou calls that work in this manner.
 
-** How to Configure Caribou
+## How to Configure Caribou
 
 In general, we will refer to namespaces inside a Caribou project as `{project}.foo`, since we don't know what 
 you named your project.  So if you named your project "taiga" and we are talking about the `{project}.core`
@@ -291,12 +291,12 @@ Even though this is the default method for Caribou configuration, you can config
 gets a configuration map with the right options into `caribou.core/init` in `{project}.boot`.  
 Your `{project}.core` will call `{project}.boot/boot` to obtain this map when setting up the initial handler.  
 
-** Configuration Options
+## Configuration Options
 
 Caribou is highly configurable in a number of ways.  Caribou configuration is meant to work out of the box, 
 while still allowing for any changes that might be desired along the way.
 
-*** Default Configuration
+### Default Configuration
 
 There are a variety of options for configuring a Caribou site.
 Most of these you will not need immediately, but they are documented here for when they do become necessary.
@@ -359,179 +359,179 @@ Here is a map of all default configuration options:
 
 As you can see, there is a whole rainbow of options to choose from.  Let's take them one by one.
 
-*** app
+### app
 
 Here is where we hold the most general configuration level options.  
 
-**** use-database
+#### use-database
 
 Determines whether or not a database is in use.  Usually left at `true`.
 
-**** public-dir
+#### public-dir
 
 The directory that holds all of the static resources a site contains.  Anything placed in the public
 directory is available at the url representing its file path without having to go through the router.
 
-**** default-locale
+#### default-locale
 
 The name given to the default locale.  If you are not using localization you can safely ignore this option.
 If you are using localization, this is the locale that is given to request maps if no other locale is 
 specified.
 
-*** actions
+### actions
 
 This is an atom with a map containing all controller actions in the site.  You probably won't have to 
 interact with this one directly, unless you have custom actions that are not defined in controller files.
 
-*** assets
+### assets
 
 Anything having to do with uploaded files is configured in this map.  The available keys in the assets
 map are:
 
-**** dir
+#### dir
 
 This specifies where local files on disk will be stored after upload.  "app/" by default, could be anywhere
 on the filesystem.
 
-**** prefix
+#### prefix
 
 When using s3 for storing assets, this defines the prefix inside the bucket that will be appended to the 
 beginning of any asset path.  This provides a means to have assets from many sites stored in a single
 bucket (if desired).
 
-**** root
+#### root
 
 The asset root can be used in templates to prefix a given asset with a different host.  This way 
 different environments can have assets that originate from different hosts, like one set of assets for staging
 and one set for production for example.
 
-*** aws
+### aws
 
 Information about how to connect to amazon is stored here.  Because the configuration can be different
 for different environments, you could have one amazon bucket or account for one environment, and a different 
 account or bucket for another environment.
 
-**** bucket
+#### bucket
 
 The name of the s3 bucket that assets will be stored in.
 
-**** credentials
+#### credentials
 
 A map containing your AWS credentials of the form `{:access-key "YOUR-ACCESS-KEY" :secret-key "YOUR-SECRET-KEY"}`
 
-*** controller
+### controller
 
 The various options for configuring controllers.
 
-**** namespace
+#### namespace
 
 The namespace prefix where all of the controllers in your site live.  Defaults to `{project}.controllers`, 
 which means that any controller namespace you want to reference must start with `{project}.controllers.{controller}`.
 Actions are functions inside your controller namespace, so the `index` action inside your `home` controller in 
 the `taiga` project would be found at `taiga.controllers.home/index`.  
 
-**** reload
+#### reload
 
 Defaults to true.  This reloads every action on every request, which is helpful in development when you are 
 modifying them all the time, but you probably want to turn it off in production unless you are modifying your
 controllers at runtime (which is not suggested for production!)
 
-**** session-defaults
+#### session-defaults
 
 Anything placed into the session-defaults atom will be available in a fresh session created when a user
 first visits your site.  
 
-*** database
+### database
 
 Any and all information for connecting to a database go in this map.  Usually the main feature of each
 environment's config file, it holds a variety of options, some of which are relevant only to certain databases:
 
-**** classname -- required
+#### classname -- required
 
 The Java class representing the driver for the database.  You can't really connect to the db unless
 there is a class that handles the connection, which there is for every database we have encountered.
 
-**** subprotocol -- required
+#### subprotocol -- required
 
 This string represents the subprotocol that is used to connect to the database through the driver.  Every 
 driver has some specific options (usually only one).  
 
 Current possible values:  postgresql, mysql, h2
 
-**** host -- required
+#### host -- required
 
 What host does your database live on?  For local database development this will most likely be `localhost`, 
 but in many situations this is a remote server.
 
-**** database -- required
+#### database -- required
 
 The actual name of your database.
 
-**** user -- required
+#### user -- required
 
 The user that is being used to access the database.
 
-**** password -- required
+#### password -- required
 
 The password that belongs to the given user.
 
-**** protocol
+#### protocol
 
 This is a string representing the mode the database is connected to with, if applicable.  For instance,
 H2 can use file access, tcp access or a variety of others.  Ignore if this does not apply.
 
-**** path
+#### path
 
 For accessing file based databases, this represents the location of your database on disk.  Again, only 
 necessary for file based databases.
 
-*** error
+### error
 
 When errors occur, these options governs how they are handled.
 
-**** handlers
+#### handlers
 
 This map holds custom error handlers for specific error codes.  So if you wanted to do some custom action
 when a 404 is hit for instance, you could associate a :404 key into this map with the value of a function to be 
 run whenever a 404 occurs.  If no handler exists for that error, the default error handler is run.
 
-**** templates
+#### templates
 
 A map holding templates that will be rendered in the case of various error codes.  So a template that lives
 under the :404 key will be rendered whenever a 404 error occurs.  
 
-**** show-stacktrace
+#### show-stacktrace
 
 Set this option to true if you want the stacktrace of any exception to appear in the browser.  Not desirable for
 production when it is better practice to render a custom 500 page, but in development this can be handy (especially
 if you conjure a lot of stacktraces!)  Otherwise, the stacktrace is rendered out to the logs and a 500 template
 is rendered in the browser.  Defaults to false.
 
-*** field
-**** constructors
+### field
+#### constructors
 
 A map that contains all the Field constructors.  Since Field is a protocol, to create one requires calling
 a constructor.  This is a map of Field type names to functions which construct a Field of that type.
 Handled automatically by Caribou, you probably don't need to mess with this, but it is here if you need it.
 
-**** namespace
+#### namespace
 
 A namespace to hold any custom user-defined Field types.  Any records you define that implement the Field
 protocol that live in this namespace will be added as types that can be created like any other built in
 Field type.
 
-**** slug-transform
+#### slug-transform
 
 Whenever a piece of content of a Model with a Field of type "slug" is saved, the value for that Field is generated
 from a linked text Field according to the transformation encoded in this configuration property.  By default 
 this transformation removes quotes and turns special characters and spaces into a dash (-).  Want underscores 
 instead?  Override this config option.
 
-*** hooks
+### hooks
 
 Hooks are run at specific point during every piece of content's lifecycle.  The various hook points are:
 
-## During create these hooks are called in order:
+#### During create these hooks are called in order:
 ```clj
 :before-save
 :before-create
@@ -539,7 +539,7 @@ Hooks are run at specific point during every piece of content's lifecycle.  The 
 :after-save
 ```
 
-## During an update, these hooks are called in order:
+#### During an update, these hooks are called in order:
 ```clj
 :before-save
 :before-update
@@ -547,41 +547,41 @@ Hooks are run at specific point during every piece of content's lifecycle.  The 
 :after-save
 ```
 
-## When a piece of content is destroyed, these hooks are run:
+#### When a piece of content is destroyed, these hooks are run:
 ```clj
 :before-destroy
 :after-destroy
 ```
 
-**** namespace
+#### namespace
 
 The namespace where the various hooks into the Model lifecycle go.  Every hook namespace has a name of the form
 {hooks-namespace}.{model-name}, and hooks are added in a function called {hooks-namespace}.{model-name}/add-hooks.
 
-**** lifecycle
+#### lifecycle
 
 The actual hooks that get run.  Rather than modifying this directly, just call `caribou.hooks/add-hooks` from
 a file named after that model in your hooks namespace. 
-*** index
+### index
 
 The index options control how content is indexed in the built in Lucene search engine.  This is used in the Admin
 but you can also use it in your own site.  http://lucene.apache.org/
 
 Caribou uses the clucy library to abstract over the raw Java Lucene interface:  https://github.com/weavejester/clucy
 
-**** path
+#### path
 
 The directory that will hold the index files.  Defaults to "caribou-index".
 
-**** default-limit
+#### default-limit
 
 The maximum number of documents a search will return.  Defaults to 1000.
 
-**** store
+#### store
 
 An atom of the actual clucy index object, if you need to perform any custom operations on it.
 
-*** logging
+### logging
 
 Logging contains a list of logger specifications under the :loggers key.  These specifications are a map 
 containing two keys:  `:type` and `:level`.  `:type` indicates what endpoint the logger will output to (the 
@@ -612,13 +612,13 @@ The levels in order from most critical to least critical are:
 If you set a logger to watch at `:warn` level for instance, it will ignore any event below `:warn`, but output
 all messages from `:warn` level up to `:emergency`.  `:emergency` level events are always output.
 
-*** models
+### models
 
 This is a map that contains all Models in the system.  During a call to `caribou.core/init` the Models are
 loaded from memory and added to this map under a key containing the slug of the Model.  If you want to define Models
 that are not represented in the Model table, you can add more keys to this map (though this is probably unnecessary).
 
-*** nrepl
+### nrepl
 
 Nrepl provides a repl running inside the Caribou process that can be connected to from the command line or from
 inside an editor with nrepl support: https://github.com/clojure/tools.nrepl .  This is a great way to interact 
@@ -628,7 +628,7 @@ If a :port is provided, then an nrepl server will be booted at that port when Ca
 a reference to the running server will be stored in the atom under :server.  If no :port option is present, nrepl
 will not be booted.
 
-*** pages
+### pages
 
 This provides a reference to the page tree for this Caribou instance.  Most likely this will be populated
 during the definition of the handler in your `{project}.core` namespace.  `{project}.core/reload-pages` is a 
@@ -636,41 +636,41 @@ function that adds whatever routes you have to your site, which gets passed into
 `caribou.app.handler/handler`, so that it can reload the pages whenever necessary.  This is all covered in the 
 section on "Defining Pages and Routes".
 
-*** pre-actions
-*** query
-*** reset
-*** routes
-*** template
-* Intro to Data Modeling
-** Creating Models
-** Field Types
-** Associations
-** Data Migrations
-** Creating Content
-** Retrieving Content
-** Content Localization
-* Defining Pages and Routes
-** Routes are Matched based on Paths
-** Route Elements can be Variable
-** Pages can be Nested
-** Paths are Inherited from Parent Pages
-** Pages Tie Routes to Controllers and Templates
-* Writing Controllers
-** Controllers are Triggered by a Matching Route
-** Controllers are Functions
-** Parameters from Routes are Available in Controllers
-** Rendering Provides Data to Templates
-* Rendering Templates
-** Data from the Render Map is Accessible in Templates
-** Functions from the Render Map can be Called in Templates
-** Templates can Inherit Structure from other Templates
-** Templates can Invoke other Templates as Partials
-* Using the Admin
-** Caribou comes with a Default Admin
-** Creating Models in the Admin
-** Creating Pages and Routes in the Admin
-** Managing Content in the Admin
-** Accounts in the Admin
-* Using the API
-** All Content is Accessible from the API
-** Options in the API
+### pre-actions
+### query
+### reset
+### routes
+### template
+# Intro to Data Modeling
+## Creating Models
+## Field Types
+## Associations
+## Data Migrations
+## Creating Content
+## Retrieving Content
+## Content Localization
+# Defining Pages and Routes
+## Routes are Matched based on Paths
+## Route Elements can be Variable
+## Pages can be Nested
+## Paths are Inherited from Parent Pages
+## Pages Tie Routes to Controllers and Templates
+# Writing Controllers
+## Controllers are Triggered by a Matching Route
+## Controllers are Functions
+## Parameters from Routes are Available in Controllers
+## Rendering Provides Data to Templates
+# Rendering Templates
+## Data from the Render Map is Accessible in Templates
+## Functions from the Render Map can be Called in Templates
+## Templates can Inherit Structure from other Templates
+## Templates can Invoke other Templates as Partials
+# Using the Admin
+## Caribou comes with a Default Admin
+## Creating Models in the Admin
+## Creating Pages and Routes in the Admin
+## Managing Content in the Admin
+## Accounts in the Admin
+# Using the API
+## All Content is Accessible from the API
+## Options in the API
