@@ -108,90 +108,50 @@ https://github.com/antler/caribou-api
 The Caribou directory structure is designed to be simple and flexible.  
 Running `tree` in the root illuminates the structure:
 
-> ├── app
-
-> ├── project.clj
-
-> ├── resources
-
-> │   ├── config
-
-> │   │   ├── development.clj
-
-> │   │   ├── production.clj
-
-> │   │   ├── staging.clj
-
-> │   │   └── test.clj
-
-> │   ├── public
-
-> │   │   ├── css
-
-> │   │   │   ├── fonts
-
-> │   │   │   │   ├── caribou.eot
-
-> │   │   │   │   ├── caribou.svg
-
-> │   │   │   │   ├── caribou.ttf
-
-> │   │   │   │   └── caribou.woff
-
-> │   │   │   └── taiga.css
-
-> │   │   ├── favicon.ico
-
-> │   │   ├── ico
-
-> │   │   │   └── favicon.ico
-
-> │   │   └── js
-
-> │   │       └── taiga.js
-
-> │   └── templates
-
-> │       ├── errors
-
-> │       │   ├── 404.html
-
-> │       │   └── 500.html
-
-> │       └── home.html
-
-> ├── src
-
-> │   ├── immutant
-
-> │   │   └── init.clj
-
-> │   └── taiga
-
-> │       ├── boot.clj
-
-> │       ├── controllers
-
-> │       │   └── home.clj
-
-> │       ├── core.clj
-
-> │       ├── hooks
-
-> │       │   └── model.clj
-
-> │       └── migrations
-
-> │           ├── admin.clj
-
-> │           ├── default.clj
-
-> │           └── order.clj
-
-> ├── taiga_development.h2.db
-
-> ├── taiga_development.trace.db
-
+```
+├── app
+├── project.clj
+├── resources
+│   ├── config
+│   │   ├── development.clj
+│   │   ├── production.clj
+│   │   ├── staging.clj
+│   │   └── test.clj
+│   ├── public
+│   │   ├── css
+│   │   │   ├── fonts
+│   │   │   │   ├── caribou.eot
+│   │   │   │   ├── caribou.svg
+│   │   │   │   ├── caribou.ttf
+│   │   │   │   └── caribou.woff
+│   │   │   └── taiga.css
+│   │   ├── favicon.ico
+│   │   ├── ico
+│   │   │   └── favicon.ico
+│   │   └── js
+│   │       └── taiga.js
+│   └── templates
+│       ├── errors
+│       │   ├── 404.html
+│       │   └── 500.html
+│       └── home.html
+├── src
+│   ├── immutant
+│   │   └── init.clj
+│   └── taiga
+│       ├── boot.clj
+│       ├── controllers
+│       │   └── home.clj
+│       ├── core.clj
+│       ├── hooks
+│       │   └── model.clj
+│       └── migrations
+│           ├── admin.clj
+│           ├── default.clj
+│           └── order.clj
+├── taiga_development.h2.db
+├── taiga_development.trace.db
+```
 
 There are some main features to take note of for now.
 
