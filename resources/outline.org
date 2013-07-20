@@ -70,7 +70,9 @@ turning them into plain Clojure maps.  In practice this is an extremely powerful
 and functionality into a robust web server.  
 
 Frontend adds onto the Core and Ring base a fully-functional routing, controller and rendering system.  If Core
-is the M, then Frontend is the VC.  At the heart of 
+is the M, then Frontend is the VC.  At the heart of this system is the Page, which associates routes to the controllers
+that run when they are matched and the templates that are ultimately rendered with data retrieved and defined
+in the controllers.
 
 https://github.com/antler/caribou-frontend
 
@@ -153,18 +155,18 @@ Running `tree` in the root illuminates the structure:
 
 There are some main features to take note of for now.
 
-# project.clj
+*** project.clj
 
 First is the `project.clj`, which configures `lein` and holds information about dependencies and plugins.  
 You will be editing this when you want to add a new Clojure library to your project, for instance.
 Also, this is where you define various options about how the site runs, including the port, the handler 
 and an init function that is run on boot.  Full details can be found in the configuration section on project.clj.
 
-# resources
+*** resources
 
 The `resources` directory has three branches: `config`, `public`, and `templates`.
 
-## config
+**** config
 The first, `config`, holds all the configuration files for the various environments that your Caribou app 
 will eventually run in.  The name of each environment maps to a configuration file with the same name and 
 suffixed by `.clj`.  So in the "development" environment Caribou will use the `development.clj` config file.
@@ -172,18 +174,18 @@ For now the app defaults to `development`, but there are things you will want to
 that are helpful in development, like automatic code reloading.  For this Caribou provides a `production.clj` 
 with its own set of configuration options.  
 
-## public
+**** public
 Anything in `public` will be accessible as a static resource under the URL that maps to this directory structure.  
 If all you have is static content, just throw a bunch of files in here where you want them to be accessed and 
 you are good to go!  We have put some helpful files in here to get you started, (css and js) but nothing is 
 set in stone.  Have at!
 
-## templates
+**** templates
 Here is where all of the dynamic templates go.  In Caribou, you can create content that can then be accessed 
 from templates.  Caribou uses a template engine called Antlers by default: https://github.com/antler/antlers . 
 The docs for using antlers are all on that page.
 
-# src
+*** src
 
 `src` holds all of the Clojure files that run your Caribou site.  
 There is an `immutant` subdirectory for configuring Immutant (which is an optional app container): http://immutant.org/ . 
@@ -193,19 +195,19 @@ All of your site specific code will go in here.
 
 There are some notable entries in your project source folder:
 
-## core.clj
+**** core.clj
 
 This is the entry point into your Caribou project, and ultimately what gets executed on boot.  
 You can change everything about how Caribou runs from inside this file, from replacing pages and models to 
 defining configuration to executing handlers for every request.  For now, the structure is set up to run 
 Caribou how it was designed to be run, but never forget that you have ultimate control of this.
 
-## boot.clj
+**** boot.clj
 
 This file governs which configuration file gets loaded.  You can also change configuration options inside 
 this file that apply to all running environments, if you wish.  
 
-## migrations
+**** migrations
 
 This directory contains data migrations that specify how your data evolves over time.  
 You can add your own migrations in addition to the migrations necessary to run your site for the first time.  
@@ -213,18 +215,18 @@ Any migration files added here must be included in `order.clj`.  This is necessa
 knows what order to run the migrations in.  The database keeps track of which migrations have been run, so no 
 migration is ever run twice on one database.  
 
-## hooks
+**** hooks
 
 Hooks are defined per model.  There are a variety of points in the content lifecycle where custom code can be 
 run, if desired.  This is covered in the configuration section on hooks.
 
-## controllers
+**** controllers
 
 Controllers are called when an http request is matched by a page that references that controller.
 This is how routes are linked to actual Clojure functions that eventually render a template or a return a 
 valid response of some kind.
 
-# The default H2 database
+*** The default H2 database
 
 This will be named after your project with the suffix "_development.h2.db".  
 By default Caribou uses H2 because it is an all java database which requires no native dependencies.  
@@ -561,10 +563,79 @@ The namespace where the various hooks into the Model lifecycle go.  Every hook n
 The actual hooks that get run.  Rather than modifying this directly, just call `caribou.hooks/add-hooks` from
 a file named after that model in your hooks namespace. 
 *** index
+
+The index options control how content is indexed in the built in Lucene search engine.  This is used in the Admin
+but you can also use it in your own site.  http://lucene.apache.org/
+
+Caribou uses the clucy library to abstract over the raw Java Lucene interface:  https://github.com/weavejester/clucy
+
+**** path
+
+The directory that will hold the index files.  Defaults to "caribou-index".
+
+**** default-limit
+
+The maximum number of documents a search will return.  Defaults to 1000.
+
+**** store
+
+An atom of the actual clucy index object, if you need to perform any custom operations on it.
+
 *** logging
+
+Logging contains a list of logger specifications under the :loggers key.  These specifications are a map 
+containing two keys:  `:type` and `:level`.  `:type` indicates what endpoint the logger will output to (the 
+default logger writes to :stdout), and `:level` indicates what level of Caribou events to pay attention to.
+
+The different types currently supported are `:stdout`, `:file` and `:remote`.  `:stdout` simply outputs to stdout,
+and is the default logger type.  If `:file` is chosen, you must also add a `:file` key to the map pointing at the 
+file to log to.  If the logger type is `:remote` then you must also include a `:host` key which indicates what
+remote host to log to.  In the case of a remote host, it uses UDP to send packets to the host, so the host must 
+be running syslog and must be configured to allow access from the server sending the packets.  
+
+The levels in order from most critical to least critical are:
+
+```clj
+:emergency 0
+:alert 1
+:critical 2
+:error 3
+:warning 4
+:warn 4
+:notice 5
+:informational 6
+:info 6
+:debug 7
+:trace 7
+```
+
+If you set a logger to watch at `:warn` level for instance, it will ignore any event below `:warn`, but output
+all messages from `:warn` level up to `:emergency`.  `:emergency` level events are always output.
+
 *** models
+
+This is a map that contains all Models in the system.  During a call to `caribou.core/init` the Models are
+loaded from memory and added to this map under a key containing the slug of the Model.  If you want to define Models
+that are not represented in the Model table, you can add more keys to this map (though this is probably unnecessary).
+
 *** nrepl
+
+Nrepl provides a repl running inside the Caribou process that can be connected to from the command line or from
+inside an editor with nrepl support: https://github.com/clojure/tools.nrepl .  This is a great way to interact 
+with a running Caribou process and inspect or alter state using a given configuration.  
+
+If a :port is provided, then an nrepl server will be booted at that port when Caribou is initialized.  In that case, 
+a reference to the running server will be stored in the atom under :server.  If no :port option is present, nrepl
+will not be booted.
+
 *** pages
+
+This provides a reference to the page tree for this Caribou instance.  Most likely this will be populated
+during the definition of the handler in your `{project}.core` namespace.  `{project}.core/reload-pages` is a 
+function that adds whatever routes you have to your site, which gets passed into the invocation of the root handler,
+`caribou.app.handler/handler`, so that it can reload the pages whenever necessary.  This is all covered in the 
+section on "Defining Pages and Routes".
+
 *** pre-actions
 *** query
 *** reset
@@ -574,6 +645,7 @@ a file named after that model in your hooks namespace.
 ** Creating Models
 ** Field Types
 ** Associations
+** Data Migrations
 ** Creating Content
 ** Retrieving Content
 ** Content Localization
