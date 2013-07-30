@@ -18,7 +18,7 @@ Once you have `lein`, create a profile that includes `lein-caribou` (the Leining
              [lein-caribou "2.2.8"]]}}
 ```
 
-> (note these versions may have increased.  Check http://clojars.org for latest version information)
+* (note these versions may have increased.  Check http://clojars.org for latest version information)
 
 * Run `lein help` to test out your setup.  If you see some helpful output you are ready to go!
 
