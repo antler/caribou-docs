@@ -650,6 +650,8 @@ This is a map that contains all Models in the system.  During a call to `caribou
 loaded from memory and added to this map under a key containing the slug of the Model.  If you want to define Models
 that are not represented in the Model table, you can add more keys to this map (though this is probably unnecessary).
 
+There is a whole section on [Creating Models](#creating-models) later on.
+
 ### nrepl
 
 Nrepl provides a repl running inside the Caribou process that can be connected to from the command line or from
