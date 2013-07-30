@@ -49,17 +49,22 @@ Congratulations!  You are now running Caribou.
 
 # Components of a Caribou Project
 
-Caribou for practical reasons is decomposed into a number of standalone projects.  
+Caribou is not a single library, but an ecosystem of interacting components, each of which has the ability to stand on its own.  
+This idea lends a quality of composability to the Caribou world.  If some capability does not exist, create it on its own and then
+link it into a working Caribou instance.
+
+That said, there are some core components that lay the foundation for everything that follows.
 
 ## Core
 
-[Caribou Core](http://github.com/antler/caribou-core) lays the foundation for all of the other libraries by capturing the data model of a site as data! 
+[Caribou Core](http://github.com/antler/caribou-core) lays the foundation for all of the other libraries by 
+capturing the data model of a site as data! 
 A data model is traditionally only an implicitly defined being, existing as a conglomeration of migrations and 
 tables whose relationships are only formed through happy accidents within application code. Caribou Core 
 structures the data model in a way that allows it to serve a variety of other purposes, including the construction 
 of queries that filter and order based on the relationships between models.
 
-Theoretically `caribou.core` can 
+[Caribou Core](https://github.com/antler/caribou-core) can 
 be used on its own if all you need is the dynamic models as an interface to a database backend.   In practice 
 it is usually supporting a site running the Caribou Frontend, Admin and API, but nothing is stopping you from 
 using it independently of an HTTP Ring server.  
@@ -72,11 +77,10 @@ power.  The ability to treat Models and Fields themselves as data enables Caribo
 Admin and API for you automatically, and countless other benefits that you will discover as you go deeper into 
 the Caribou ecosystem.
 
-https://github.com/antler/caribou-core
-
 ## Frontend
 
-Frontend uses Core as the data layer foundation and is built on the Clojure Ring protocol:  https://github.com/ring-clojure/ring
+[Caribou Frontend](https://github.com/antler/caribou-frontend) 
+uses Core as the data layer foundation and is built on the Clojure Ring protocol:  https://github.com/ring-clojure/ring
 Ring is a flexible HTTP protocol for Clojure that abstracts over the HTTP request and response lifecycle, 
 turning them into plain Clojure maps.  In practice this is an extremely powerful way to compose handlers
 and functionality into a robust web server.  
@@ -90,7 +94,8 @@ https://github.com/antler/caribou-frontend
 
 ## Admin
 
-Admin provides a browser-based interface to all of the Caribou functionality.  Things you would previously
+[Caribou Admin](https://github.com/antler/caribou-admin) provides a browser-based interface to all of the Caribou 
+functionality.  Things you would previously
 need someone to code for you can be done with the click of a button.  Adding new Models, adding new Fields to 
 those Models, creating content based on those Models, adding Pages for routing and rendering, localizing 
 content for many languages and locales, adding Accounts and managing Permissions, all of this 
@@ -98,17 +103,14 @@ is accessible through the Admin interface.  No need to build a custom admin for 
 cuts down on the development time of a project by a large degree, and is one of the huge advantages of using
 Caribou to build your site.  
 
-https://github.com/antler/caribou-admin
-
 ## API
 
-API provides a RESTful json (or xml or csv) interface to any content you create in Caribou.  Create a new Model, 
+[Caribou API](http://github.com/antler/caribou-api) provides a RESTful API in a variety of formats (json, xml or csv) 
+which tap into any content you create in Caribou.  Create a new Model and  
 instantly an endpoint representing that Model is available.  Add some content for that Model, the content
 magically appears in the API results.  Use any of the options for filtering and selecting content as URL 
 parameters that would previously only be available programmatically.  The API again is a tangible upshot
 of Caribou's Model as Data approach.  
-
-https://github.com/antler/caribou-api
 
 # Basic Concepts
 ## Models
