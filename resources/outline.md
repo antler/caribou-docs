@@ -2,13 +2,14 @@
 # Getting Started
 ## Installing Caribou
 
-Caribou depends on the java runtime, so the zeroth step would be to install a JVM if you don't have one already: http://www.java.com/en/download/help/index_installing.xml
+Caribou depends on the java runtime, so the zeroth step would be to install a JVM if you don't have one already: 
+    http://www.java.com/en/download/help/index_installing.xml
 
-The first step is to install Leiningen: http://leiningen.org/
+Install Leiningen (which provides the `lein` command) if it is not already installed: http://leiningen.org/
 
-Once you have lein installed, the next step is to create a profile that includes `lein-caribou` (the Leiningen Caribou plugin).
+Once you have `lein`, create a profile that includes `lein-caribou` (the Leiningen Caribou plugin).
 
-Create a file called `~/.lein/profiles.clj` with the following contents:
+* Create a file called `~/.lein/profiles.clj` with the following contents:
 
 ```clj
 {:user 
@@ -18,7 +19,7 @@ Create a file called `~/.lein/profiles.clj` with the following contents:
 
 (note these versions may have increased.  Check http://clojars.org for latest version information)
 
-Run `lein help` to test out your setup.  If you see some helpful output you are ready to go!
+* Run `lein help` to test out your setup.  If you see some helpful output you are ready to go!
 
 ## Creating a New Site
 
@@ -645,6 +646,7 @@ section on "Defining Pages and Routes".
 ### reset
 ### routes
 ### template
+
 # Intro to Data Modeling
 ## Creating Models
 ## Field Types
@@ -653,29 +655,34 @@ section on "Defining Pages and Routes".
 ## Creating Content
 ## Retrieving Content
 ## Content Localization
+
 # Defining Pages and Routes
 ## Routes are Matched based on Paths
 ## Route Elements can be Variable
 ## Pages can be Nested
 ## Paths are Inherited from Parent Pages
 ## Pages Tie Routes to Controllers and Templates
+
 # Writing Controllers
 ## Controllers are Triggered by a Matching Route
 ## Controllers are Functions
 ## Parameters from Routes are Available in Controllers
 ## Rendering Provides Data to Templates
+
 # Rendering Templates
 ## Data from the Render Map is Accessible in Templates
 ## Functions from the Render Map can be Called in Templates
 ## Existing Helpers
 ## Templates can Inherit Structure from other Templates
 ## Templates can Invoke other Templates as Partials
+
 # Using the Admin
 ## Caribou comes with a Default Admin
 ## Creating Models in the Admin
 ## Creating Pages and Routes in the Admin
 ## Managing Content in the Admin
 ## Accounts in the Admin
+
 # Using the API
 ## All Content is Accessible from the API
 ## Options in the API
