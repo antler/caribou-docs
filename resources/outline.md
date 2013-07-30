@@ -1,10 +1,10 @@
 # What is Caribou?
 
-Caribou is a dynamic web application ecosystem for crafting production ready web inhabitants with minimal effort.  
-Forged in the fire of daily requirements, Caribou is a collection of solutions to problems web developers face every day.  
-The philosophy behind its development is to solve every problem we come across once, in a general way that can be reused over and over.  
+Caribou is a dynamic web application ecosystem for crafting production ready web inhabitants with minimal effort.
+Forged in the fire of daily requirements, Caribou is a collection of solutions to problems web developers face every day.
+The philosophy behind its development is to solve every problem we come across once, in a general way that can be reused over and over.
 Anything unnecessary or obstructive has been burned away from the wear of constant use.
-The result is Caribou, the kernel of usefulness that has emerged from years of this basic practice.  
+The result is Caribou, the kernel of usefulness that has emerged from years of this basic practice.
 
 # Getting Started
 ## Installing Caribou
@@ -12,10 +12,10 @@ The result is Caribou, the kernel of usefulness that has emerged from years of t
 Caribou depends on the java runtime, so the zeroth step would be to install a JVM if you don't have one already: 
 > http://www.java.com/en/download/help/index_installing.xml
 
-Install Leiningen (which provides the `lein` command) if it is not already installed: 
+Next, install Leiningen (which provides the `lein` command) if it is not already installed: 
 > http://leiningen.org/
 
-Once you have `lein`, create a profile that includes `lein-caribou` (the Leiningen Caribou plugin).
+Once you have the `lein` command, create a profile that includes `lein-caribou` (the Leiningen Caribou plugin).
 
 * Create a file called `~/.lein/profiles.clj` with the following contents:
 
@@ -62,16 +62,18 @@ link it into a working Caribou instance.
 
 That said, there are some core components that lay the foundation for everything that follows.
 
-## Core
+## Base Libraries
+
+### Core
 
 [Caribou Core](http://github.com/antler/caribou-core) lays the foundation for all of the other libraries by 
-capturing the data model of a site as data! 
+capturing the data model of a site as data!
 A data model is traditionally only an implicitly defined being, existing as a conglomeration of migrations and 
 tables whose relationships are only formed through happy accidents within application code. Caribou Core 
 structures the data model in a way that allows it to serve a variety of other purposes, including the construction 
 of queries that filter and order based on the relationships between models.
 
-[Caribou Core](https://github.com/antler/caribou-core) can 
+[Caribou Core](https://github.com/antler/caribou-core) can
 be used on its own if all you need is the dynamic models as an interface to a database backend.   In practice 
 it is usually supporting a site running the Caribou Frontend, Admin and API, but nothing is stopping you from 
 using it independently of an HTTP Ring server.  
@@ -84,9 +86,9 @@ power.  The ability to treat Models and Fields themselves as data enables Caribo
 Admin and API for you automatically, and countless other benefits that you will discover as you go deeper into 
 the Caribou ecosystem.
 
-## Frontend
+### Frontend
 
-[Caribou Frontend](https://github.com/antler/caribou-frontend) 
+[Caribou Frontend](https://github.com/antler/caribou-frontend)
 uses Core as the data layer foundation and is built on the [Clojure Ring protocol](https://github.com/ring-clojure/ring).
 Ring is a flexible HTTP protocol for Clojure that abstracts over the HTTP request and response lifecycle, 
 turning them into plain Clojure maps.  In practice this is an extremely powerful way to compose handlers
@@ -97,31 +99,42 @@ is the M, then Frontend is the VC.  At the heart of this system is the Page, whi
 that run when they are matched and the templates that are ultimately rendered with data retrieved and defined
 in the controllers.
 
-## Admin
+### Admin
 
 [Caribou Admin](https://github.com/antler/caribou-admin) provides a browser-based interface to all of the Caribou 
 functionality.  Things you would previously
 need someone to code for you can be done with the click of a button.  Adding new Models, adding new Fields to 
 those Models, creating content based on those Models, adding Pages for routing and rendering, localizing 
-content for many languages and locales, adding Accounts and managing Permissions, all of this 
+content for many languages and locales, adding Accounts and managing Permissions, all of this
 is accessible through the Admin interface.  No need to build a custom admin for every project!  This alone
 cuts down on the development time of a project by a large degree, and is one of the huge advantages of using
 Caribou to build your site.  
 
-## API
+### API
 
-[Caribou API](http://github.com/antler/caribou-api) provides a RESTful API in a variety of formats (json, xml or csv) 
-which tap into any content you create in Caribou.  Create a new Model and  
+[Caribou API](http://github.com/antler/caribou-api) provides a RESTful API in a variety of formats (json, xml or csv)
+which tap into any content you create in Caribou.  Create a new Model and
 instantly an endpoint representing that Model is available.  Add some content for that Model, the content
-magically appears in the API results.  Use any of the options for filtering and selecting content as URL 
+magically appears in the API results.  Use any of the options for filtering and selecting content as URL
 parameters that would previously only be available programmatically.  The API again is a tangible upshot
 of Caribou's Model as Data approach.  
+
+## Peripheral Libraries
+
+Besides the base libraries, there is a tundra of associated libraries that exist on their own, 
+but also contribute to the Caribou ecosystem.
+
+### Lichen
+
+
 
 # Basic Concepts
 ## Models
 ## Pages
 ## Templates
+
 # Configuring Caribou
+
 ## Default Directory Structure
 
 The Caribou directory structure is designed to be simple and flexible.  
@@ -656,6 +669,9 @@ function that adds whatever routes you have to your site, which gets passed into
 section on "Defining Pages and Routes".
 
 ### pre-actions
+
+
+
 ### query
 ### reset
 ### routes
@@ -687,6 +703,7 @@ section on "Defining Pages and Routes".
 ## Data from the Render Map is Accessible in Templates
 ## Functions from the Render Map can be Called in Templates
 ## Existing Helpers
+## Working with Assets
 ## Templates can Inherit Structure from other Templates
 ## Templates can Invoke other Templates as Partials
 
