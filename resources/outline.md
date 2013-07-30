@@ -121,12 +121,12 @@ of Caribou's Model as Data approach.
 
 ## Peripheral Libraries
 
-Besides the base libraries, there is a tundra of associated libraries that exist on their own, 
+Besides the base libraries, there is a whole tundra of associated libraries that exist on their own, 
 but also contribute to the Caribou ecosystem.
 
 ### Lichen
 
-
+### Antlers
 
 # Basic Concepts
 ## Models
@@ -670,7 +670,9 @@ section on "Defining Pages and Routes".
 
 ### pre-actions
 
-
+This configuration option holds the current map of existing pre-actions for different pages.  Keyed by the slug of a page,
+pre-actions will be run before a given action is evaluated.  This could be used for things like authorization or 
+processing of request parameters.  See the section on [Defining Pre-Actions](#Defining Pre-Actions) for more details.
 
 ### query
 ### reset
@@ -698,6 +700,7 @@ section on "Defining Pages and Routes".
 ## Controllers are Functions
 ## Parameters from Routes are Available in Controllers
 ## Rendering Provides Data to Templates
+## Defining Pre-Actions
 
 # Rendering Templates
 ## Data from the Render Map is Accessible in Templates
