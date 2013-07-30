@@ -3,9 +3,10 @@
 ## Installing Caribou
 
 Caribou depends on the java runtime, so the zeroth step would be to install a JVM if you don't have one already: 
-    http://www.java.com/en/download/help/index_installing.xml
+> http://www.java.com/en/download/help/index_installing.xml
 
-Install Leiningen (which provides the `lein` command) if it is not already installed: http://leiningen.org/
+Install Leiningen (which provides the `lein` command) if it is not already installed: 
+> http://leiningen.org/
 
 Once you have `lein`, create a profile that includes `lein-caribou` (the Leiningen Caribou plugin).
 
@@ -17,7 +18,7 @@ Once you have `lein`, create a profile that includes `lein-caribou` (the Leining
              [lein-caribou "2.2.8"]]}}
 ```
 
-(note these versions may have increased.  Check http://clojars.org for latest version information)
+> (note these versions may have increased.  Check http://clojars.org for latest version information)
 
 * Run `lein help` to test out your setup.  If you see some helpful output you are ready to go!
 
