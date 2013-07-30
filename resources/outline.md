@@ -672,7 +672,7 @@ section on "Defining Pages and Routes".
 
 This configuration option holds the current map of existing pre-actions for different pages.  Keyed by the slug of a page,
 pre-actions will be run before a given action is evaluated.  This could be used for things like authorization or 
-processing of request parameters.  See the section on [Defining Pre-Actions](#Defining Pre-Actions) for more details.
+processing of request parameters.  See the section on [Defining Pre-Actions](#defining-pre-actions) for more details.
 
 ### query
 ### reset
