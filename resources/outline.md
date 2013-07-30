@@ -90,8 +90,6 @@ is the M, then Frontend is the VC.  At the heart of this system is the Page, whi
 that run when they are matched and the templates that are ultimately rendered with data retrieved and defined
 in the controllers.
 
-https://github.com/antler/caribou-frontend
-
 ## Admin
 
 [Caribou Admin](https://github.com/antler/caribou-admin) provides a browser-based interface to all of the Caribou 
