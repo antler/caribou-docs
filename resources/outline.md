@@ -53,7 +53,7 @@ Caribou for practical reasons is decomposed into a number of standalone projects
 
 ## Core
 
-(Caribou Core)[http://github.com/antler/caribou-core] lays the foundation for all of the other libraries by capturing the data model of a site as data! 
+[Caribou Core](http://github.com/antler/caribou-core) lays the foundation for all of the other libraries by capturing the data model of a site as data! 
 A data model is traditionally only an implicitly defined being, existing as a conglomeration of migrations and 
 tables whose relationships are only formed through happy accidents within application code. Caribou Core 
 structures the data model in a way that allows it to serve a variety of other purposes, including the construction 
