@@ -3,7 +3,9 @@
 ## Installing Caribou
 
 Caribou depends on the java runtime, so the zeroth step would be to install a JVM if you don't have one already: http://www.java.com/en/download/help/index_installing.xml
+
 The first step is to install Leiningen: http://leiningen.org/
+
 Once you have lein installed, the next step is to create a profile that includes `lein-caribou` (the Leiningen Caribou plugin).
 
 Create a file called `~/.lein/profiles.clj` with the following contents:
@@ -27,6 +29,7 @@ To create a new Caribou project, type this at the command line:
 ```
 
 This will create a new directory structure under the name `taiga` and prime a new H2 database for use with Caribou.
+
 If you don't want to use H2 you can configure Caribou to use other database backends.
 
 ## Running the Site
@@ -39,6 +42,7 @@ To run the site as it exists, simply:
 ```
 
 A new window will appear in your browser under http://localhost:33333 .  
+
 Congratulations!  You are now running Caribou.
 
 # Components of a Caribou Project
@@ -663,6 +667,7 @@ section on "Defining Pages and Routes".
 # Rendering Templates
 ## Data from the Render Map is Accessible in Templates
 ## Functions from the Render Map can be Called in Templates
+## Existing Helpers
 ## Templates can Inherit Structure from other Templates
 ## Templates can Invoke other Templates as Partials
 # Using the Admin
