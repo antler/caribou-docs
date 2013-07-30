@@ -53,7 +53,13 @@ Caribou for practical reasons is decomposed into a number of standalone projects
 
 ## Core
 
-Core handles all of the model dynamics that underlie the rest of a Caribou project.  Theoretically `caribou.core` can 
+(Caribou Core)[http://github.com/antler/caribou-core] lays the foundation for all of the other libraries by capturing the data model of a site as data! 
+A data model is traditionally only an implicitly defined being, existing as a conglomeration of migrations and 
+tables whose relationships are only formed through happy accidents within application code. Caribou Core 
+structures the data model in a way that allows it to serve a variety of other purposes, including the construction 
+of queries that filter and order based on the relationships between models.
+
+Theoretically `caribou.core` can 
 be used on its own if all you need is the dynamic models as an interface to a database backend.   In practice 
 it is usually supporting a site running the Caribou Frontend, Admin and API, but nothing is stopping you from 
 using it independently of an HTTP Ring server.  
@@ -62,9 +68,9 @@ The heart of Core is the Model system, which abstracts over a database schema an
 making schema transformations through transformations on pure clojure data.  In every way, Model (which represents
 a database table) itself is a Model, with an association to Fields (which represent the columns of a database
 table) which is also a Model.  This is a radical choice, and lays the foundation for the rest of Caribou's 
-voluminous power.  The ability to treat Models and Fields themselves as data enables Caribou to generate an 
+power.  The ability to treat Models and Fields themselves as data enables Caribou to generate an 
 Admin and API for you automatically, and countless other benefits that you will discover as you go deeper into 
-the Caribou paradigm.
+the Caribou ecosystem.
 
 https://github.com/antler/caribou-core
 
