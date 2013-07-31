@@ -677,8 +677,43 @@ pre-actions will be run before a given action is evaluated.  This could be used 
 processing of request parameters.  See the section on [Defining Pre-Actions](#defining-pre-actions) for more details.
 
 ### query
+
+The `query` option is the domain of the query cache.  Turned off by default, the query cache will cache the results of every 
+query map that `caribou.model/gather` sees.  There are a variety of entries in this map that play different roles
+in the inner workings of the query cache.
+
+#### enable-query-cache
+
+To turn on the query-cache, simply set this option to `true` in your config.  Not necessary for development, but a good thing 
+to do in production if you know that your content is not necessarily changing often.  Even if it does change, the cache will
+be invalidated on any update to that model, so your site will remain current.
+
+#### queries
+
+An atom containing the map of queries to results.  Populated automatically by the query cache (but fun to inspect, if you 
+are into that kind of thing).
+
+#### reverse-cache
+
+Tracks the models that are hit by each query.  Invalidates those caches in the case of an update.
+
+#### query-defaults
+
+This map will be added automatically to any query issues through a `caribou.model/gather`.  Want to restrict your content
+to only those "enabled"?  This is the place to do it.  
+
 ### reset
+
+This is a reference to a user-defined function passed into the initial creation of the frontend Caribou handler in
+your `{project}.core/init` function.  It should do any kind of necessary initialization work that your site requires
+(like loading pages or defining routes, for instance).  It is added automatically in a newly generated Caribou site.
+
 ### routes
+
+This is an ordered map of your routes.  The routes map url patterns to the actions that are triggered by them.  One 
+by one each pattern is tested against an incoming url until it is matched or a 404 is issued.  Once a route is matched
+the corresponding action is called with the request map as a parameter.  See more at [Defining Pages and Routes](#defining-pages-and-routes).
+
 ### template
 
 # Intro to Data Modeling
