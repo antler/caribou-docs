@@ -716,6 +716,17 @@ the corresponding action is called with the request map as a parameter.  See mor
 
 ### template
 
+The various options pertaining to the built-in template rendering live here.  
+
+#### cache-strategy
+
+This option governs the caching strategy used by the template engine.  The possible values are currently `:never` or `:always`.
+
+#### helpers
+
+This is a map containing the default helpers that will be available during the rendering of every template.  To find out all about helpers
+check out the section on [Template Helpers](#template-helpers).
+
 # Intro to Data Modeling
 ## Creating Models
 ## Field Types
@@ -741,7 +752,7 @@ the corresponding action is called with the request map as a parameter.  See mor
 
 # Rendering Templates
 ## Data from the Render Map is Accessible in Templates
-## Functions from the Render Map can be Called in Templates
+## Template Helpers
 ## Existing Helpers
 ## Working with Assets
 ## Templates can Inherit Structure from other Templates
