@@ -398,16 +398,16 @@ As you can see, there is a whole rainbow of options to choose from.  Let's take 
 
 Here is where we hold the most general configuration level options.  
 
-#### use-database
+* **use-database**
 
 Determines whether or not a database is in use.  Usually left at `true`.
 
-#### public-dir
+* **public-dir**
 
 The directory that holds all of the static resources a site contains.  Anything placed in the public
 directory is available at the url representing its file path without having to go through the router.
 
-#### default-locale
+* **default-locale**
 
 The name given to the default locale.  If you are not using localization you can safely ignore this option.
 If you are using localization, this is the locale that is given to request maps if no other locale is 
@@ -423,18 +423,18 @@ interact with this one directly, unless you have custom actions that are not def
 Anything having to do with uploaded files is configured in this map.  The available keys in the assets
 map are:
 
-#### dir
+* **dir**
 
 This specifies where local files on disk will be stored after upload.  "app/" by default, could be anywhere
 on the filesystem.
 
-#### prefix
+* **prefix**
 
 When using s3 for storing assets, this defines the prefix inside the bucket that will be appended to the 
 beginning of any asset path.  This provides a means to have assets from many sites stored in a single
 bucket (if desired).
 
-#### root
+* **root**
 
 The asset root can be used in templates to prefix a given asset with a different host.  This way 
 different environments can have assets that originate from different hosts, like one set of assets for staging
@@ -446,11 +446,11 @@ Information about how to connect to amazon is stored here.  Because the configur
 for different environments, you could have one amazon bucket or account for one environment, and a different 
 account or bucket for another environment.
 
-#### bucket
+* **bucket**
 
 The name of the s3 bucket that assets will be stored in.
 
-#### credentials
+* **credentials**
 
 A map containing your AWS credentials of the form `{:access-key "YOUR-ACCESS-KEY" :secret-key "YOUR-SECRET-KEY"}`
 
@@ -458,20 +458,20 @@ A map containing your AWS credentials of the form `{:access-key "YOUR-ACCESS-KEY
 
 The various options for configuring controllers.
 
-#### namespace
+* **namespace**
 
 The namespace prefix where all of the controllers in your site live.  Defaults to `{project}.controllers`, 
 which means that any controller namespace you want to reference must start with `{project}.controllers.{controller}`.
 Actions are functions inside your controller namespace, so the `index` action inside your `home` controller in 
 the `taiga` project would be found at `taiga.controllers.home/index`.  
 
-#### reload
+* **reload**
 
 Defaults to true.  This reloads every action on every request, which is helpful in development when you are 
 modifying them all the time, but you probably want to turn it off in production unless you are modifying your
 controllers at runtime (which is not suggested for production!)
 
-#### session-defaults
+* **session-defaults**
 
 Anything placed into the session-defaults atom will be available in a fresh session created when a user
 first visits your site.  
@@ -481,36 +481,36 @@ first visits your site.
 Any and all information for connecting to a database go in this map.  Usually the main feature of each
 environment's config file, it holds a variety of options, some of which are relevant only to certain databases:
 
-#### classname -- required
+* **classname -- required**
 
 The Java class representing the driver for the database.  You can't really connect to the db unless
 there is a class that handles the connection, which there is for every database we have encountered.
 
-#### subprotocol -- required
+* **subprotocol -- required**
 
 This string represents the subprotocol that is used to connect to the database through the driver.  Every 
 driver has some specific options (usually only one).  
 
 Current possible values:  postgresql, mysql, h2
 
-#### host -- required
+* **host -- required**
 
 What host does your database live on?  For local database development this will most likely be `localhost`, 
 but in many situations this is a remote server.
 
-#### database -- required
+* **database -- required**
 
 The actual name of your database.
 
-#### user -- required
+* **user -- required**
 
 The user that is being used to access the database.
 
-#### password -- required
+* **password -- required**
 
 The password that belongs to the given user.
 
-#### protocol
+* **protocol**
 
 This is a string representing the mode the database is connected to with, if applicable.  For instance,
 H2 can use file access, tcp access or a variety of others.  Ignore if this does not apply.
@@ -568,18 +568,18 @@ necessary for file based databases.
 
 When errors occur, these options governs how they are handled.
 
-#### handlers
+* **handlers**
 
 This map holds custom error handlers for specific error codes.  So if you wanted to do some custom action
 when a 404 is hit for instance, you could associate a :404 key into this map with the value of a function to be 
 run whenever a 404 occurs.  If no handler exists for that error, the default error handler is run.
 
-#### templates
+* **templates**
 
 A map holding templates that will be rendered in the case of various error codes.  So a template that lives
 under the :404 key will be rendered whenever a 404 error occurs.  
 
-#### show-stacktrace
+* **show-stacktrace**
 
 Set this option to true if you want the stacktrace of any exception to appear in the browser.  Not desirable for
 production when it is better practice to render a custom 500 page, but in development this can be handy (especially
@@ -587,19 +587,19 @@ if you conjure a lot of stacktraces!)  Otherwise, the stacktrace is rendered out
 is rendered in the browser.  Defaults to false.
 
 ### field
-#### constructors
+* **constructors**
 
 A map that contains all the Field constructors.  Since Field is a protocol, to create one requires calling
 a constructor.  This is a map of Field type names to functions which construct a Field of that type.
 Handled automatically by Caribou, you probably don't need to mess with this, but it is here if you need it.
 
-#### namespace
+* **namespace**
 
 A namespace to hold any custom user-defined Field types.  Any records you define that implement the Field
 protocol that live in this namespace will be added as types that can be created like any other built in
 Field type.
 
-#### slug-transform
+* **slug-transform**
 
 Whenever a piece of content of a Model with a Field of type "slug" is saved, the value for that Field is generated
 from a linked text Field according to the transformation encoded in this configuration property.  By default 
@@ -610,7 +610,7 @@ instead?  Override this config option.
 
 Hooks are run at specific point during every piece of content's lifecycle.  The various hook points are:
 
-#### During create these hooks are called in order:
+* **During create these hooks are called in order:**
 ```clj
 :before-save
 :before-create
@@ -618,7 +618,7 @@ Hooks are run at specific point during every piece of content's lifecycle.  The 
 :after-save
 ```
 
-#### During an update, these hooks are called in order:
+* **During an update, these hooks are called in order:**
 ```clj
 :before-save
 :before-update
@@ -626,18 +626,18 @@ Hooks are run at specific point during every piece of content's lifecycle.  The 
 :after-save
 ```
 
-#### When a piece of content is destroyed, these hooks are run:
+* **When a piece of content is destroyed, these hooks are run:**
 ```clj
 :before-destroy
 :after-destroy
 ```
 
-#### namespace
+* **namespace**
 
 The namespace where the various hooks into the Model lifecycle go.  Every hook namespace has a name of the form
 {hooks-namespace}.{model-name}, and hooks are added in a function called {hooks-namespace}.{model-name}/add-hooks.
 
-#### lifecycle
+* **lifecycle**
 
 The actual hooks that get run.  Rather than modifying this directly, just call `caribou.hooks/add-hooks` from
 a file named after that model in your hooks namespace. 
@@ -648,15 +648,15 @@ but you can also use it in your own site.  http://lucene.apache.org/
 
 Caribou uses the clucy library to abstract over the raw Java Lucene interface:  https://github.com/weavejester/clucy
 
-#### path
+* **path**
 
 The directory that will hold the index files.  Defaults to "caribou-index".
 
-#### default-limit
+* **default-limit**
 
 The maximum number of documents a search will return.  Defaults to 1000.
 
-#### store
+* **store**
 
 An atom of the actual clucy index object, if you need to perform any custom operations on it.
 
@@ -729,22 +729,22 @@ The `query` option is the domain of the query cache.  Turned off by default, the
 query map that `caribou.model/gather` sees.  There are a variety of entries in this map that play different roles
 in the inner workings of the query cache.
 
-#### enable-query-cache
+* **enable-query-cache**
 
 To turn on the query-cache, simply set this option to `true` in your config.  Not necessary for development, but a good thing 
 to do in production if you know that your content is not necessarily changing often.  Even if it does change, the cache will
 be invalidated on any update to that model, so your site will remain current.
 
-#### queries
+* **queries**
 
 An atom containing the map of queries to results.  Populated automatically by the query cache (but fun to inspect, if you 
 are into that kind of thing).
 
-#### reverse-cache
+* **reverse-cache**
 
 Tracks the models that are hit by each query.  Invalidates those caches in the case of an update.
 
-#### query-defaults
+* **query-defaults**
 
 This map will be added automatically to any query issues through a `caribou.model/gather`.  Want to restrict your content
 to only those "enabled"?  This is the place to do it.  
@@ -765,11 +765,11 @@ the corresponding action is called with the request map as a parameter.  See mor
 
 The various options pertaining to the built-in template rendering live here.  
 
-#### cache-strategy
+* **cache-strategy**
 
 This option governs the caching strategy used by the template engine.  The possible values are currently `:never` or `:always`.
 
-#### helpers
+* **helpers**
 
 This is a map containing the default helpers that will be available during the rendering of every template.  To find out all about helpers
 check out the section on [Template Helpers](#template-helpers).
