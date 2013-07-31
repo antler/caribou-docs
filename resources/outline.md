@@ -354,7 +354,7 @@ Here is a map of all default configuration options:
             :host         "localhost"
             :protocol     "file"
             :path         "/tmp/"
-            :database     "caribou_development"
+            :database     "taiga_development"
             :user         "h2"
             :password     ""}
  :error {:handlers (atom {})
@@ -511,6 +511,50 @@ The password that belongs to the given user.
 
 This is a string representing the mode the database is connected to with, if applicable.  For instance,
 H2 can use file access, tcp access or a variety of others.  Ignore if this does not apply.
+
+#### Some example database configurations
+
+Here are a couple of examples of database configurations to get you started:
+
+* Postgresql
+
+```clj
+{:database 
+  {:classname    "org.postgresql.Driver"
+   :subprotocol  "postgresql"
+   :host         "127.0.0.1"
+   :database     "caribou_test"
+   :user         "caribou"
+   :password     "TUNDRA"}}
+```
+
+* Mysql
+
+```clj
+{:database 
+  {:classname    "com.mysql.jdbc.Driver"
+   :subprotocol  "mysql"
+   :host         "localhost"
+   :database     "caribou_test"
+   :user         "caribou"
+   :password     "TUNDRA"}}
+```
+
+* H2
+
+H2 requires a couple more fields to identify that you are using a file based database and to specify the path.
+(notice `:protocol` and `:path` are both present, but not `:host`)
+
+```clj
+{:database 
+  {:classname    "org.h2.Driver"
+   :subprotocol  "h2"
+   :protocol     "file"
+   :path         "./"
+   :database     "caribou_development"
+   :user         "h2"
+   :password     ""}}
+```
 
 #### path
 
