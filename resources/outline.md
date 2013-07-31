@@ -207,14 +207,14 @@ For now the app defaults to `development`, but there are things you will want to
 that are helpful in development, like automatic code reloading.  For this Caribou provides a `production.clj` 
 with its own set of configuration options.  
 
-#### public
+* **public**
 
 Anything in `public` will be accessible as a static resource under the URL that maps to this directory structure.  
 If all you have is static content, just throw a bunch of files in here where you want them to be accessed and 
 you are good to go!  We have put some helpful files in here to get you started, (css and js) but nothing is 
 set in stone.  Have at!
 
-#### templates
+* **templates**
 
 Here is where all of the dynamic templates go.  In Caribou, you can create content that can then be accessed 
 from templates.  Caribou uses a template engine called Antlers by default: https://github.com/antler/antlers . 
@@ -230,19 +230,19 @@ All of your site specific code will go in here.
 
 There are some notable entries in your project source folder:
 
-#### core.clj
+* **core.clj**
 
 This is the entry point into your Caribou project, and ultimately what gets executed on boot.  
 You can change everything about how Caribou runs from inside this file, from replacing pages and models to 
 defining configuration to executing handlers for every request.  For now, the structure is set up to run 
 Caribou how it was designed to be run, but never forget that you have ultimate control of this.
 
-#### boot.clj
+* **boot.clj**
 
 This file governs which configuration file gets loaded.  You can also change configuration options inside 
 this file that apply to all running environments, if you wish.  
 
-#### migrations
+* **migrations**
 
 This directory contains data migrations that specify how your data evolves over time.  
 You can add your own migrations in addition to the migrations necessary to run your site for the first time.  
@@ -250,12 +250,12 @@ Any migration files added here must be included in `order.clj`.  This is necessa
 knows what order to run the migrations in.  The database keeps track of which migrations have been run, so no 
 migration is ever run twice on one database.  
 
-#### hooks
+* **hooks**
 
 Hooks are defined per model.  There are a variety of points in the content lifecycle where custom code can be 
 run, if desired.  This is covered in the configuration section on hooks.
 
-#### controllers
+* **controllers**
 
 Controllers are called when an http request is matched by a page that references that controller.
 This is how routes are linked to actual Clojure functions that eventually render a template or a return a 
