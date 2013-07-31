@@ -668,7 +668,7 @@ This provides a reference to the page tree for this Caribou instance.  Most like
 during the definition of the handler in your `{project}.core` namespace.  `{project}.core/reload-pages` is a 
 function that adds whatever routes you have to your site, which gets passed into the invocation of the root handler,
 `caribou.app.handler/handler`, so that it can reload the pages whenever necessary.  This is all covered in the 
-section on "Defining Pages and Routes".
+section on [Defining Pages and Routes](#defining-pages-and-routes).
 
 ### pre-actions
 
