@@ -481,32 +481,32 @@ first visits your site.
 Any and all information for connecting to a database go in this map.  Usually the main feature of each
 environment's config file, it holds a variety of options, some of which are relevant only to certain databases:
 
-* **classname -- required**
+* **classname** -- *required*
 
 The Java class representing the driver for the database.  You can't really connect to the db unless
 there is a class that handles the connection, which there is for every database we have encountered.
 
-* **subprotocol -- required**
+* **subprotocol** -- *required*
 
 This string represents the subprotocol that is used to connect to the database through the driver.  Every 
 driver has some specific options (usually only one).  
 
 Current possible values:  postgresql, mysql, h2
 
-* **host -- required**
+* **host** -- *required*
 
 What host does your database live on?  For local database development this will most likely be `localhost`, 
 but in many situations this is a remote server.
 
-* **database -- required**
+* **database** -- *required*
 
 The actual name of your database.
 
-* **user -- required**
+* **user** -- *required*
 
 The user that is being used to access the database.
 
-* **password -- required**
+* **password** -- *required*
 
 The password that belongs to the given user.
 
@@ -514,6 +514,11 @@ The password that belongs to the given user.
 
 This is a string representing the mode the database is connected to with, if applicable.  For instance,
 H2 can use file access, tcp access or a variety of others.  Ignore if this does not apply.
+
+* **path**
+
+For accessing file based databases, this represents the location of your database on disk.  Again, only 
+necessary for file based databases.
 
 #### Some example database configurations
 
@@ -558,11 +563,6 @@ H2 requires a couple more fields to identify that you are using a file based dat
    :user         "h2"
    :password     ""}}
 ```
-
-#### path
-
-For accessing file based databases, this represents the location of your database on disk.  Again, only 
-necessary for file based databases.
 
 ### error
 
