@@ -198,7 +198,7 @@ and an init function that is run on boot.  Full details can be found in the conf
 
 The `resources` directory has three branches: `config`, `public`, and `templates`.
 
-* #### config
+#### * config
 
 The first, `config`, holds all the configuration files for the various environments that your Caribou app 
 will eventually run in.  The name of each environment maps to a configuration file with the same name and 
