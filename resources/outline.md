@@ -1243,7 +1243,7 @@ This map presents one of the features of a gather map, `:where`.  The full list 
 
 Let's take a look at these one by one.
 
-### **-- :where --**
+### **-- where --**
 
 One of the great sources of power for the gather call is that the `:where` map
 can express conditions across associations:
@@ -1275,9 +1275,97 @@ You can also have parallel conditions.  This acts like a logical "AND":
      {:id 3 :caption "How to Update a Caribou Model" ...}]
 ```
 
-### **:
+### **-- include --**
 
-The first three of these options can also be applied 
+One thing you will notice right away when gathering content is that though
+associations exist, associated items do not come through the regular
+`caribou.model/gather` call by default.  This is what the `:include` map is for.
+The `:include` map defines a nested set of association field names that trigger
+the retrieval of associated content.
+
+```
+(def redux-and-slides
+  (caribou.model/pick
+   :presentation
+   {:where {:title "Caribou Redux!"}
+    :include {:slides {}}}))
+  
+--> {:id 1 
+     :title "Caribou Redux!" 
+     :preview {...}
+     :slides [{:id 1 :caption "Welcome to Caribou!" ...}
+              {:id 2 :caption "Explaining Caribou Models" ...} 
+              {:id 3 :caption "How to Update a Caribou Model" ...}]}
+```
+
+The `:include` map can travel arbitrarily deep along the model association
+graph, so if Slide had a collection of another model, say "Paragraphs", then you
+could retrieve those as well with another level of the `:include` map:
+
+```
+(def redux-slides-and-paragraphs
+  (caribou.model/pick
+   :presentation
+   {:where {:title "Caribou Redux!"}
+    :include {:slides {:paragraphs {}}}}))
+  
+--> {:id 1 
+     :title "Caribou Redux!" 
+     :preview {...}
+     :slides [{:id 1 :caption "Welcome to Caribou!" :paragraphs [...] ...}
+              {:id 2 :caption "Explaining Caribou Models" :paragraphs [...] ...} 
+              {:id 3 :caption "How to Update a Caribou Model" :paragraphs [...] ...}]}
+```
+
+You can also perform parallel includes, so if a Presentation also had an
+association to an existing "Person" model called "Authors", you could retrieve
+the Presentation, all its Slides and their Paragraphs, and the Authors of the
+Presentation all in one gather call:
+
+```
+(def redux-authors-and-slide-paragraphs
+  (caribou.model/pick
+   :presentation
+   {:where {:title "Caribou Redux!"}
+    :include {:authors {}
+              :slides {:paragraphs {}}}}))
+  
+--> {:id 1 
+     :title "Caribou Redux!" 
+     :preview {...}
+     :authors [{:name "Donner"} {:name "Blitzen"} ...]
+     :slides [{:id 1 :caption "Welcome to Caribou!" :paragraphs [...] ...}
+              {:id 2 :caption "Explaining Caribou Models" :paragraphs [...] ...} 
+              {:id 3 :caption "How to Update a Caribou Model" :paragraphs [...] ...}]}
+```
+
+Obviously this can get out of control, and it wouldn't be hard to pull in every
+content item in the site in a single call.  Any single gather call can be broken
+into individual gathers that fetch the content when needed.
+
+* **-- order --**
+
+The `:order` map is used to control the order of the returned items.  By
+default, content is ordered based on that model's `:position` field, but any
+order can be used.  Here is an example of ordering by `:updated-at`:
+
+```
+(def redux-slides
+  (caribou.model/gather
+   :slide
+   {:where {:presentation {:title "Caribou Redux!"}}
+    :order {:updated-at :desc}}))
+  
+--> [{:id 3 :caption "How to Update a Caribou Model" :updated-at #inst "2013-06-21T22:37:35.883000000-00:00" ...}
+     {:id 2 :caption "Explaining Caribou Models" :updated-at #inst "2013-06-21T22:37:34.883000000-00:00" ...} 
+     {:id 1 :caption "Welcome to Caribou!" :updated-at #inst "2013-06-21T22:37:33.883000000-00:00" ...}]
+```
+
+The value for the property being ordered can be either `:asc` or `:desc`,
+representing ascending or descending respectively.
+
+The `:order` map, like the `:where` and `:include` map, can propagate across
+associations, and order across many properties simultaneously:
 
 ## Data Migrations
 ## Content Localization
