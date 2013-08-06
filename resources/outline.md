@@ -996,6 +996,23 @@ model known to the system this will throw an exception.
 of properties has a key for each Field in the Model model.  Given a different
 model, the available keys in this map would be different.
 
+* Ultimately, the definition of a model really depends on the fields in that
+model.  In this case, two custom fields are created for the Presentation model,
+a Title of type "string", and a Preview of type "image".  Once this model
+exists, new Presentations can be created that have titles and previews in the
+same manner:
+
+```clj
+(caribou.core/with-caribou config 
+  (caribou.model/create 
+   :presentation
+   {:title "Caribou!"
+    :preview {:path "path/to/preview/image.png"}}))
+```
+
+In this way, creating a model allows new kinds of content to be created.
+Everything else in Caribou flows from this basic idea.
+
 ## Field Types
 ## Associations
 ## Data Migrations
