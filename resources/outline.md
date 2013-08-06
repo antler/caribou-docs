@@ -868,9 +868,9 @@ to from the command line or from inside an editor with nrepl support:
 https://github.com/clojure/tools.nrepl .  This is a great way to interact with a
 running Caribou process and inspect or alter state using a given configuration.
 
-If a :port is provided, then an nrepl server will be booted at that port when
+If a `:port` is provided, then an nrepl server will be booted at that port when
 Caribou is initialized.  In that case, a reference to the running server will be
-stored in the atom under :server.  If no :port option is present, nrepl will not
+stored in the atom under `:server`.  If no `:port` option is present, nrepl will not
 be booted.
 
 ### pages
