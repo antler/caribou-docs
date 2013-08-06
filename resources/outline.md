@@ -946,7 +946,56 @@ section on [Template Helpers](#template-helpers).
 
 # Introduction to Data Modeling
 
+Defining models for an application is the heart of a Caribou project.  Once a
+model is created a host of capabilities are automatically generated for that
+newly created model.  This section details the means for creating new models and
+expanding on existing models.
+
 ## Creating Models
+
+Creating a model is just like creating any other content in a Caribou project.
+The first step is to acquire a configuration map, which is detailed in the
+[How Configuration Works in Caribou](#how-configuration-works-in-caribou)
+section.  
+
+Assuming a configuration exists and it is called `config`, a model can be
+created from the repl with the following call:
+
+```clj
+(caribou.core/with-caribou config 
+  (caribou.model/create 
+   :model
+   {:name "Presentation"
+    :fields [{:name "Title" :type "string"}
+             {:name "Preview" :type "image"}]}))
+```
+
+Some things to note about this code:
+
+* The first line calls `caribou.core/with-caribou` with an existing
+configuration map.  This configuration map among other things contains
+information about the database connection.  Since this call is creating a new
+model, this will actually generate a new table for that model inside whatever
+database is referred to by the given configuration map under its `:database`
+key.  This means of configuration means that you can create models in different
+databases just by swapping out the configuration map.
+
+* The next line calls the fundamental function `caribou.model/create`.  This
+call is used to create any content inside of a Caribou project, and corresponds
+to inserting a new row in the database given by the configuration map.
+
+* The next line contains only the key `:model`, and signifies that we are
+creating a model, as opposed to any other content type currently known to the
+system.  Once a model is created (in this case the Presentation model), content
+of that variety can be created using the same call, but swapping out the key
+here (which for the case of Presentations, would be `:presentation`).  If a call
+to `caribou.model/create` is made with a key that does not represent a current
+model known to the system this will throw an exception.
+
+* Next comes a map of properties that define the model being created.  This list
+of properties has a key for each Field in the Model model.  Given a different
+model, the available keys in this map would be different.
+
 ## Field Types
 ## Associations
 ## Data Migrations
@@ -955,6 +1004,7 @@ section on [Template Helpers](#template-helpers).
 ## Content Localization
 
 # Defining Pages and Routes
+
 ## Routes are Matched based on Paths
 ## Route Elements can be Variable
 ## Pages can be Nested
@@ -962,6 +1012,7 @@ section on [Template Helpers](#template-helpers).
 ## Pages Tie Routes to Controllers and Templates
 
 # Writing Controllers
+
 ## Controllers are Triggered by a Matching Route
 ## Controllers are Functions
 ## Parameters from Routes are Available in Controllers
@@ -969,6 +1020,7 @@ section on [Template Helpers](#template-helpers).
 ## Defining Pre-Actions
 
 # Rendering Templates
+
 ## Data from the Render Map is Accessible in Templates
 ## Template Helpers
 ## Existing Helpers
@@ -977,6 +1029,7 @@ section on [Template Helpers](#template-helpers).
 ## Templates can Invoke other Templates as Partials
 
 # Using the Admin
+
 ## Caribou comes with a Default Admin
 ## Creating Models in the Admin
 ## Creating Pages and Routes in the Admin
@@ -984,5 +1037,6 @@ section on [Template Helpers](#template-helpers).
 ## Accounts in the Admin
 
 # Using the API
+
 ## All Content is Accessible from the API
 ## Options in the API
