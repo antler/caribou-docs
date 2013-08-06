@@ -722,7 +722,9 @@ a custom 500 page, but in development this can be handy (especially if you
 conjure a lot of stacktraces!)  Otherwise, the stacktrace is rendered out to the
 logs and a 500 template is rendered in the browser.  Defaults to false.
 
-### field * **constructors**
+### field 
+
+* **constructors**
 
 A map that contains all the Field constructors.  Since Field is a protocol, to
 create one requires calling a constructor.  This is a map of Field type names to
@@ -967,7 +969,7 @@ created from the repl with the following call:
    :model
    {:name "Presentation"
     :fields [{:name "Title" :type "string"}
-             {:name "Preview" :type "image"}]}))
+             {:name "Preview" :type "asset"}]}))
 ```
 
 Some things to note about this code:
@@ -998,7 +1000,7 @@ model, the available keys in this map would be different.
 
 * Ultimately, the definition of a model really depends on the fields in that
 model.  In this case, two custom fields are created for the Presentation model,
-a Title of type "string", and a Preview of type "image".  Once this model
+a Title of type "string", and a Preview of type "asset".  Once this model
 exists, new Presentations can be created that have titles and previews in the
 same manner:
 
@@ -1014,7 +1016,55 @@ In this way, creating a model allows new kinds of content to be created.
 Everything else in Caribou flows from this basic idea.
 
 ## Field Types
+
+There are a number of different field type models can have.  Here is a summary:
+
+* **address** - Store a location as a set of fields or lat/lng pairs.
+* **asset** - Represents any kind of file, including images.
+* **boolean** - Represent a single true/false value.
+* **decimal** - Store a single decimal value of arbitrary precision.
+* **enum** - Represent a finite set of possible values.
+* **integer** - A single number with no decimal digits.
+* **password** - Store an encrypted value that can be matched but not read.
+* **position** - A value that automatically increments when new content is added.
+* **slug** - A string that depends on some other string field for its value, and
+    reformats that string according to the [field](#field) configuration.
+* **string** - The workhorse.  Represents a single short string.
+* **structure** - Stores arbitrary clojure data structures in EDN format.  
+* **text** - Used to store arbitrarily long text.  
+* **timestamp** - Represents dates and times of all varieties.
+
 ## Associations
+
+Beyond the simple field types, much of the richness of a Caribou model structure
+lies in the associations that are created between models in the system.  Model
+and Field have this relationship, where Model has a "collection" of Fields and
+Fields are a "part" of Model.  This provides a one to many relationship between
+the Model model and the Field model.
+
+Every association in Caribou is represented by a field in the corresponding
+models, which means that there is an association field in each model
+representing the two sides of the association.  This means each association type
+has a reciprocal type, and that every association has one and only one
+reciprocal association field that lives in another model somewhere.
+
+The different types of associations available in Caribou are:
+
+* **collection** - This association field type represents a collection of
+    things, meaning there are potentially many pieces of content associated to
+    any content of this model type.  The reciprocal type of association is the
+    "part".
+    
+* **part** - The reciprocal to "collection", this means that any content of this
+    model variety will potentially belong to content of the model that it is a
+    "part" of.  Any content that is part of another collection cannot belong to
+    another collection.
+    
+* **link** - The link association type is its own reciprocal, and represents a
+    many to many relationship to another model.  This behaves just like a
+    collection except that the associated content can have many associations as
+    well.
+
 ## Data Migrations
 ## Creating Content
 ## Retrieving Content
