@@ -68,8 +68,9 @@ Congratulations!  You are now running Caribou.
 
 Caribou is not a single library, but an ecosystem of interacting components,
 each of which has the ability to stand on its own.  This idea lends a quality of
-composability to the Caribou world.  If some capability does not exist, create
-it on its own and then link it into a working Caribou instance.
+composability to the Caribou world.  If some capability does not
+exist, it can be created on its own and then easily linked into a working
+Caribou instance.
 
 That said, there are some core components that lay the foundation for everything
 that follows.
@@ -149,7 +150,21 @@ exist on their own, but also contribute to the Caribou ecosystem.
 
 ### Lichen
 
+[Lichen](http://github.com/antler/lichen) is a standalone image resizing library
+that enables Caribou to define image sizes during template creation.  Lichen
+creates the newly resized version of the image the first time it is requested,
+then reuses the cached version on each subsequent request transparently, so the
+developer never needs to worry about it.  Declare what you want, Lichen worries
+about how to most efficiently perform the task.
+
 ### Antlers
+
+[Antlers](http://github.com/antler/antlers) is a templating library that grew
+out of the raw Mustache spec, but adapted to ever expanding demands from day to
+day use.  Today it is a fully functional templating system with blocks, helper
+functions, loop variables and a host of other practical features that makes it
+the cornerstone of rendering in Caribou.  Of course, nothing is stopping you
+from using whatever template system you want, but if you need it, it's there.
 
 # Basic Concepts
 
@@ -870,6 +885,7 @@ rendering of every template.  To find out all about helpers check out the
 section on [Template Helpers](#template-helpers).
 
 # Intro to Data Modeling
+
 ## Creating Models
 ## Field Types
 ## Associations
