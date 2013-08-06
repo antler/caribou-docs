@@ -402,6 +402,13 @@ Once you have a configuration map, you can call any Caribou methods inside of a
 As we progress we will illuminate a number of Caribou calls that work in this
 manner.
 
+Also, in order to access a value that lives inside a Caribou configuration, use
+`caribou.config/draw`:
+
+```clj
+(caribou.config/draw :models :model :id) ---> The id of the Model model.
+```
+
 ## How to Configure Caribou
 
 In general, we will refer to namespaces inside a Caribou project as
@@ -1065,9 +1072,98 @@ The different types of associations available in Caribou are:
     collection except that the associated content can have many associations as
     well.
 
-## Data Migrations
-## Creating Content
+## Creating and Updating Content
+
+As detailed before at the end of [Creating Models](#creating-models), once a
+model has been created, new content can be created according to that model.
+
+```clj
+(caribou.core/with-caribou config 
+  (caribou.model/create 
+   :model
+   {:name "Presentation"
+    :fields [{:name "Title" :type "string"}
+             {:name "Preview" :type "asset"}]}))
+
+(def caribou-presentation
+  (caribou.core/with-caribou config 
+    (caribou.model/create 
+     :presentation
+     {:title "Caribou!"
+      :preview {:path "path/to/preview/image.png"}})))
+```
+
+The first call to `caribou.model/create` creates the Presentation *model*, and
+the second creates new Presentation *content*.  Notice the fields defined during
+model creation are available during content creation time.  Next, let's create a
+new Slide model and associate it to Presentation:
+
+```clj
+(caribou.core/with-caribou config 
+  (caribou.model/create 
+   :model
+   {:name "Slide"
+    :fields [{:name "Image" :type "asset"}
+             {:name "Caption" :type "string"}
+             {:name "Presentation" :type "part"
+              :target-id (caribou.config/draw :models :presentation :id)}]}))
+```
+
+The key here is that we made a new field called "Presentation" of type "part".
+In order to associate this new field to the Presentation model, we need the id
+of the Presentation model, which lives inside the current Caribou config.  It
+can be accessed using the `caribou.config/draw` method, which indexes anywhere
+inside the currently applied configuration map.  In this case, we need only the
+`:id`, which is passed in as the new association field's `:target-id`.
+
+Since the new "Presentation" field inside the Slide model is of type "part", a
+reciprocal "collection" association is automatically created inside of the
+Presentation model.  Now, Slides can be created and associated to Presentations:
+
+```clj
+(def first-slide
+  (caribou.core/with-caribou config 
+    (caribou.model/create 
+     :slide
+     {:caption "Welcome to Caribou!"
+      :image {:path "welcome/to/caribou.jpg"}
+      :presentation caribou-presentation})))
+```
+
+Since Presentation has a collection of Slides, you can also create Slides in the
+context of a given Presentation using `caribou.model/update`:
+
+```clj
+(caribou.core/with-caribou config 
+  (caribou.model/update
+   :presentation 
+   (:id caribou-presentation)
+   {:title "Caribou Redux!"
+    :slides [{:caption "Explaining Caribou Models"
+              :image {:path "explaining/caribou/models.jpg"}}
+             {:caption "How to Update a Caribou Model"
+              :image {:path "updating/caribou/models.jpg"}}]}))
+```
+
+This creates two new Slides and associates them to the given presentation.  A
+couple things to note about this update:
+
+* `caribou.model/update` requires an additional parameter which is the `:id` of
+  the preexisting content item you wish to update.  This is automatically
+  generated when a content item is first created, so is present in the map that
+  is returned from the original call to `caribou.model/create` that created that
+  content item (above this was stored under the var `caribou-presentation`).
+
+* To add an item into the collection, we provided a vector of maps under the
+  `:slides` key in the update.  This works just as well for create.  Each map in
+  the collection vector will be created and associated to the given object.  In
+  fact, this is how we created the model originally, since `:fields` is a
+  collection that lives in the Model model.  If one of these maps contains an
+  `:id`, it will find the associated item with the given id and update it rather
+  than creating a new one.
+
 ## Retrieving Content
+## Data Migrations
 ## Content Localization
 
 # Defining Pages and Routes
