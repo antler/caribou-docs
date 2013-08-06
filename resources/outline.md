@@ -793,7 +793,9 @@ added in a function called {hooks-namespace}.{model-name}/add-hooks.
 
 The actual hooks that get run.  Rather than modifying this directly, just call
 `caribou.hooks/add-hooks` from a file named after that model in your hooks
-namespace.  ### index
+namespace.  
+
+### index
 
 The index options control how content is indexed in the built in Lucene search
 engine.  This is used in the Admin but you can also use it in your own site.
