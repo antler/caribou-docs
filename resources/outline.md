@@ -31,7 +31,10 @@ Once you have the `lein` command, create a profile that includes `lein-caribou`
 
 * Create a file called `~/.lein/profiles.clj` with the following contents:
 
-```clj {:user {:plugins [[lein-ring "0.8.2"] [lein-caribou "2.2.8"]]}} ```
+```clj 
+{:user 
+  {:plugins [[lein-ring "0.8.2"] [lein-caribou "2.2.8"]]}}
+```
 
 * (note these versions may have increased.  Check http://clojars.org for latest
   version information)
@@ -43,7 +46,9 @@ Once you have the `lein` command, create a profile that includes `lein-caribou`
 
 To create a new Caribou project, type this at the command line:
 
-``` % lein caribou create taiga ```
+``` 
+% lein caribou create taiga 
+```
 
 This will create a new directory structure under the name `taiga` and prime a
 new H2 database for use with Caribou.
@@ -197,29 +202,29 @@ Modeling](#introduction-to-data-modeling).
 
 ## Pages
 
-Pages are a nested structure that govern the way urls are matched in your
-application.  Each page represents a route that can be matched when a user
-navigates to a particular url.  Once a route is matched, the controller
-associated to that page is triggered with the parameters defined by that route.
-If a page is a child of another page, it inherits its parent's route and adds
-its own unique path onto it.  In this way the routing structure of an
-application can be organized hierarchically, simplifying what could otherwise be
-a complicated tangle of routes.
+Pages are the way to define how urls are matched in your application.  Each page
+represents a route that can be matched when a user navigates to a particular
+url.  Once a route is matched, the controller associated to that page is
+triggered with the parameters defined by that route.  Pages form a nested
+structure, so if a page is a child of another page, it inherits its parent's
+route and adds its own unique path onto it.  In this way the routing structure
+of an application can be organized hierarchically, simplifying what could
+otherwise be a complicated tangle of routes.
 
 Read more at [Defining Pages and Routes](#defining-pages-and-routes).
 
 ## Controllers and Templates
 
-Once a route has been matched, the corresponding controller is triggered.  A 
+Once a route has been matched, the corresponding controller is triggered.  A
 controller in Caribou is just a Clojure function that takes a single argument,
 `request`, and renders to the browser whatever that function returns.
 
 In practice, a controller can use the built in template system called
-[Antlers](http://github.com/antler/antlers) to render html or json (or
-any other format for that matter).  Any parameters passed into the
-built in `render` call will be available in the template.  
+[Antlers](http://github.com/antler/antlers) to render html or json (or any other
+format for that matter).  Any parameters passed into the built in `render` call
+will be available in the template.
 
-To see more on how this is done, check out the section on 
+To see more on how this is done, check out the section on
 [Rendering Templates](#rendering-templates)
 
 # Configuring Caribou
@@ -387,8 +392,11 @@ configuration maps.
 Once you have a configuration map, you can call any Caribou methods inside of a
 `caribou.core/with-caribou` block.
 
-```clj (let [config (pull-config-map-from-somewhere)] (caribou.core/with-caribou
-config (... ))  ;; block of code that assumes a caribou config ```
+```clj 
+(let [config (pull-config-map-from-somewhere)] 
+  (caribou.core/with-caribou config 
+    (... ))  ;; block of code that assumes a caribou config 
+```
 
 As we progress we will illuminate a number of Caribou calls that work in this
 manner.
@@ -406,8 +414,10 @@ this map is obtained as a result of calling the
 `caribou.config/config-from-environment` method on a default configuration map
 obtained from `caribou.app.config/default-config`.
 
-```clj (let [default (caribou.app.config/default-config) config
-(caribou.config/config-from-environment default)] (caribou.core/init config))
+```clj 
+(let [default (caribou.app.config/default-config) 
+      config (caribou.config/config-from-environment default)] 
+  (caribou.core/init config))
 ```
 
 `caribou.core/init` sets up all the state that Caribou needs to run and stores
@@ -421,7 +431,9 @@ and merges that map into the default map you provide.  By default the
 environment is "development", but it can be set as a java option (which can be
 done in a number of ways).  One of the easiest is to set it in your env like so:
 
-``` % export _JAVA_OPTIONS=-Denvironment=production ```
+``` 
+% export _JAVA_OPTIONS=-Denvironment=production 
+```
 
 This is a standard method for setting JVM options from the command line.  (For
 other methods check the java documentation).
@@ -497,7 +509,6 @@ Here is a map of all default configuration options:
  :template {:helpers (atom {})
             :cache-strategy :never}
 }
-
 ```
 
 As you can see, there is a whole rainbow of options to choose from.  Let's take
@@ -646,14 +657,27 @@ Here are a couple of examples of database configurations to get you started:
 
 * Postgresql
 
-```clj {:database {:classname "org.postgresql.Driver" :subprotocol "postgresql"
-:host "127.0.0.1" :database "caribou_test" :user "caribou" :password "TUNDRA"}}
+```clj
+{:database 
+  {:classname "org.postgresql.Driver" 
+   :subprotocol "postgresql"
+   :host "127.0.0.1" 
+   :database "caribou_test" 
+   :user "caribou" 
+   :password "TUNDRA"}}
 ```
 
 * Mysql
 
-```clj {:database {:classname "com.mysql.jdbc.Driver" :subprotocol "mysql" :host
-"localhost" :database "caribou_test" :user "caribou" :password "TUNDRA"}} ```
+```clj
+{:database 
+  {:classname "com.mysql.jdbc.Driver" 
+   :subprotocol "mysql" 
+   :host "localhost" 
+   :database "caribou_test" 
+   :user "caribou" 
+   :password "TUNDRA"}} 
+```
 
 * H2
 
@@ -661,8 +685,16 @@ H2 requires a couple more fields to identify that you are using a file based
 database and to specify the path.  (notice `:protocol` and `:path` are both
 present, but not `:host`)
 
-```clj {:database {:classname "org.h2.Driver" :subprotocol "h2" :protocol "file"
-:path "./" :database "caribou_development" :user "h2" :password ""}} ```
+```clj
+{:database 
+  {:classname "org.h2.Driver" 
+   :subprotocol "h2" 
+   :protocol "file"
+   :path "./" 
+   :database "caribou_development" 
+   :user "h2" 
+   :password ""}} 
+```
 
 ### error
 
@@ -716,14 +748,30 @@ dash (-).  Want underscores instead?  Override this config option.
 Hooks are run at specific point during every piece of content's lifecycle.  The
 various hook points are:
 
-* **During create these hooks are called in order:** ```clj :before-save
-:before-create :after-create :after-save ```
+* **During create these hooks are called in order:** 
 
-* **During an update, these hooks are called in order:** ```clj :before-save
-:before-update :after-update :after-save ```
+```clj
+:before-save
+:before-create 
+:after-create 
+:after-save 
+```
 
-* **When a piece of content is destroyed, these hooks are run:** ```clj
-:before-destroy :after-destroy ```
+* **During an update, these hooks are called in order:** 
+
+```clj 
+:before-save
+:before-update 
+:after-update 
+:after-save 
+```
+
+* **When a piece of content is destroyed, these hooks are run:** 
+
+```clj
+:before-destroy 
+:after-destroy 
+```
 
 * **namespace**
 
@@ -775,8 +823,19 @@ must be configured to allow access from the server sending the packets.
 
 The levels in order from most critical to least critical are:
 
-```clj :emergency 0 :alert 1 :critical 2 :error 3 :warning 4 :warn 4 :notice 5
-:informational 6 :info 6 :debug 7 :trace 7 ```
+```clj 
+:emergency 0 
+:alert 1 
+:critical 2 
+:error 3 
+:warning 4 
+:warn 4 
+:notice 5
+:informational 6 
+:info 6 
+:debug 7 
+:trace 7 
+```
 
 If you set a logger to watch at `:warn` level for instance, it will ignore any
 event below `:warn`, but output all messages from `:warn` level up to
