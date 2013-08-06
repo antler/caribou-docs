@@ -944,7 +944,7 @@ This is a map containing the default helpers that will be available during the
 rendering of every template.  To find out all about helpers check out the
 section on [Template Helpers](#template-helpers).
 
-# Intro to Data Modeling
+# Introduction to Data Modeling
 
 ## Creating Models
 ## Field Types
