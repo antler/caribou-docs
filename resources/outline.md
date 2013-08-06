@@ -1018,7 +1018,7 @@ same manner:
 (caribou.model/create 
  :presentation
  {:title "Caribou!"
-  :preview {:path "path/to/preview/image.png"}}))
+  :preview {:filename "path/to/preview/image.png"}}))
 ```
 
 In this way, creating a model allows new kinds of content to be created.
@@ -1090,7 +1090,7 @@ model has been created, new content can be created according to that model.
   (caribou.model/create 
    :presentation
    {:title "Caribou!"
-    :preview {:path "path/to/preview/image.png"}})))
+    :preview {:filename "path/to/preview/image.png"}})))
 ```
 
 The first call to `caribou.model/create` creates the Presentation *model*, and
@@ -1124,7 +1124,7 @@ Presentation model.  Now, Slides can be created and associated to Presentations:
   (caribou.model/create 
    :slide
    {:caption "Welcome to Caribou!"
-    :image {:path "welcome/to/caribou.jpg"}
+    :image {:filename "welcome/to/caribou.jpg"}
     :presentation caribou-presentation})))
 ```
 
@@ -1137,9 +1137,9 @@ context of a given Presentation using `caribou.model/update`:
  (:id caribou-presentation)
  {:title "Caribou Redux!"
   :slides [{:caption "Explaining Caribou Models"
-            :image {:path "explaining/caribou/models.jpg"}}
+            :image {:filename "explaining/caribou/models.jpg"}}
            {:caption "How to Update a Caribou Model"
-            :image {:path "updating/caribou/models.jpg"}}]}))
+            :image {:filename "updating/caribou/models.jpg"}}]}))
 ```
 
 This creates two new Slides and associates them to the given presentation.  A
@@ -1466,6 +1466,8 @@ This can be used to implement pagination, for example.
 ## Working with Assets
 ## Templates can Inherit Structure from other Templates
 ## Templates can Invoke other Templates as Partials
+
+# Connecting to a Caribou Repl
 
 # Using the Admin
 
