@@ -1243,7 +1243,7 @@ This map presents one of the features of a gather map, `:where`.  The full list 
 
 Let's take a look at these one by one.
 
-### **:where**
+### **-- :where --**
 
 One of the great sources of power for the gather call is that the `:where` map
 can express conditions across associations:
@@ -1254,9 +1254,9 @@ can express conditions across associations:
    :slide
    {:where {:presentation {:title "Caribou Redux!"}}}))
   
---> [{:caption "Welcome to Caribou!" ...}
-     {:caption "Explaining Caribou Models" ...} 
-     {:caption "How to Update a Caribou Model" ...}]
+--> [{:id 1 :caption "Welcome to Caribou!" ...}
+     {:id 2 :caption "Explaining Caribou Models" ...} 
+     {:id 3 :caption "How to Update a Caribou Model" ...}]
 ```
 
 The point here is that we are gathering slides based on a condition that exists
@@ -1268,12 +1268,14 @@ You can also have parallel conditions.  This acts like a logical "AND":
 (def redux-slides
   (caribou.model/gather
    :slide
-   {:where {:presentation {:title "Caribou Redux!"}}}))
+   {:where {:presentation {:title "Caribou Redux!"}
+            :id {:>= 2}}}))
   
---> [{:caption "Welcome to Caribou!" ...}
-     {:caption "Explaining Caribou Models" ...} 
-     {:caption "How to Update a Caribou Model" ...}]
+--> [{:id 2 :caption "Explaining Caribou Models" ...} 
+     {:id 3 :caption "How to Update a Caribou Model" ...}]
 ```
+
+### **:
 
 The first three of these options can also be applied 
 
