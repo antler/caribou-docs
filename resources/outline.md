@@ -1343,14 +1343,14 @@ Obviously this can get out of control, and it wouldn't be hard to pull in every
 content item in the site in a single call.  Any single gather call can be broken
 into individual gathers that fetch the content when needed.
 
-* **-- order --**
+### **-- order --**
 
 The `:order` map is used to control the order of the returned items.  By
 default, content is ordered based on that model's `:position` field, but any
 order can be used.  Here is an example of ordering by `:updated-at`:
 
 ```
-(def redux-slides
+(def redux-slides-ordered-by-updated-at
   (caribou.model/gather
    :slide
    {:where {:presentation {:title "Caribou Redux!"}}
@@ -1366,6 +1366,76 @@ representing ascending or descending respectively.
 
 The `:order` map, like the `:where` and `:include` map, can propagate across
 associations, and order across many properties simultaneously:
+
+```
+(def redux-slides-parallel-ordering
+  (caribou.model/gather
+   :slide
+   {:order {:updated-at :desc
+            :id :asc
+            :presentation {:title :desc}}}))
+  
+--> [{:id 3 :caption "How to Update a Caribou Model" :updated-at #inst "2013-06-21T22:37:35.883000000-00:00" ...}
+     {:id 1 :caption "Welcome to Caribou!" :updated-at #inst "2013-06-21T22:37:34.883000000-00:00" ...}
+     {:id 2 :caption "Explaining Caribou Models" :updated-at #inst "2013-06-21T22:37:34.883000000-00:00" ...}]
+```
+
+### *-- limit --*
+
+The `:limit` option specifies a maximum number of items to retrieve, in the case
+that there are more items than you wish to handle at any given time:
+
+```
+(def redux-slides-limited
+  (caribou.model/gather
+   :slide
+   {:order {:updated-at :desc
+            :id :asc
+            :presentation {:title :desc}}
+    :limit 2}))
+  
+--> [{:id 3 :caption "How to Update a Caribou Model" :updated-at #inst "2013-06-21T22:37:35.883000000-00:00" ...}
+     {:id 1 :caption "Welcome to Caribou!" :updated-at #inst "2013-06-21T22:37:34.883000000-00:00" ...}]
+```
+
+One thing to note: only the outermost model is limited.  Any items included
+across associations will not be limited.  Keep this in mind if you have items
+with a large number of associated items in a collection or link.  In that case
+it is better to not include the content directly, but rather to make an
+additional gather on associated items once the outer item is retrieved:
+
+```
+(let [presentation   (caribou.model/pick
+                      :presentation
+                      {:where {:title "Caribou Redux!"}})
+      limited-slides (caribou.model/gather
+                      :slide
+                      {:where {:presentation {:id (:id presentation)}}
+                       :limit 2})]
+  (assoc presentation :slides limited-slides))
+```
+
+### *-- offset --*
+
+`:offset` is used in conjunction with `:limit`.  It finds subsequent sets of
+content given whatever would be returned from the gather normally, but has been
+excluded through the use of a `:limit`.
+
+```
+(def redux-slides-limited-and-offset
+  (caribou.model/gather
+   :slide
+   {:order {:updated-at :desc
+            :id :asc
+            :presentation {:title :desc}}
+    :limit 2
+    :offset 1}))
+  
+--> [{:id 1 :caption "Welcome to Caribou!" :updated-at #inst "2013-06-21T22:37:34.883000000-00:00" ...}
+     {:id 2 :caption "Explaining Caribou Models" :updated-at #inst "2013-06-21T22:37:34.883000000-00:00" ...}]
+```
+
+This can be used to implement pagination, for example.
 
 ## Data Migrations
 ## Content Localization
