@@ -1157,6 +1157,27 @@ couple things to note about this update:
   `:id`, it will find the associated item with the given id and update it rather
   than creating a new one.
 
+## Default Model Fields
+
+There are a number of default fields that are added to a model automatically.
+These play various roles in managing the content internally, and also provide
+some handy features that all content is likely to need.  These fields are:
+
+* **:id** -- The `:id` represents a unique integer identifier that is used
+    throughout Caribou.  Every content item in Caribou is given an `:id`, and
+    all content can be retrieved based on its model type and its `:id`.  This is
+    also the mechanism under the scenes that tracks how different items are
+    associated to one another.  `:id` always increments starting from `1`, so
+    every item obtains a unique `:id` within its model table.
+
+* **:position** -- The `:position` field allows content to be ordered in an
+    arbitrary fasion.  Without the `:position` field we would be stuck
+    retrieving content only by name, or id or title or something.  `:position`
+    allows people to order content exactly how it should appear.  Without
+    outside intervention, `:position` increments automatically starting from
+    `1`, just like `:id`.  `:position` however can change, whereas once an `:id`
+    is acquired it is invariant for the lifetime of the application.
+
 ## Retrieving Content
 
 Once models and content have been created, the ideal thing would be to be able
@@ -1187,12 +1208,56 @@ argument:
 
 ```
 (def all-presentations
-  (caribou.model/pick
+  (caribou.model/gather
    :presentation
    {:where {:title "Caribou Redux!"}}))
   
---> {:id 1 :title "Caribou Redux!" :preview {...} ...}
+--> [{:id 1 :title "Caribou Redux!" :preview {...} ...}]
 ```
+
+This map presents one of the features of a gather map, `:where`.  The full list is:
+
+* **:where** -- present conditions which narrow and refine the results.
+* **:include** -- fetch associated content along with the primary results.
+* **:order** -- order the gathered results based on given criteria.
+* **:limit** -- limit primary results to a certain number.
+* **:offset** -- index into results by the given offset.
+
+Let's take a look at these one by one.
+
+### **:where**
+
+One of the great sources of power for the gather call is that the `:where` map
+can express conditions across associations:
+
+```
+(def redux-slides
+  (caribou.model/gather
+   :slide
+   {:where {:presentation {:title "Caribou Redux!"}}}))
+  
+--> [{:caption "Welcome to Caribou!" ...}
+     {:caption "Explaining Caribou Models" ...} 
+     {:caption "How to Update a Caribou Model" ...}]
+```
+
+The point here is that we are gathering slides based on a condition that exists
+on the associated Presentation item.  This is cool.
+
+You can also have parallel conditions.  This acts like a logical "AND":
+
+```
+(def redux-slides
+  (caribou.model/gather
+   :slide
+   {:where {:presentation {:title "Caribou Redux!"}}}))
+  
+--> [{:caption "Welcome to Caribou!" ...}
+     {:caption "Explaining Caribou Models" ...} 
+     {:caption "How to Update a Caribou Model" ...}]
+```
+
+The first three of these options can also be applied 
 
 ## Data Migrations
 ## Content Localization
@@ -1234,3 +1299,11 @@ argument:
 
 ## All Content is Accessible from the API
 ## Options in the API
+
+# Deploying Caribou
+
+## Ring Server (Jetty)
+## Tomcat
+## Immutant (JBoss)
+## Beanstalk
+## Heroku
