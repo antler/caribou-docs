@@ -1,45 +1,48 @@
 # What is Caribou?
 
-Caribou is a dynamic web application ecosystem for crafting production ready web inhabitants with minimal effort.  
-Forged in the fire of daily requirements, Caribou is a collection of solutions to problems web developers face every day.  
-The philosophy behind its development is to solve every problem we come across once, in a general way that can be reused over and over.  
-Anything unnecessary or obstructive has been burned away from the wear of constant use.  
-The result is Caribou, the kernel of usefulness that has emerged from years of this basic practice.  
+Caribou is a dynamic web application ecosystem for crafting production ready web
+inhabitants with minimal effort.  Forged in the fire of daily requirements,
+Caribou is a collection of solutions to problems web developers face every day.
+The philosophy behind its development is to solve every problem we come across
+once, in a general way that can be reused over and over.  Anything unnecessary
+or obstructive has been burned away from the wear of constant use.  The result
+is Caribou, the kernel of usefulness that has emerged from years of this basic
+practice.
 
 # Getting Started
 ## Installing Caribou
 
-Caribou depends on the java runtime, so the zeroth step would be to install a JVM if you don't have one already: 
-> http://www.java.com/en/download/help/index_installing.xml
+Caribou depends on the java runtime, so the zeroth step would be to install a
+JVM if you don't have one already: >
+http://www.java.com/en/download/help/index_installing.xml
 
-Next, install Leiningen (which provides the `lein` command) if it is not already installed: 
-> http://leiningen.org/
+Next, install Leiningen (which provides the `lein` command) if it is not already
+installed: > http://leiningen.org/
 
-Once you have the `lein` command, create a profile that includes `lein-caribou` (the Leiningen Caribou plugin).
+Once you have the `lein` command, create a profile that includes `lein-caribou`
+(the Leiningen Caribou plugin).
 
 * Create a file called `~/.lein/profiles.clj` with the following contents:
 
-```clj
-{:user 
-  {:plugins [[lein-ring "0.8.2"]
-             [lein-caribou "2.2.8"]]}}
-```
+```clj {:user {:plugins [[lein-ring "0.8.2"] [lein-caribou "2.2.8"]]}} ```
 
-* (note these versions may have increased.  Check http://clojars.org for latest version information)
+* (note these versions may have increased.  Check http://clojars.org for latest
+  version information)
 
-* Run `lein help` to test out your setup.  If you see some helpful output you are ready to go!
+* Run `lein help` to test out your setup.  If you see some helpful output you
+  are ready to go!
 
 ## Creating a New Site
 
 To create a new Caribou project, type this at the command line:
 
-```
-% lein caribou create taiga
-```
+``` % lein caribou create taiga ```
 
-This will create a new directory structure under the name `taiga` and prime a new H2 database for use with Caribou.
+This will create a new directory structure under the name `taiga` and prime a
+new H2 database for use with Caribou.
 
-If you don't want to use H2 you can configure Caribou to use other database backends.
+If you don't want to use H2 you can configure Caribou to use other database
+backends.
 
 ## Running the Site
 
@@ -56,82 +59,125 @@ Congratulations!  You are now running Caribou.
 
 # Components of a Caribou Project
 
-Caribou is not a single library, but an ecosystem of interacting components, each of which has the ability to stand on its own.  
-This idea lends a quality of composability to the Caribou world.  If some capability does not exist, create it on its own and then
-link it into a working Caribou instance.
+Caribou is not a single library, but an ecosystem of interacting components,
+each of which has the ability to stand on its own.  This idea lends a quality of
+composability to the Caribou world.  If some capability does not exist, create
+it on its own and then link it into a working Caribou instance.
 
-That said, there are some core components that lay the foundation for everything that follows.
+That said, there are some core components that lay the foundation for everything
+that follows.
 
 ## Base Libraries
 
 ### Core
 
-[Caribou Core](http://github.com/antler/caribou-core) lays the foundation for all of the other libraries by 
-capturing the data model of a site as data!
-A data model is traditionally only an implicitly defined being, existing as a conglomeration of migrations and 
-tables whose relationships are only formed through happy accidents within application code. Caribou Core 
-structures the data model in a way that allows it to serve a variety of other purposes, including the construction 
-of queries that filter and order based on the relationships between models.
+[Caribou Core](http://github.com/antler/caribou-core) lays the foundation for
+all of the other libraries by capturing the data model of a site as data!  A
+data model is traditionally only an implicitly defined being, existing as a
+conglomeration of migrations and tables whose relationships are only formed
+through happy accidents within application code. Caribou Core structures the
+data model in a way that allows it to serve a variety of other purposes,
+including the construction of queries that filter and order based on the
+relationships between models.
 
-[Caribou Core](https://github.com/antler/caribou-core) can
-be used on its own if all you need is the dynamic models as an interface to a database backend.   In practice 
-it is usually supporting a site running the Caribou Frontend, Admin and API, but nothing is stopping you from 
-using it independently of an HTTP Ring server.  
+[Caribou Core](https://github.com/antler/caribou-core) can be used on its own if
+all you need is the dynamic models as an interface to a database backend.  In
+practice it is usually supporting a site running the Caribou Frontend, Admin and
+API, but nothing is stopping you from using it independently of an HTTP Ring
+server.
 
-The heart of Core is the Model system, which abstracts over a database schema and provides methods for 
-making schema transformations through transformations on pure clojure data.  In every way, Model (which represents
-a database table) itself is a Model, with an association to Fields (which represent the columns of a database
-table) which is also a Model.  This is a radical choice, and lays the foundation for the rest of Caribou's 
-power.  The ability to treat Models and Fields themselves as data enables Caribou to generate an 
-Admin and API for you automatically, and countless other benefits that you will discover as you go deeper into 
-the Caribou ecosystem.
+The heart of Core is the Model system, which abstracts over a database schema
+and provides methods for making schema transformations through transformations
+on pure clojure data.  In every way, Model (which represents a database table)
+itself is a Model, with an association to Fields (which represent the columns of
+a database table) which is also a Model.  This is a radical choice, and lays the
+foundation for the rest of Caribou's power.  The ability to treat Models and
+Fields themselves as data enables Caribou to generate an Admin and API for you
+automatically, and countless other benefits that you will discover as you go
+deeper into the Caribou ecosystem.
 
 ### Frontend
 
-[Caribou Frontend](https://github.com/antler/caribou-frontend)
-uses Core as the data layer foundation and is built on the [Clojure Ring protocol](https://github.com/ring-clojure/ring).
-Ring is a flexible HTTP protocol for Clojure that abstracts over the HTTP request and response lifecycle, 
-turning them into plain Clojure maps.  In practice this is an extremely powerful way to compose handlers
-and functionality into a robust web server.  
+[Caribou Frontend](https://github.com/antler/caribou-frontend) uses Core as the
+data layer foundation and is built on the [Clojure Ring
+protocol](https://github.com/ring-clojure/ring).  Ring is a flexible HTTP
+protocol for Clojure that abstracts over the HTTP request and response
+lifecycle, turning them into plain Clojure maps.  In practice this is an
+extremely powerful way to compose handlers and functionality into a robust web
+server.
 
-Frontend adds onto the Core and Ring base a fully-functional routing, controller and rendering system.  If Core
-is the M, then Frontend is the VC.  At the heart of this system is the Page, which associates routes to the controllers
-that run when they are matched and the templates that are ultimately rendered with data retrieved and defined
-in the controllers.
+Frontend adds onto the Core and Ring base a fully-functional routing, controller
+and rendering system.  If Core is the M, then Frontend is the VC.  At the heart
+of this system is the Page, which associates routes to the controllers that run
+when they are matched and the templates that are ultimately rendered with data
+retrieved and defined in the controllers.
 
 ### Admin
 
-[Caribou Admin](https://github.com/antler/caribou-admin) provides a browser-based interface to all of the Caribou 
-functionality.  Things you would previously
-need someone to code for you can be done with the click of a button.  Adding new Models, adding new Fields to 
-those Models, creating content based on those Models, adding Pages for routing and rendering, localizing 
-content for many languages and locales, adding Accounts and managing Permissions, all of this
-is accessible through the Admin interface.  No need to build a custom admin for every project!  This alone
-cuts down on the development time of a project by a large degree, and is one of the huge advantages of using
-Caribou to build your site.  
+[Caribou Admin](https://github.com/antler/caribou-admin) provides a
+browser-based interface to all of the Caribou functionality.  Things you would
+previously need someone to code for you can be done with the click of a button.
+Adding new Models, adding new Fields to those Models, creating content based on
+those Models, adding Pages for routing and rendering, localizing content for
+many languages and locales, adding Accounts and managing Permissions, all of
+this is accessible through the Admin interface.  No need to build a custom admin
+for every project!  This alone cuts down on the development time of a project by
+a large degree, and is one of the huge advantages of using Caribou to build your
+site.
 
 ### API
 
-[Caribou API](http://github.com/antler/caribou-api) provides a RESTful API in a variety of formats (json, xml or csv)
-which tap into any content you create in Caribou.  Create a new Model and
-instantly an endpoint representing that Model is available.  Add some content for that Model, the content
-magically appears in the API results.  Use any of the options for filtering and selecting content as URL
-parameters that would previously only be available programmatically.  The API again is a tangible upshot
-of Caribou's Model as Data approach.  
+[Caribou API](http://github.com/antler/caribou-api) provides a RESTful API in a
+variety of formats (json, xml or csv) which tap into any content you create in
+Caribou.  Create a new Model and instantly an endpoint representing that Model
+is available.  Add some content for that Model, the content magically appears in
+the API results.  Use any of the options for filtering and selecting content as
+URL parameters that would previously only be available programmatically.  The
+API again is a tangible upshot of Caribou's Model as Data approach.
 
 ## Peripheral Libraries
 
-Besides the base libraries, there is a whole tundra of associated libraries that exist on their own, 
-but also contribute to the Caribou ecosystem.
+Besides the base libraries, there is a whole tundra of associated libraries that
+exist on their own, but also contribute to the Caribou ecosystem.
 
 ### Lichen
 
 ### Antlers
 
 # Basic Concepts
-## Models
+
+## Models and Fields
+
+Models in Caribou are a representation of the data of your application.  Models can be created like any content, 
+but models are special in that creating a model enables a new type of content to be created.  Conceptually
+there should be a model for every variety of real world data that the application is capturing.  Each model has a 
+set of Fields which represent the different types of data that the model keeps track of.  These fields can be of 
+a variety of types, things like text, images, numbers, dates, and even associations to other models.
+
+As an example, to create an application that lets you create presentations, you could have a Presentation model 
+that would have a "title" text field and maybe a "preview" image field, and a Slide model with a "caption" text
+field and an "image" field with an image containing the slide content.  Then, you could create an association
+between Presentation and Slide so that Presentation has a collection of Slide objects.  Once these models are 
+created, you could start creating Presentations and populate them with Slides.  
+
+This flexibility in defining what kind of data your application will contain enables an endless variety of 
+possible applications to be built.  Once a model exists in the system, you can read data from the API or create
+new content in the Admin.
+
+Model itself is a model, with a collection of Fields (which is also a model!)  To read more, check out
+the [Introduction to Data Modeling](#introduction-to-data-modeling).
+
 ## Pages
-## Templates
+
+Pages are a nested structure that govern the way urls are matched in your application.  Each page represents a
+route that can be matched when a user navigates to a particular url.  Once a route is matched, the controller
+associated to that page is triggered with the parameters defined by that route.  If a page is a child of another
+page, it inherits its parent's route and adds its own unique path onto it.  In this way the routing structure of 
+an application can be organized hierarchically, simplifying what could otherwise be a complicated tangle of routes.
+
+## Controllers and Templates
+
+
 
 # Configuring Caribou
 
