@@ -1380,7 +1380,7 @@ associations, and order across many properties simultaneously:
      {:id 2 :caption "Explaining Caribou Models" :updated-at #inst "2013-06-21T22:37:34.883000000-00:00" ...}]
 ```
 
-### *-- limit --*
+### **-- limit --**
 
 The `:limit` option specifies a maximum number of items to retrieve, in the case
 that there are more items than you wish to handle at any given time:
@@ -1415,7 +1415,7 @@ additional gather on associated items once the outer item is retrieved:
   (assoc presentation :slides limited-slides))
 ```
 
-### *-- offset --*
+### **-- offset --**
 
 `:offset` is used in conjunction with `:limit`.  It finds subsequent sets of
 content given whatever would be returned from the gather normally, but has been
