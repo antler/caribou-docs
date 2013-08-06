@@ -16,6 +16,7 @@ The result is Caribou, the kernel of usefulness that has emerged from years of
 this basic practice.
 
 # Getting Started
+
 ## Installing Caribou
 
 Caribou depends on the java runtime, so the zeroth step would be to install a
@@ -190,9 +191,21 @@ its own unique path onto it.  In this way the routing structure of an
 application can be organized hierarchically, simplifying what could otherwise be
 a complicated tangle of routes.
 
+Read more at [Defining Pages and Routes](#defining-pages-and-routes).
+
 ## Controllers and Templates
 
+Once a route has been matched, the corresponding controller is triggered.  A 
+controller in Caribou is just a Clojure function that takes a single argument,
+`request`, and renders to the browser whatever that function returns.
 
+In practice, a controller can use the built in template system called
+[Antlers](http://github.com/antler/antlers) to render html or json (or
+any other format for that matter).  Any parameters passed into the
+built in `render` call will be available in the template.  
+
+To see more on how this is done, check out the section on 
+[Rendering Templates](#rendering-templates)
 
 # Configuring Caribou
 
