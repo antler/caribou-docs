@@ -1189,6 +1189,13 @@ some handy features that all content is likely to need.  These fields are:
     in the application as a whole, in which case setting it to `locked` will
     safeguard that content from changing out from under you.
 
+* **:created-at** -- This is a timestamp that is set automatically when a piece
+    of content is created.  This way you always know when something was created!
+
+* **:updated-at** -- This is another timestamp, but it gets set every time
+    something is updated.  Can be useful to order by this if you always want the
+    most recent content (or least recent!)
+
 ## Retrieving Content
 
 Once models and content have been created, the ideal thing would be to be able
