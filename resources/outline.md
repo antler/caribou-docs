@@ -987,7 +987,8 @@ information about the database connection.  Since this call is creating a new
 model, this will actually generate a new table for that model inside whatever
 database is referred to by the given configuration map under its `:database`
 key.  This means of configuration means that you can create models in different
-databases just by swapping out the configuration map.
+databases just by swapping out the configuration map.  For clarity, from here on
+out we will assume the config map is provided.
 
 * The next line calls the fundamental function `caribou.model/create`.  This
 call is used to create any content inside of a Caribou project, and corresponds
@@ -1012,11 +1013,10 @@ exists, new Presentations can be created that have titles and previews in the
 same manner:
 
 ```clj
-(caribou.core/with-caribou config 
-  (caribou.model/create 
-   :presentation
-   {:title "Caribou!"
-    :preview {:path "path/to/preview/image.png"}}))
+(caribou.model/create 
+ :presentation
+ {:title "Caribou!"
+  :preview {:path "path/to/preview/image.png"}}))
 ```
 
 In this way, creating a model allows new kinds of content to be created.
@@ -1078,19 +1078,17 @@ As detailed before at the end of [Creating Models](#creating-models), once a
 model has been created, new content can be created according to that model.
 
 ```clj
-(caribou.core/with-caribou config 
-  (caribou.model/create 
-   :model
-   {:name "Presentation"
-    :fields [{:name "Title" :type "string"}
-             {:name "Preview" :type "asset"}]}))
+(caribou.model/create 
+ :model
+ {:name "Presentation"
+  :fields [{:name "Title" :type "string"}
+           {:name "Preview" :type "asset"}]}))
 
 (def caribou-presentation
-  (caribou.core/with-caribou config 
-    (caribou.model/create 
-     :presentation
-     {:title "Caribou!"
-      :preview {:path "path/to/preview/image.png"}})))
+  (caribou.model/create 
+   :presentation
+   {:title "Caribou!"
+    :preview {:path "path/to/preview/image.png"}})))
 ```
 
 The first call to `caribou.model/create` creates the Presentation *model*, and
@@ -1099,14 +1097,13 @@ model creation are available during content creation time.  Next, let's create a
 new Slide model and associate it to Presentation:
 
 ```clj
-(caribou.core/with-caribou config 
-  (caribou.model/create 
-   :model
-   {:name "Slide"
-    :fields [{:name "Image" :type "asset"}
-             {:name "Caption" :type "string"}
-             {:name "Presentation" :type "part"
-              :target-id (caribou.config/draw :models :presentation :id)}]}))
+(caribou.model/create 
+ :model
+ {:name "Slide"
+  :fields [{:name "Image" :type "asset"}
+           {:name "Caption" :type "string"}
+           {:name "Presentation" :type "part"
+            :target-id (caribou.config/draw :models :presentation :id)}]}))
 ```
 
 The key here is that we made a new field called "Presentation" of type "part".
@@ -1122,27 +1119,25 @@ Presentation model.  Now, Slides can be created and associated to Presentations:
 
 ```clj
 (def first-slide
-  (caribou.core/with-caribou config 
-    (caribou.model/create 
-     :slide
-     {:caption "Welcome to Caribou!"
-      :image {:path "welcome/to/caribou.jpg"}
-      :presentation caribou-presentation})))
+  (caribou.model/create 
+   :slide
+   {:caption "Welcome to Caribou!"
+    :image {:path "welcome/to/caribou.jpg"}
+    :presentation caribou-presentation})))
 ```
 
 Since Presentation has a collection of Slides, you can also create Slides in the
 context of a given Presentation using `caribou.model/update`:
 
 ```clj
-(caribou.core/with-caribou config 
-  (caribou.model/update
-   :presentation 
-   (:id caribou-presentation)
-   {:title "Caribou Redux!"
-    :slides [{:caption "Explaining Caribou Models"
-              :image {:path "explaining/caribou/models.jpg"}}
-             {:caption "How to Update a Caribou Model"
-              :image {:path "updating/caribou/models.jpg"}}]}))
+(caribou.model/update
+ :presentation 
+ (:id caribou-presentation)
+ {:title "Caribou Redux!"
+  :slides [{:caption "Explaining Caribou Models"
+            :image {:path "explaining/caribou/models.jpg"}}
+           {:caption "How to Update a Caribou Model"
+            :image {:path "updating/caribou/models.jpg"}}]}))
 ```
 
 This creates two new Slides and associates them to the given presentation.  A
@@ -1154,7 +1149,7 @@ couple things to note about this update:
   is returned from the original call to `caribou.model/create` that created that
   content item (above this was stored under the var `caribou-presentation`).
 
-* To add an item into the collection, we provided a vector of maps under the
+* To add items into the collection, we provide a vector of maps under the
   `:slides` key in the update.  This works just as well for create.  Each map in
   the collection vector will be created and associated to the given object.  In
   fact, this is how we created the model originally, since `:fields` is a
@@ -1163,6 +1158,42 @@ couple things to note about this update:
   than creating a new one.
 
 ## Retrieving Content
+
+Once models and content have been created, the ideal thing would be to be able
+to retrieve it again!  This capability is provided by the `caribou.model/gather`
+and `caribou.model/pick` functions.
+
+To retrieve all Presentations in the system, we just gather them:
+
+```clj
+(def all-presentations
+  (caribou.model/gather :presentation))
+  
+--> [{:id 1 :title "Caribou Redux!" :preview {...} ...}] ;; a lot of information not shown here
+```
+
+`caribou.model/pick` is just like gather, except it only returns a single item:
+
+```clj
+(def first-presentation
+  (caribou.model/pick :presentation))
+
+--> {:id 1 :title "Caribou Redux!" :preview {...} ...}
+```
+
+Without arguments, `pick` will return the first item, and `gather` will return
+all items.  To refine our results, an options map can be passed in as the second
+argument:
+
+```
+(def all-presentations
+  (caribou.model/pick
+   :presentation
+   {:where {:title "Caribou Redux!"}}))
+  
+--> {:id 1 :title "Caribou Redux!" :preview {...} ...}
+```
+
 ## Data Migrations
 ## Content Localization
 
