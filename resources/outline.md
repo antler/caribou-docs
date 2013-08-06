@@ -1226,7 +1226,7 @@ Without arguments, `pick` will return the first item, and `gather` will return
 all items.  To refine our results, an options map can be passed in as the second
 argument:
 
-```
+```clj
 (def all-presentations
   (caribou.model/gather
    :presentation
@@ -1250,7 +1250,7 @@ Let's take a look at these one by one.
 One of the great sources of power for the gather call is that the `:where` map
 can express conditions across associations:
 
-```
+```clj
 (def redux-slides
   (caribou.model/gather
    :slide
@@ -1266,7 +1266,7 @@ on the associated Presentation item.  This is cool.
 
 You can also have parallel conditions.  This acts like a logical "AND":
 
-```
+```clj
 (def redux-slides
   (caribou.model/gather
    :slide
@@ -1285,7 +1285,7 @@ associations exist, associated items do not come through the regular
 The `:include` map defines a nested set of association field names that trigger
 the retrieval of associated content.
 
-```
+```clj
 (def redux-and-slides
   (caribou.model/pick
    :presentation
@@ -1304,7 +1304,7 @@ The `:include` map can travel arbitrarily deep along the model association
 graph, so if Slide had a collection of another model, say "Paragraphs", then you
 could retrieve those as well with another level of the `:include` map:
 
-```
+```clj
 (def redux-slides-and-paragraphs
   (caribou.model/pick
    :presentation
@@ -1324,7 +1324,7 @@ association to an existing "Person" model called "Authors", you could retrieve
 the Presentation, all its Slides and their Paragraphs, and the Authors of the
 Presentation all in one gather call:
 
-```
+```clj
 (def redux-authors-and-slide-paragraphs
   (caribou.model/pick
    :presentation
@@ -1351,7 +1351,7 @@ The `:order` map is used to control the order of the returned items.  By
 default, content is ordered based on that model's `:position` field, but any
 order can be used.  Here is an example of ordering by `:updated-at`:
 
-```
+```clj
 (def redux-slides-ordered-by-updated-at
   (caribou.model/gather
    :slide
@@ -1369,7 +1369,7 @@ representing ascending or descending respectively.
 The `:order` map, like the `:where` and `:include` map, can propagate across
 associations, and order across many properties simultaneously:
 
-```
+```clj
 (def redux-slides-parallel-ordering
   (caribou.model/gather
    :slide
@@ -1387,7 +1387,7 @@ associations, and order across many properties simultaneously:
 The `:limit` option specifies a maximum number of items to retrieve, in the case
 that there are more items than you wish to handle at any given time:
 
-```
+```clj
 (def redux-slides-limited
   (caribou.model/gather
    :slide
@@ -1406,7 +1406,7 @@ with a large number of associated items in a collection or link.  In that case
 it is better to not include the content directly, but rather to make an
 additional gather on associated items once the outer item is retrieved:
 
-```
+```clj
 (let [presentation   (caribou.model/pick
                       :presentation
                       {:where {:title "Caribou Redux!"}})
@@ -1423,7 +1423,7 @@ additional gather on associated items once the outer item is retrieved:
 content given whatever would be returned from the gather normally, but has been
 excluded through the use of a `:limit`.
 
-```
+```clj
 (def redux-slides-limited-and-offset
   (caribou.model/gather
    :slide
