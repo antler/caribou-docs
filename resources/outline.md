@@ -1178,6 +1178,17 @@ some handy features that all content is likely to need.  These fields are:
     `1`, just like `:id`.  `:position` however can change, whereas once an `:id`
     is acquired it is invariant for the lifetime of the application.
 
+* **:locked** -- This boolean field, if `true`, prevents the given content item
+    from being modified by a `caribou.model/update` call.  This is handy to
+    protect the built in model fields from arbitrary changes which could
+    undermine the very functioning of Caribou itself.  That is not to say built
+    in models are unchangeable: new fields can be added to any model.  But
+    someone cannot remove the "Name" field from a model, for instance.  Caribou
+    needs this field to run.  Probably you will not need to set this field
+    yourself, but you could have a vital content item that plays a similar role
+    in the application as a whole, in which case setting it to `locked` will
+    safeguard that content from changing out from under you.
+
 ## Retrieving Content
 
 Once models and content have been created, the ideal thing would be to be able
