@@ -1243,7 +1243,7 @@ This map presents one of the features of a gather map, `:where`.  The full list 
 
 Let's take a look at these one by one.
 
-### **-- where --**
+### **:where**
 
 One of the great sources of power for the gather call is that the `:where` map
 can express conditions across associations:
@@ -1275,7 +1275,7 @@ You can also have parallel conditions.  This acts like a logical "AND":
      {:id 3 :caption "How to Update a Caribou Model" ...}]
 ```
 
-### **-- include --**
+### **:include**
 
 One thing you will notice right away when gathering content is that though
 associations exist, associated items do not come through the regular
@@ -1343,7 +1343,7 @@ Obviously this can get out of control, and it wouldn't be hard to pull in every
 content item in the site in a single call.  Any single gather call can be broken
 into individual gathers that fetch the content when needed.
 
-### **-- order --**
+### **:order**
 
 The `:order` map is used to control the order of the returned items.  By
 default, content is ordered based on that model's `:position` field, but any
@@ -1380,7 +1380,7 @@ associations, and order across many properties simultaneously:
      {:id 2 :caption "Explaining Caribou Models" :updated-at #inst "2013-06-21T22:37:34.883000000-00:00" ...}]
 ```
 
-### **-- limit --**
+### **:limit**
 
 The `:limit` option specifies a maximum number of items to retrieve, in the case
 that there are more items than you wish to handle at any given time:
@@ -1415,7 +1415,7 @@ additional gather on associated items once the outer item is retrieved:
   (assoc presentation :slides limited-slides))
 ```
 
-### **-- offset --**
+### **:offset**
 
 `:offset` is used in conjunction with `:limit`.  It finds subsequent sets of
 content given whatever would be returned from the gather normally, but has been
