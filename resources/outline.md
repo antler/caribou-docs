@@ -33,7 +33,8 @@ Once you have the `lein` command, create a profile that includes `lein-caribou`
 
 ```clj 
 {:user 
-  {:plugins [[lein-ring "0.8.2"] [lein-caribou "2.2.8"]]}}
+  {:plugins [[lein-ring "0.8.2"] 
+             [lein-caribou "2.2.8"]]}}
 ```
 
 * (note these versions may have increased.  Check http://clojars.org for latest
