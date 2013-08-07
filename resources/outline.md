@@ -1467,11 +1467,11 @@ This can be used to implement pagination, for example.
 ## Templates can Inherit Structure from other Templates
 ## Templates can Invoke other Templates as Partials
 
-## Miscellaneous Topics
+# Miscellaneous Topics
 
-# Connecting to a Caribou Repl
-# Search Indexing
-# Query Cache
+## Connecting to a Caribou Repl
+## Search Indexing
+## Query Cache
 
 # Using the Admin
 
