@@ -409,7 +409,7 @@ Also, in order to access a value that lives inside a Caribou configuration, use
 (caribou.config/draw :models :model :id) ---> The id of the Model model.
 ```
 
-## How to Configure Caribou
+## Initializing a Caribou Configuration
 
 In general, we will refer to namespaces inside a Caribou project as
 `{project}.foo`, since we don't know what you named your project.  So if you
