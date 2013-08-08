@@ -1439,6 +1439,7 @@ excluded through the use of a `:limit`.
 
 This can be used to implement pagination, for example.
 
+## Defining a Siphon
 ## Data Migrations
 ## Content Localization
 
