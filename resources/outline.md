@@ -1627,18 +1627,110 @@ can happen.
 ## Controllers are Namespaces which contain Actions
 
 To define a controller namespace, add a new file to your
-`src/{project}/controllers` directory with the name of the new controller.  So for this example it would be
-`src/taiga/controllers/example_controller.clj` with the following contents:
+`src/{project}/controllers` directory with the name of the new controller.  So
+for this example it would be `src/taiga/controllers/example_controller.clj` with
+the following contents:
 
 ```clj
 (ns taiga.controllers.example-controller
-  (:use caribou.app.controller)
-  (:require [caribou.model :as model]))
+  (:require [caribou.model :as model]
+            [caribou.app.controller :as controller]))
 ```
 
 Now you are ready to start writing some actions!
 
 ## Controller Actions are Functions
+
+To create a controller action is simply to write a function.  Caribou uses the
+[Ring protocol](https://github.com/ring-clojure/ring) as its basis for handling
+requests and returning responses.  In its simplest form, a controller looks like
+this:
+
+```clj
+(defn basic-action
+  [request]
+  {:status 200 :body "This is a simple response"})
+```
+
+Here we are ignoring anything in the request map and simply returning a response
+of 200 with the body "This is a simple response".  No fancy markup, no database
+transactions, nothing.  If you have simple needs, this may be all you require. 
+
+However, it is likely that you will want some information that lives in the
+request.  There are some basic keys that are available in any Ring request,
+currently the following:
+
+```clj
+:uri 
+:scheme 
+:content-type 
+:content-length 
+:character-encoding 
+:headers 
+:request-method 
+:body 
+:ssl-client-cert 
+:remote-addr 
+:server-name 
+:server-port 
+```
+
+Yet more are added by some middleware that Caribou includes by default (which
+you are free to remove if you wish):
+
+```clj
+:cookies 
+:session 
+:query-string 
+:params 
+:query-params 
+:form-params 
+:multipart-params 
+```
+
+There is a salad of params types that is an artifact of each being provided by a
+separate ring middleware handler.
+
+Then there are the keys added by Caribou.  There are some basic ones which are
+provided to help with rendering:
+
+* **:template** A function which renders the template associated to this page
+    when called with a map of substitution values.
+* **:page** A reference to the Page item that was matched during routing time.
+* **:is-xhr** A boolean which signifies whether or not this request is xhr.
+* **:route-params** A map of any parameters extracted from the url when the
+    route was matched.
+
+And then there are all the helpers.  A helper is simply a clojure function that
+lives inside request map.  Caribou provides a handful of helpers by default, and
+you can add any more that seem helpful.
+
+```clj
+;; string handling
+:equals 
+:truncate 
+:linebreak 
+:smartquote 
+
+;; routing
+:route-for 
+:safe-route-for 
+
+;; image resizing
+:resize 
+:safer-resize 
+
+;; date handling
+:current-date 
+:ago 
+:hh-mm 
+:yyyy-mm-dd 
+:yyyy-mm-dd-or-current 
+:date-year 
+:date-month 
+:date-day
+```
+
 ## Parameters from Routes are Available in Controllers
 ## Rendering Provides Data to Templates
 ## Defining Pre-Actions
