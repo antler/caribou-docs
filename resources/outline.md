@@ -1600,10 +1600,10 @@ Whereas the original non-localized version still exists:
 ```
 
 This non-localized version is actually part of the "global" locale, which is
-always present.  The global locale also supplies values for instances that don't
+always present.  The "global" locale also supplies values for instances that don't
 have a value in the localized field.  So until a specific value is given to the
 `quotation` for the "ql-QN" locale, it will inherit the value that exists in
-global.  This allows you to just override the content that needs to be
+"global".  This allows you to just override the content that needs to be
 overridden and provide, for instance, the same image in all locales except the
 specific ones that need their own image.
 
@@ -1636,6 +1636,23 @@ specific ones that need their own image.
 # Miscellaneous Topics
 
 ## Connecting to a Caribou Repl
+
+Caribou provides an embedded nrepl server that lives inside the context of the
+currently running configuration.  This means you won't have to call every
+`caribou.model/gather` or `caribou.model/create` inside a
+`caribou.core/with-caribou` call.
+
+For a new Caribou project the repl is enabled by default.  It lives under the 
+configuration option 
+
+```clj
+{:nrepl {:port 44444}}
+```
+
+If you want to disable this simply remove this entry and the nrepl server will
+disappear.  To use it, specify a port (44444 by default) and connect using your
+favorite nrepl client!
+
 ## Search Indexing
 ## Query Cache
 
