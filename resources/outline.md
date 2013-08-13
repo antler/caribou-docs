@@ -1857,7 +1857,7 @@ Set the port to any viable port number and restart!
 ## Immutant (JBoss)
 ## Beanstalk
 
-To deploy to Beanstalk, the key is to use the
+To deploy to Beanstalk running Tomcat, the key is to use the
 [lein-beanstalk](https://github.com/weavejester/lein-beanstalk) plugin and have
 the right set of values in your `project.clj`.  Here is an example configuration:
 
@@ -1872,5 +1872,14 @@ the right set of values in your `project.clj`.  Here is an example configuration
                   :environments [{:name "taiga-production"
                                   :env {"environment" "production"}}]}}
 ```
+
+Then, run the `lein-beanstalk` command:
+
+```
+% lein beanstalk deploy
+```
+
+If your Beanstalk configuration with AWS is set up right, you now have a Caribou
+project running in the cloud somewhere!  Congratulations.
 
 ## Heroku
