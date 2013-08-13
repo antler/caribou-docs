@@ -1672,6 +1672,24 @@ favorite nrepl client!
 # Deploying Caribou
 
 ## Ring Server (Jetty)
+
+Using the built-in ring server is the simplest approach.  Simply run:
+
+```
+% lein ring server
+```
+
+at the project root and your site will come to life!  To set the port you can 
+change the options that live in your `project.clj`:
+
+```clj
+  :ring {:handler taiga.core/handler
+         :init taiga.core/init
+         :port 33333})
+```
+
+Set the port to any viable port number and restart!
+
 ## Tomcat
 ## Immutant (JBoss)
 ## Beanstalk
