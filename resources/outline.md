@@ -1607,7 +1607,7 @@ have a value in the localized field.  So until a specific value is given to the
 overridden and provide, for instance, the same image in all locales except the
 specific ones that need their own image.
 
-# Defining Pages and Routes
+# Defining Routes and Pages
 
 ## Routes are Matched based on Paths
 ## Route Elements can be Variable
@@ -1657,8 +1657,16 @@ of 200 with the body "This is a simple response".  No fancy markup, no database
 transactions, nothing.  If you have simple needs, this may be all you require. 
 
 However, it is likely that you will want some information that lives in the
-request.  There are some basic keys that are available in any Ring request,
-currently the following:
+request.  That is the subject of the next section.  
+
+## Contents of the Request Map
+
+Living in the request map are a variety of helpful keys that provide information
+about the nature of the incoming request.  This is the basic information any
+controller action can use to tailor a response to that specific request.  
+
+There are some basic keys that are available in any Ring request, currently the
+following:
 
 ```clj
 :uri 
@@ -1675,8 +1683,8 @@ currently the following:
 :server-port 
 ```
 
-Yet more are added by some middleware that Caribou includes by default (which
-you are free to remove if you wish):
+Yet more are added by some Ring middleware that Caribou includes by default
+(which you are free to remove if you wish):
 
 ```clj
 :cookies 
@@ -1732,6 +1740,50 @@ you can add any more that seem helpful.
 ```
 
 ## Parameters from Routes are Available in Controllers
+
+In order to provide something beyond our first simple action, let's use some of
+the information from the incoming request.  In this example, we use a `:name`
+parameter to customize our response:
+
+```clj
+(defn parameter-action
+  [request]
+  (let [request-name (-> request :params :name)]
+    {:status 200 :body (str "Hello " request-name "!")}))
+```
+
+This way, if this action is triggered by a page associated to the route
+"/hello/:name" for instance, the `:name` parameter will be set by whatever the
+value of the url is in that position.  So if someone makes a request to
+"/hello/lichen" the response will come back as
+
+```
+Hello lichen!
+```
+
+One basic pattern that is used over and over is to pull up some content from a
+model based on the value of a parameter and use that to form the response.  An
+example would be, given the route "/hello/:name" and a request to
+"/hello/antler", to pull up some content from a "User" model and respond with
+something that lives in that instance.  In this case we can say that the User
+model has a "Greeting" field that they prefer to be greeted by that is stored in
+the database:
+
+```clj
+(defn pick-action
+  [request]
+  (let [request-name (-> request :params :name)
+        user (model/pick :user {:where {:name request-name}})
+        greeting (:greeting user)] ;; this user's :greeting is "Obo"
+    {:status 200 :body (str greeting " " request-name "!")}))
+```
+
+The response for this would be:
+
+```
+Obo antler!
+```
+
 ## Rendering Provides Data to Templates
 ## Defining Pre-Actions
 
