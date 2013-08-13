@@ -1706,22 +1706,22 @@ lives inside request map.  Caribou provides a handful of helpers by default, and
 you can add any more that seem helpful.
 
 ```clj
-;; string handling
+;; value handling
 :equals 
+
+;; string handling
 :truncate 
 :linebreak 
 :smartquote 
 
 ;; routing
 :route-for 
-:safe-route-for 
 
 ;; image resizing
 :resize 
-:safer-resize 
 
 ;; date handling
-:current-date 
+:now
 :ago 
 :hh-mm 
 :yyyy-mm-dd 
