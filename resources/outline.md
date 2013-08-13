@@ -1618,7 +1618,12 @@ specific ones that need their own image.
 
 # Writing Controllers
 
-## Controllers are Triggered by a Matching Route
+The whole point of the Caribou router is to funnel requests to the appropriate
+controller with the right parameters.  Once a request comes through, a
+controller is simply a function that is called with the request map as an
+argument, and evaluates to a valid response map.  In between of course, all
+kinds of magic can happen.
+
 ## Controllers are Functions
 ## Parameters from Routes are Available in Controllers
 ## Rendering Provides Data to Templates
@@ -1679,7 +1684,7 @@ Using the built-in ring server is the simplest approach.  Simply run:
 % lein ring server
 ```
 
-at the project root and your site will come to life!  To set the port you can 
+at the project root and your site will come to life!  To set the port you can
 change the options that live in your `project.clj`:
 
 ```clj
