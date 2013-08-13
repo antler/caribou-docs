@@ -1619,12 +1619,26 @@ specific ones that need their own image.
 # Writing Controllers
 
 The whole point of the Caribou router is to funnel requests to the appropriate
-controller with the right parameters.  Once a request comes through, a
-controller is simply a function that is called with the request map as an
-argument, and evaluates to a valid response map.  In between of course, all
-kinds of magic can happen.
+controller action with the right parameters.  Once a request comes through, an
+action is simply a function that is called with the request map as an argument,
+and evaluates to a valid response map.  In between of course, all kinds of magic
+can happen.
 
-## Controllers are Functions
+## Controllers are Namespaces which contain Actions
+
+To define a controller namespace, add a new file to your
+`src/{project}/controllers` directory with the name of the new controller.  So for this example it would be
+`src/taiga/controllers/example_controller.clj` with the following contents:
+
+```clj
+(ns taiga.controllers.example-controller
+  (:use caribou.app.controller)
+  (:require [caribou.model :as model]))
+```
+
+Now you are ready to start writing some actions!
+
+## Controller Actions are Functions
 ## Parameters from Routes are Available in Controllers
 ## Rendering Provides Data to Templates
 ## Defining Pre-Actions
