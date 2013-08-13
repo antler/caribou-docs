@@ -1856,4 +1856,21 @@ Set the port to any viable port number and restart!
 ## Tomcat
 ## Immutant (JBoss)
 ## Beanstalk
+
+To deploy to Beanstalk, the key is to use the
+[lein-beanstalk](https://github.com/weavejester/lein-beanstalk) plugin and have
+the right set of values in your `project.clj`.  Here is an example configuration:
+
+```clj
+:aws {:access-key "YOUR-AWS-ACCESS-KEY"
+      :secret-key "YOUR-AWS-SECRET-KEY"
+      :region "us-west-1"
+      :beanstalk {:region "us-west-1"
+                  :s3-region "us-west-1"
+                  :app-name "taiga"
+                  :s3-bucket "taiga-prod"
+                  :environments [{:name "taiga-production"
+                                  :env {"environment" "production"}}]}}
+```
+
 ## Heroku
