@@ -1855,16 +1855,33 @@ Set the port to any viable port number and restart!
 
 ## Tomcat
 
+For Tomcat, the process is simple.
 
+```sh
+% lein ring uberwar
+```
+
+Once this has completed, drop the resulting jar into your running Tomcat
+container's webapps directory.  Voila!
 
 ## Immutant (JBoss)
 
+To deploy to Immutant, set up the
+[lein-immutant](http://github.com/immutant/lein-immutant) plugin and then in
+your Caribou project root simply type:
 
+```sh
+% lein immutant deploy
+```
+
+There is a generated Immutant configuration file that lives in
+`src/immutant/init.clj`.  Any additional Immutant configuration can be done
+there.  See the Immutant docs for help:  http://immutant.org/
 
 ## Beanstalk
 
 To deploy to Beanstalk running Tomcat, the key is to use the
-[lein-beanstalk](https://github.com/weavejester/lein-beanstalk) plugin and have
+[lein-beanstalk](http://github.com/weavejester/lein-beanstalk) plugin and have
 the right set of values in your `project.clj`.  Here is an example configuration:
 
 ```clj
@@ -1909,6 +1926,6 @@ create a git repo and set the remote heroku target:
 ```
 
 For any additional Heroku support, refer to the Heroku docs on this page:  
-https://devcenter.heroku.com/articles/clojure
+http://devcenter.heroku.com/articles/clojure
 
 
