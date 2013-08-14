@@ -1785,6 +1785,60 @@ Obo antler!
 ```
 
 ## Rendering Provides Data to Templates
+
+If you are using Caribou's default templating language,
+[Antlers](https://github.com/antler/antlers), you can use the built in
+`caribou.app.controller/render` method to render your templates.  It will use
+the template defined in the page that routed the request to this action in the
+first place.  So instead of returning a map with `:status` and `:body` in it,
+you can just call render on some parameters instead.  A basic call looks like
+this:
+
+```clj
+(defn pick-action
+  [request]
+  (let [request-name (-> request :params :name)
+        user (model/pick :user {:where {:name request-name}})]
+    (controller/render (assoc request :user user))))
+```
+
+The user map for this example contains:
+
+```clj
+{:greeting "Salutations" :name "Tundra Warrior"}
+```
+
+Then in a template:
+
+```html
+{{user.greeting}} {{user.name}}!
+```
+
+And out comes!:
+
+```
+Salutations Tundra Warrior!
+```
+
+Any key that is present in the map passed into `caribou.app.controller/render`
+can be used inside a template, including information about the request and the
+currently rendering page.  So if you need a page title and the current URL for
+instance,
+
+```html
+<html>
+  <head>
+    <title>{{page.title}}</title>
+  </head>
+  <body>
+You are currently visiting {{uri}}!  Welcome!
+  </body>
+</html>
+```
+
+More information about template rendering can be found in the
+[Rendering Templates](#rendering-templates) section.
+
 ## Defining Pre-Actions
 
 # Rendering Templates
