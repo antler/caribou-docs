@@ -1609,12 +1609,170 @@ specific ones that need their own image.
 
 # Defining Routes and Pages
 
+When a user visits a URL in your site, the Caribou Router is what matches that
+URL and sends a request to a particular controller you have defined in your
+`src/{project}/controllers` directory.  These controllers are just Clojure
+namespaces which contain a collection of functions (which we call "actions"),
+each of which can conjure a response based on a given request.
+
+In order to perform this magic, you have to specify which URLs map to which
+controller actions, and what parts of that URL are parsed and provided to the
+action in the form of parameters.  This happens through the use of two new
+concepts in Caribou: Routes and Pages.
+
+Routes define a routing hierarchy which is based on paths.  Every route defines
+a path (which is a string to match), a key which will be used to map it to a
+page, and a set of child routes, each of which inherits the first part of its
+path from its parent.  This tree will then be used by the router to route
+requests based on their URL to the controller actions specified in the
+corresponding page given by the route's key.
+
+The simplest route would be one that matches the empty path, "/", and maps to a
+home page.  This is given below:
+
+```clj
+["/" :home []]
+```
+
+The path is "/", the key is `:home`, and its children routes are empty.
+Needless to say, routes for a site can become much more elaborate than this, but
+they can all be represented in the same way.
+
+The above is a single route, but in practice routes come as a collection.  So an
+example of the simplest routing a site could have would be something like the
+following:
+
+```clj
+(def routes
+  [["/" :home []]])
+```  
+
+Pages are represented as a map where the keys are the same as those defined by
+the routes, and each value is a specification of where to route any incoming
+request coming from a matched route having that key:
+
+```clj
+(def pages
+  {:home {:GET {:controller "home" :action "index" :template "home.html"}}})
+```
+
+In this case, this page will be triggered by any route containing the `:home`
+key, and the next map discerns which methods this page will match.  So in the
+case of a GET request, the corresponding controller that will be activated is
+the "home" controller, which is located in `src/{project}/controllers/home.clj`
+in the `{project}.controllers.home` namespace, and the action that will be
+called will be a function by the name of "index" defined in that namespace.
+
+There can be multiple methods if desired:
+
+```clj
+(def pages
+  {:home {:GET    {:controller "home"  :action "index"  :template "home.html"}
+          :POST   {:controller "home"  :action "login"  :template "login.html"}
+          :PUT    {:controller "home"  :action "update" :template "acknowledge.html"}
+          :DELETE {:controller "hades" :action "perish" :template "writhing.html"}}})
+```
+
+Once we have a set of routes and a page map, we can combine them into a page
+tree that Caribou can use to build a router.  The function for this is called
+`caribou.app.pages/build-page-tree`, and it is called with a seq of routes and a
+map of pages and returns a page tree:
+
+```clj
+(def page-tree
+  (caribou.app.pages/build-page-tree routes pages))
+```
+
+Putting this all together we have the creation of a full page tree:
+
+```clj
+(def routes
+  [["/" :home []]])
+
+(def pages
+  {:home {:GET {:controller "home" :action "index" :template "home.html"}}})
+
+(def page-tree
+  (caribou.app.pages/build-page-tree routes pages))
+```
+
+This can later be given to the initialization of the Caribou handler that will
+eventually be running your site to define the routing structure that will be
+followed.
+
 ## Routes are Matched based on Paths
+
+
+
 ## Route Elements can be Variable
-## Pages can be Nested
-## Paths are Inherited from Parent Pages
+## Routes can be Nested
+## Paths are Inherited from Parent Routes
 ## Pages Tie Routes to Controllers and Templates
 ## Defining a Siphon
+
+## Providing your Pages to the Caribou Handler
+
+Once you have acquired a page tree, you can pass it into a call to
+`caribou.app.pages/add-page-routes`.  This is already happening inside your
+`{project}.core` namespace in the `{project}.core/reload-pages` function (this
+is already where the Admin and the API is added into your site).  This function
+is eventually handed to the core Caribou handler that runs your site so that all
+routes can be reloaded when necessary:
+
+```clj
+(defn reload-pages
+  []
+  (pages/add-page-routes
+   admin-routes/admin-routes
+   'caribou.admin.controllers
+   "/_admin"
+   admin-core/admin-wrapper)
+
+  (pages/add-page-routes
+   api-routes/api-routes
+   'caribou.api.controllers
+   "/_api"
+   api-core/api-wrapper)
+
+  (pages/add-page-routes
+   (pages/all-pages)
+   (config/draw :controller :namespace)))
+```
+
+The first two calls to `pages/add-page-routes` add in the Admin and API routes
+respectively.  The last one is currently adding in all the pages defined in the
+database (usually created through the Admin) by calling `pages/all-pages`, but
+you can give it any page tree you have created here.
+
+Notice also that `pages/add-page-routes` has a number of additional arguments
+that can be passed in.  The first argument is a page tree, and the second is the
+controller namespace.  If you want to move where you store your controllers you
+can change this in your config, or just hardcode something here (like was done
+for the Admin and API, each of which have controller namespaces that live inside
+those respective projects).  The third argument is a URL prefix, which is how
+all the Admin and API routes end up living under "/\_admin" and "/\_api".  
+
+An example `{project}.core/reload-pages` that does not include the Admin or API
+but does use your custom routes and pages using a custom controller namespace
+and a different URL prefix would look something like this:
+
+```clj
+(def routes
+  [["/" :home []]])
+
+(def pages
+  {:home {:GET {:controller "home" :action "index" :template "home.html"}}})
+
+(def page-tree
+  (caribou.app.pages/build-page-tree routes pages))
+  
+(defn reload-pages
+  []
+  (pages/add-page-routes
+   page-tree
+   'taiga.some.other.namespace.controllers
+   "/lives/somewhere/else"))
+```
 
 # Writing Controllers
 
@@ -1831,7 +1989,7 @@ instance,
     <title>{{page.title}}</title>
   </head>
   <body>
-You are currently visiting {{uri}}!  Welcome!
+    <p>You are currently visiting {{uri}}!  Welcome!</p>
   </body>
 </html>
 ```
