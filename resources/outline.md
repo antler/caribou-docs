@@ -1788,8 +1788,7 @@ routes live at the root, it is as simple as:
 ```clj
 (defn reload-pages
   []
-  (pages/add-page-routes
-   page-tree))
+  (pages/add-page-routes page-tree))
 ```
 
 # Writing Controllers
