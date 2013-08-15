@@ -1635,7 +1635,7 @@ home page.  This is given below:
 
 The path is "/", the key is `:home`, and its children routes are empty.
 Needless to say, routes for a site can become much more elaborate than this, but
-they can all be represented in the same way.
+they are all represented in this same format.
 
 The above is a single route, but in practice routes come as a collection.  So an
 example of the simplest routing a site could have would be something like the
