@@ -1772,7 +1772,7 @@ and a different URL prefix would look something like this:
   {:home {:GET {:controller "home" :action "index" :template "home.html"}}})
 
 (def page-tree
-  (caribou.app.pages/build-page-tree routes pages))
+  (pages/build-page-tree routes pages))
   
 (defn reload-pages
   []
