@@ -1657,7 +1657,7 @@ As you can imagine, there could be several routes living in parallel:
 
 Pages are represented as a map where the keys are the same as those defined by
 the routes, and each value is a specification of where to route any incoming
-request coming from a matching route having that key:
+request that matches:
 
 ```clj
 (def pages
