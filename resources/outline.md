@@ -1646,6 +1646,15 @@ following:
   [["/" :home []]])
 ```  
 
+As you can imagine, there could be several routes living in parallel:
+
+```clj
+(def routes
+  [["/"               :home      []]
+   ["/place"          :place     []]
+   ["/somewhere-else" :somewhere []]])
+```  
+
 Pages are represented as a map where the keys are the same as those defined by
 the routes, and each value is a specification of where to route any incoming
 request coming from a matched route having that key:
