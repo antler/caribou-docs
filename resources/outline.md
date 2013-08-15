@@ -1682,7 +1682,7 @@ There can be multiple methods if desired:
 ```
 
 Once we have a set of routes and a page map, we can combine them into a page
-tree that Caribou can use to build a router.  The function for this is called
+tree that Caribou can use to build a router.  The function for this is named
 `caribou.app.pages/build-page-tree`, and it is called with a seq of routes and a
 map of pages and returns a page tree:
 
