@@ -1624,8 +1624,7 @@ Routes define a routing hierarchy which is based on URL paths.  Every route
 defines a path (which is a string to match), a key which will be used to map it
 to a page, and a set of child routes, each of which inherits the first part of
 its path from its parent.  This tree will then be used by the router to route
-requests based on their URL to the controller actions specified in the
-corresponding page given by the route's key.
+requests based on their URL to the controller actions given by that route's key.
 
 The simplest route would be one that matches the empty path, "/", and maps to a
 home page.  This is given below:
