@@ -1620,10 +1620,10 @@ controller actions, and what parts of that URL are parsed and provided to the
 action in the form of parameters.  This happens through the use of two new
 concepts in Caribou: Routes and Pages.
 
-Routes define a routing hierarchy which is based on paths.  Every route defines
-a path (which is a string to match), a key which will be used to map it to a
-page, and a set of child routes, each of which inherits the first part of its
-path from its parent.  This tree will then be used by the router to route
+Routes define a routing hierarchy which is based on URL paths.  Every route
+defines a path (which is a string to match), a key which will be used to map it
+to a page, and a set of child routes, each of which inherits the first part of
+its path from its parent.  This tree will then be used by the router to route
 requests based on their URL to the controller actions specified in the
 corresponding page given by the route's key.
 
