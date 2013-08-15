@@ -1782,6 +1782,16 @@ and a different URL prefix would look something like this:
    "/lives/somewhere/else"))
 ```
 
+Of course if you want to use the default controller namespace and have your
+routes live at the root, it is as simple as:
+
+```clj
+(defn reload-pages
+  []
+  (pages/add-page-routes
+   page-tree))
+```
+
 # Writing Controllers
 
 The whole point of the Caribou router is to funnel requests to the appropriate
