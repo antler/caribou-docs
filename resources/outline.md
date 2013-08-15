@@ -1723,7 +1723,7 @@ that will be followed by the running app.
 Once you have acquired a page tree, you can pass it into a call to
 `caribou.app.pages/add-page-routes`.  This is already happening inside your
 `{project}.core` namespace in the `{project}.core/reload-pages` function (this
-is already where the Admin and the API is added into your site).  This function
+is where the Admin and the API are added into your site).  This function
 is eventually handed to the core Caribou handler that runs your site so that all
 routes can be reloaded when necessary:
 
