@@ -1778,7 +1778,7 @@ and a different URL prefix would look something like this:
   []
   (pages/add-page-routes
    page-tree
-   'taiga.some.other.namespace.controllers
+   'some.other.controller.namespace
    "/lives/somewhere/else"))
 ```
 
