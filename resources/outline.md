@@ -1705,8 +1705,8 @@ Putting this all together we have the creation of a full page tree:
 ```
 
 This can later be given to the initialization of the Caribou handler that will
-eventually be running your site to define the routing structure that will be
-followed.
+be running your site.  It will define the routing structure and URL matching
+that will be followed by the running app.
 
 ## Routes are Matched based on Paths
 
