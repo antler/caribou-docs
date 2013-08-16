@@ -212,7 +212,7 @@ route and adds its own unique path onto it.  In this way the routing structure
 of an application can be organized hierarchically, simplifying what could
 otherwise be a complicated tangle of routes.
 
-Read more at [Defining Pages and Routes](#defining-pages-and-routes).
+Read more at [Defining Routes and Pages](#defining-routes-and-pages).
 
 ## Controllers and Templates
 
@@ -911,7 +911,7 @@ likely this will be populated during the definition of the handler in your
 adds whatever routes you have to your site, which gets passed into the
 invocation of the root handler, `caribou.app.handler/handler`, so that it can
 reload the pages whenever necessary.  This is all covered in the section on
-[Defining Pages and Routes](#defining-pages-and-routes).
+[Defining Routes and Pages](#defining-routes-and-pages).
 
 ### pre-actions
 
@@ -966,7 +966,7 @@ This is an ordered map of your routes.  The routes map url patterns to the
 actions that are triggered by them.  One by one each pattern is tested against
 an incoming url until it is matched or a 404 is issued.  Once a route is matched
 the corresponding action is called with the request map as a parameter.  See
-more at [Defining Pages and Routes](#defining-pages-and-routes).
+more at [Defining Routes and Pages](#defining-routes-and-pages).
 
 ### template
 
@@ -1898,7 +1898,40 @@ routes need to know where they are ultimately going to live.  Think of it as
 functional decomposition of the routing structure of your application.
 
 ## Pages Tie Routes to Controllers and Templates
-## Defining a Siphon
+
+Once your routes are defined, you still need to say how those routes will map to
+controller actions and templates.  This is the role of Pages.  Pages live
+independently of routes, so they can vary without changing the routing and vice
+versa.  A set of pages is at its heart a map whose keys are the target of the
+various routes.  The second component of any route is a key, and this is the key
+that is looked up in the page map to find where that route sends the requests it
+matches.
+
+A page is further indexed by its HTTP method, so that the same route can map to
+different controller actions based on whether it is a GET or a POST or whatever
+else.  
+
+The page map itself contains two keys at minimum: `:controller` and `:action`.
+It can contain any keys you wish and those keys will be available at render time
+in the request map under `:page`, but at least it must guide the system on which
+controller and action to pass any matched request at run time.  In addition, if
+your action is going to make use of the built in rendering then it must also
+contain a `:template` key that specifies which template to render.
+
+Putting this all together, the simplest page map looks like this:
+
+```clj
+(def simple-pages
+  {:home {:GET {:controller "home" :action "index" :template "index.html"}}})
+```
+
+There is one page, `:home`, that responds to one method, `:GET`, and routes the
+request received to the "index" action inside the "home" controller.  Once there, if 
+`caribou.app.controller/render` is called in that controller, the template
+"index.html" living inside your "resources/templates" directory will be rendered
+with whatever map is passed into the `render` call.  This is the full round-trip
+story of Caribou routing, from request to route matching to controller action to
+template rendering and back as a response.  This is the pattern of the Internet.  
 
 ## Providing your Pages to the Caribou Handler
 
@@ -2195,6 +2228,34 @@ instance,
 
 More information about template rendering can be found in the
 [Rendering Templates](#rendering-templates) section.
+
+## Defining a Siphon
+
+Often in controllers, the main work is to pull some content up out of the
+database based on the incoming parameters and hand that content to the template
+for rendering.  This doesn't apply to actions that update or create content or
+make requests of their own, but it does apply to any request that is simply
+fetching data that is then presented to the requester in some meaningful way.
+
+Along these lines, Caribou has the concept of a Siphon.  A Siphon is a
+specification of what data to pull up and how to associate it based on the
+parameters of an incoming request.  It is itself data that lives in a map inside
+the Page:
+
+```clj
+(def page-with-siphon
+  {:home 
+   {:GET 
+    {:controller "home" 
+     :action "index" 
+     :template "index.html"
+     :siphons {:categories {:spec {:model :category
+                                   :op    :gather
+                                   :order {:created-at :desc}}}
+               :user {:spec {:model :user
+                             :op    :pick
+                             :where {:id :$user-id}}}}}}})
+```
 
 ## Defining Pre-Actions
 
