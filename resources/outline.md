@@ -1732,7 +1732,7 @@ http://localhost:33333/place             --->  :place
 http://localhost:33333/place/            --->  :place
 http://localhost:33333/somewhere-else    --->  :somewhere
 http://localhost:33333/somewhere-else/   --->  :somewhere
-http://localhost:33333/off-the-map       --->   404!
+http://localhost:33333/off-the-map       --->  404!
 ```
 
 ## Route Elements can be Variable
