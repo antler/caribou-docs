@@ -1737,7 +1737,61 @@ http://localhost:33333/off-the-map       --->   404!
 
 ## Route Elements can be Variable
 
-This is all well and good, but what if you want to pull up a model by id?
+This is all well and good, but what if you want to pull up a model by id?  Do
+you need a route for every id that could be called?
+
+This is where variable slugs come into play.  You can specify a placeholder path
+element with a `:`, and when the router matches it it will parse the path and
+pass the value in as a named parameter.
+
+Here is an example:
+
+```clj
+(def routes
+  [["/"            :home           []]
+   ["/place"       :general-place  []]
+   ["/place/:name" :specific-place []]])
+```
+
+In this case, the router will match any URL of the form "/place/*" and assign
+whatever the * is to a parameter called `:name`.  So:
+
+```
+http://localhost:33333                   --->  :home
+http://localhost:33333/place             --->  :general-place
+http://localhost:33333/place/hello       --->  :specific-place  {:name "hello"}
+http://localhost:33333/place/earth       --->  :specific-place  {:name "earth"}
+```
+
+Once the request reaches your controller, you can access the value of `:name` in
+the request map:
+
+```clj
+;; request to http://localhost:33333/place/earth
+
+(defn place
+  [request]
+  (println (-> request :params :name)))
+  
+---> "earth"
+```
+
+One word of caution: a variable slug can shadow a specific slug, so the ordering
+of your routes matters:
+
+```clj
+(def routes
+  [["/place/:where"  :variable-place []]    ;; <--- absorbs all requests
+   ["/place/here"    :right-here     []]])  ;; <--- never called!
+```
+
+This is easily resolved by swapping the order:
+
+```clj
+(def routes
+  [["/place/here"    :right-here     []]    ;; <--- now this works
+   ["/place/:where"  :variable-place []]])  ;; <--- called only if the previous fails to match
+```
 
 ## Routes can be Nested
 ## Paths are Inherited from Parent Routes
