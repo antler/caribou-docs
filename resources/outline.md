@@ -1820,7 +1820,43 @@ This is easily resolved by swapping the order:
 
 ## Routes can be Nested, Paths are Inherited
 
-A useful feature for organizing routes is to decompose them into a hierarchy.  
+A useful feature for organizing routes is to decompose them into a hierarchy.
+Routes inherit their path from the routes above them in the hierarchy, which
+means subtrees can be moved around and put into new places in the hierarchy
+while preserving the routing structure of that subtree.  Every subroute just
+needs to know its own path and what routes it has as children, and the full path
+is implied by its position in the tree.
+
+Here is an example:
+
+```clj
+(def routes
+  [["/"                    :home 
+    [["presentations"      :presentations 
+      [[":presentation"    :presentation-detail 
+        [["info"           :presentation-info []]
+         ["author/:author" :presentation-author []]
+         ["slides"         :slides 
+          [[":slide"       :slide-detail []]]]]]]]
+     ["categories"         :categories 
+      [[":category"        :category-detail []]]]]]])
+```
+
+This generates a moderately comprehensive routing structure for a presentation-based application.
+Here is a representative sample of routes that will be matched by this route tree:
+
+```
+.../                                      --->  :home
+.../presentations                         --->  :presentations
+.../presentations/caribou                 --->  :presentation-detail {:presentation "caribou"}
+.../presentations/caribou/info            --->  :presentation-info   {:presentation "caribou"}
+.../presentations/caribou/author/tundra   --->  :presentation-author {:presentation "caribou" :author "tundra"}
+.../presentations/caribou/slides          --->  :slides              {:presentation "caribou"}
+.../presentations/caribou/slides/welcome  --->  :slide-detail        {:presentation "caribou" :slide "welcome"}
+.../presentations/caribou/slides/routing  --->  :slide-detail        {:presentation "caribou" :slide "routing"}
+.../categories                            --->  :categories
+.../categories/programming                --->  :category-detail     {:category "programming"}
+```
 
 ## Pages Tie Routes to Controllers and Templates
 ## Defining a Siphon
