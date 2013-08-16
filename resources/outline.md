@@ -1790,7 +1790,7 @@ This is easily resolved by swapping the order:
 ```clj
 (def routes
   [["/place/here"    :right-here     []]    ;; <--- now this works
-   ["/place/:where"  :variable-place []]])  ;; <--- called only if the previous fails to match
+   ["/place/:where"  :variable-place []]])  ;; <--- called only if the previous route fails to match
 ```
 
 ## Routes can be Nested
