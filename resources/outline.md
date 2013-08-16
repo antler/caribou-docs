@@ -1710,9 +1710,35 @@ that will be followed by the running app.
 
 ## Routes are Matched based on Paths
 
+The routes you define govern the way URLs coming from requests will be matched.
+So given a set of routes, you can tell how an incoming URL will be handled.
+Take the following case:
 
+```clj
+(def routes
+  [["/"               :home      []]
+   ["/place"          :place     []]
+   ["/somewhere-else" :somewhere []]])
+```  
+
+Here there are three separate routes.  Any incoming request will match one of
+these routes, or trigger a 404.  Caribou routes match given a trailing slash or
+not, so:
+
+```
+http://localhost:33333                   --->  :home
+http://localhost:33333/                  --->  :home
+http://localhost:33333/place             --->  :place
+http://localhost:33333/place/            --->  :place
+http://localhost:33333/somewhere-else    --->  :somewhere
+http://localhost:33333/somewhere-else/   --->  :somewhere
+http://localhost:33333/off-the-map       --->   404!
+```
 
 ## Route Elements can be Variable
+
+This is all well and good, but what if you want to pull up a model by id?
+
 ## Routes can be Nested
 ## Paths are Inherited from Parent Routes
 ## Pages Tie Routes to Controllers and Templates
