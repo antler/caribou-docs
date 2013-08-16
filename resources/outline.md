@@ -251,7 +251,7 @@ this timeless notion is not just beautiful, but practical, and we are grateful
 that the existence of Clojure allows us to follow through with the original
 possibilities of code as data to its full implications in terms of EVERYTHING as
 data.  Our goal is to allow the potential of any aspect of the system to be able
-to be harnessed programmatically to bloom into its ultimate manifestation.
+to be harnessed programmatically reach its ultimate realization.
 
 # Configuring Caribou
 
