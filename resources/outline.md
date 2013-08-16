@@ -1842,8 +1842,9 @@ Here is an example:
       [[":category"        :category-detail []]]]]]])
 ```
 
-This generates a moderately comprehensive routing structure for a presentation-based application.
-Here is a representative sample of routes that will be matched by this route tree:
+This generates a moderately comprehensive routing structure for a
+presentation-based application.  Here is a representative sample of routes that
+will be matched by this routing tree:
 
 ```
 .../                                      --->  :home
@@ -1857,6 +1858,40 @@ Here is a representative sample of routes that will be matched by this route tre
 .../categories                            --->  :categories
 .../categories/programming                --->  :category-detail     {:category "programming"}
 ```
+
+Paths are generated for each route based on the line of paths starting at the
+root of the tree leading to that route.  This makes it easy to define sub-parts
+of your application's routing structure as individual trees and then compose
+them however you want.  The following is equivalent to the above routing tree:
+
+```clj
+(def slide-routing
+  ["slides"    :slides 
+   [[":slide"  :slide-detail []]]])
+
+(def presentation-routing
+  ["presentations"       :presentations 
+   [[":presentation"     :presentation-detail 
+     [["info"            :presentation-info []]
+      ["author/:author"  :presentation-author []]
+      slide-routing]]]])
+
+(def category-routing
+  ["categories"   :categories 
+   [[":category"  :category-detail []]]])
+
+(def all-routes
+  [["/"  :home 
+    [presentation-routing
+     category-routing]]])
+```
+
+This kind of separation of concerns allows for clean decomposition of different
+aspects of the routing structure, and also enables the addition of libraries
+which define their own routes to be inserted at arbitrary points in your own
+routing tree.  Not all routes need to be defined up front, and not all defined
+routes need to know where they are ultimately going to live.  Think of it as
+functional decomposition of the routing structure of your application.
 
 ## Pages Tie Routes to Controllers and Templates
 ## Defining a Siphon
