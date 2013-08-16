@@ -1859,10 +1859,11 @@ will be matched by this routing tree:
 .../categories/programming                --->  :category-detail     {:category "programming"}
 ```
 
-Paths are generated for each route based on the line of paths starting at the
-root of the tree leading to that route.  This makes it easy to define sub-parts
-of your application's routing structure as individual trees and then compose
-them however you want.  The following is equivalent to the above routing tree:
+Paths are generated for each route based on the sequence of paths starting at
+the root of the tree leading to that route.  This makes it easy to define
+sub-parts of your application's routing structure as individual trees and then
+compose them however you want.  The following is equivalent to the above routing
+tree:
 
 ```clj
 (def slide-routing
