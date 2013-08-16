@@ -1793,8 +1793,10 @@ This is easily resolved by swapping the order:
    ["/place/:where"  :variable-place []]])  ;; <--- called only if the previous route fails to match
 ```
 
-## Routes can be Nested
-## Paths are Inherited from Parent Routes
+## Routes can be Nested, Paths are Inherited
+
+A useful feature for organizing routes is to decompose them into a hierarchy.  
+
 ## Pages Tie Routes to Controllers and Templates
 ## Defining a Siphon
 
