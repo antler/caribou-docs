@@ -34,7 +34,7 @@ Once you have the `lein` command, create a profile that includes `lein-caribou`
 ```clj 
 {:user 
   {:plugins [[lein-ring "0.8.2"] 
-             [lein-caribou "2.2.8"]]}}
+             [lein-caribou "2.3.0"]]}}
 ```
 
 * (note these versions may have increased.  Check http://clojars.org for latest
@@ -1654,14 +1654,14 @@ to a page, and a set of child routes, each of which inherits the first part of
 its path from its parent.  This tree will then be used by the router to route
 requests based on their URL to the controller actions given by that route's key.
 
-The simplest route would be one that matches the empty path, "/", and maps to a
+The simplest route would be one that matches the empty path, "", and maps to a
 home page.  This is given below:
 
 ```clj
-["/" :home []]
+["" :home []]
 ```
 
-The path is "/", the key is `:home`, and its children routes are empty.
+The path is "", the key is `:home`, and its children routes are empty.
 Needless to say, routes for a site can become much more elaborate than this, but
 they are all represented in this same format.
 
@@ -1671,16 +1671,16 @@ following:
 
 ```clj
 (def routes
-  [["/" :home []]])
+  [["" :home []]])
 ```  
 
 As you can imagine, there could be several routes living in parallel:
 
 ```clj
 (def routes
-  [["/"               :home      []]
-   ["/place"          :place     []]
-   ["/somewhere-else" :somewhere []]])
+  [[""               :home      []]
+   ["place"          :place     []]
+   ["somewhere-else" :somewhere []]])
 ```  
 
 Pages are represented as a map where the keys are the same as those defined by
@@ -1723,7 +1723,7 @@ Putting this all together we have the creation of a full page tree:
 
 ```clj
 (def routes
-  [["/" :home []]])
+  [["" :home []]])
 
 (def pages
   {:home {:GET {:controller 'home :action 'index :template "home.html"}}})
@@ -1744,9 +1744,9 @@ Take the following case:
 
 ```clj
 (def routes
-  [["/"               :home      []]
-   ["/place"          :place     []]
-   ["/somewhere-else" :somewhere []]])
+  [[""               :home      []]
+   ["place"          :place     []]
+   ["somewhere-else" :somewhere []]])
 ```  
 
 Here there are three separate routes.  Any incoming request will match one of
@@ -1776,9 +1776,9 @@ Here is an example:
 
 ```clj
 (def routes
-  [["/"            :home           []]
-   ["/place"       :general-place  []]
-   ["/place/:name" :specific-place []]])
+  [[""            :home           []]
+   ["place"       :general-place  []]
+   ["place/:name" :specific-place []]])
 ```
 
 In this case, the router will match any URL of the form "/place/*" and assign
@@ -1809,16 +1809,16 @@ of your routes matters:
 
 ```clj
 (def routes
-  [["/place/:where"  :variable-place []]    ;; <--- absorbs all requests
-   ["/place/here"    :right-here     []]])  ;; <--- never called!
+  [["place/:where"  :variable-place []]    ;; <--- absorbs all requests
+   ["place/here"    :right-here     []]])  ;; <--- never called!
 ```
 
 This is easily resolved by swapping the order:
 
 ```clj
 (def routes
-  [["/place/here"    :right-here     []]    ;; <--- now this works
-   ["/place/:where"  :variable-place []]])  ;; <--- called only if the previous route fails to match
+  [["place/here"    :right-here     []]    ;; <--- now this works
+   ["place/:where"  :variable-place []]])  ;; <--- called only if the previous route fails to match
 ```
 
 ## Routes can be Nested, Paths are Inherited
@@ -1834,7 +1834,7 @@ Here is an example:
 
 ```clj
 (def routes
-  [["/"                    :home 
+  [[""                     :home 
     [["presentations"      :presentations 
       [[":presentation"    :presentation-detail 
         [["info"           :presentation-info []]
@@ -1885,7 +1885,7 @@ tree:
    [[":category"  :category-detail []]]])
 
 (def all-routes
-  [["/"  :home 
+  [[""  :home 
     [presentation-routing
      category-routing]]])
 ```
@@ -1981,7 +1981,7 @@ and a different URL prefix would look something like this:
 
 ```clj
 (def routes
-  [["/" :home []]])
+  [["" :home []]])
 
 (def pages
   {:home {:GET {:controller 'home :action 'index :template "home.html"}}})
