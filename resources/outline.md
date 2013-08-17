@@ -1689,7 +1689,7 @@ request that matches:
 
 ```clj
 (def pages
-  {:home {:GET {:controller "home" :action "index" :template "home.html"}}})
+  {:home {:GET {:controller 'home :action 'index :template "home.html"}}})
 ```
 
 In this case, this page will be triggered by any route containing the `:home`
@@ -1703,10 +1703,10 @@ There can be multiple methods if desired:
 
 ```clj
 (def pages
-  {:home {:GET    {:controller "home"  :action "index"  :template "home.html"}
-          :POST   {:controller "home"  :action "login"  :template "login.html"}
-          :PUT    {:controller "home"  :action "update" :template "acknowledge.html"}
-          :DELETE {:controller "hades" :action "perish" :template "writhing.html"}}})
+  {:home {:GET    {:controller 'home  :action 'index  :template "home.html"}
+          :POST   {:controller 'home  :action 'login  :template "login.html"}
+          :PUT    {:controller 'home  :action 'update :template "acknowledge.html"}
+          :DELETE {:controller 'hades :action 'perish :template "writhing.html"}}})
 ```
 
 Once we have a set of routes and a page map, we can combine them into a page
@@ -1726,7 +1726,7 @@ Putting this all together we have the creation of a full page tree:
   [["/" :home []]])
 
 (def pages
-  {:home {:GET {:controller "home" :action "index" :template "home.html"}}})
+  {:home {:GET {:controller 'home :action 'index :template "home.html"}}})
 
 (def page-tree
   (caribou.app.pages/build-page-tree routes pages))
@@ -1922,7 +1922,7 @@ Putting this all together, the simplest page map looks like this:
 
 ```clj
 (def simple-pages
-  {:home {:GET {:controller "home" :action "index" :template "index.html"}}})
+  {:home {:GET {:controller 'home :action 'index :template "index.html"}}})
 ```
 
 There is one page, `:home`, that responds to one method, `:GET`, and routes the
@@ -1984,7 +1984,7 @@ and a different URL prefix would look something like this:
   [["/" :home []]])
 
 (def pages
-  {:home {:GET {:controller "home" :action "index" :template "home.html"}}})
+  {:home {:GET {:controller 'home :action 'index :template "home.html"}}})
 
 (def page-tree
   (pages/build-page-tree routes pages))
