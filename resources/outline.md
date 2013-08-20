@@ -2258,7 +2258,8 @@ the Page:
 ```
 
 Then you can access these values directly in the template without ever
-having to build a controller! --
+having to build a controller!  These values live inside the page under
+the `:content` key:
 
 ```html
 <h1>Welcome {{page.content.user.name}}!</h1>
