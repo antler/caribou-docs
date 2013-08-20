@@ -19,12 +19,12 @@ this basic practice.
 
 ## Installing Caribou
 
-Caribou depends on the java runtime, so the zeroth step would be to install a
-JVM if you don't have one already: >
-http://www.java.com/en/download/help/index_installing.xml
+Caribou depends on the java runtime, so the zeroth step would be to
+[install a JVM](http://www.java.com/en/download/help/index_installing.xml) if
+you don't have one already.
 
-Next, install Leiningen (which provides the `lein` command) if it is not already
-installed: > http://leiningen.org/
+Next, [install Leiningen](http://leiningen.org/) (which provides the `lein`
+command) if it is not already installed.
 
 Once you have the `lein` command, create a profile that includes `lein-caribou`
 (the Leiningen Caribou plugin).
@@ -33,7 +33,7 @@ Once you have the `lein` command, create a profile that includes `lein-caribou`
 
 ```clj 
 {:user 
-  {:plugins [[lein-ring "0.8.2"] 
+  {:plugins [[lein-ring "0.8.6"] 
              [lein-caribou "2.3.0"]]}}
 ```
 
