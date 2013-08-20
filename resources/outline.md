@@ -2257,6 +2257,20 @@ the Page:
                              :where {:id :$user-id}}}}}}})
 ```
 
+Then you can access these values directly in the template without ever
+having to build a controller! --
+
+```html
+<h1>Welcome {{page.content.user.name}}!</h1>
+
+<p>Here are some Categories for you:</p>
+<ul>
+{{#page.content.categories}}
+<li>{{name}}</li>
+{{/page.content.categories}}
+</ul>
+```
+
 ## Defining Pre-Actions
 
 # Rendering Templates
