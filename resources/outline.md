@@ -2411,9 +2411,9 @@ Or with a value from the same map:
 ## Existing Helpers
 
 There are many helpers Caribou provides by default, but the two most important
-are `route-for` and `resize`.  These are explained in turn.
+are `route-for` and `resize`.  These are explained here.
 
-* route-for
+* **route-for**
 
 `route-for` is a way to generate a url based on a key and some parameters.  This
 is a helpful alternative to simply hard-coding urls throughout your templates,
