@@ -2397,9 +2397,13 @@ Traversing a loop is simple.  In the "lake" template:
       {{name}}
     {{/lakes}}
 
-    --> Huron 
-        Erie 
-        Crater
+This would render as: 
+
+```html
+Huron 
+Erie 
+Crater
+```
 
 But what if we want the last one to be emphasized?  This works:
 
@@ -2407,9 +2411,12 @@ But what if we want the last one to be emphasized?  This works:
       {{name}}{{#loop.last}}!!!{{/loop.last}}
     {{/lakes}}
 
-    --> Huron 
-        Erie 
-        Crater!!!
+
+```html
+Huron 
+Erie 
+Crater!!!
+```
 
 Other loop variables include:
 
