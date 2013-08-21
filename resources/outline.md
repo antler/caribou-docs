@@ -2374,6 +2374,54 @@ Then the template will render out like this:
 Hello nested template argument -- Caribou !
 ```
 
+## Using Loops with Sequences from the Render Map
+
+Any sequence of items (list or vector) in the render map can be looped over
+inside a template.  
+
+```clj
+(defn find-lakes
+  [request]
+  (let [lakes (model/gather :lake)]
+    (render (assoc request :lakes lakes))))
+
+;; now the request map looks something like this:
+
+;; {:lakes [{:name "Huron"} 
+;;          {:name "Erie"} 
+;;          {:name "Crater"}]}
+```
+
+Traversing a loop is simple.  In the "lake" template:
+
+    {{#lakes}}
+      {{name}}
+    {{/lakes}}
+
+    --> Huron 
+        Erie 
+        Crater
+
+But what if we want the last one to be emphasized?  This works:
+
+    {{#lakes}}
+      {{name}}{{#loop.last}}!!!{{/loop.last}}
+    {{/lakes}}
+
+    --> Huron 
+        Erie 
+        Crater!!!
+
+Other loop variables include:
+
+    loop.first       -->  true/false
+    loop.last        -->  true/false
+    loop.item        -->  the current item in the loop
+    loop.index       -->  the current index
+    loop.inc-index   -->  one-based index (useful for things)
+    loop.count       -->  total count of items in this list
+    loop.outer       -->  a reference to any loop variables from an outer loop.  outer can also have an outer, ad infinitum.
+
 ## Template Helpers
 
 Template helpers are simply functions which live in the render map.  They are
@@ -2499,45 +2547,6 @@ Or a height of 200 with a quality of 0.7:
 ```
 
 You get the idea.
-
-## Using Loops with Sequences from the Render Map
-
-Traversing a loop is simple:
-
-    (antlers/render-file "lake" 
-     {:lakes [{:name "Huron"} 
-              {:name "Erie"} 
-              {:name "Crater"}]})
-
-In the "lake" template:
-
-    {{#lakes}}
-      {{name}}
-    {{/lakes}}
-
-    --> Huron 
-        Erie 
-        Crater
-
-But what if we want the last one to be emphasized?  This works:
-
-    {{#lakes}}
-      {{name}}{{#loop.last}}!!!{{/loop.last}}
-    {{/lakes}}
-
-    --> Huron 
-        Erie 
-        Crater!!!
-
-Other loop variables include:
-
-    loop.first       -->  true/false
-    loop.last        -->  true/false
-    loop.item        -->  the current item in the loop
-    loop.index       -->  the current index
-    loop.inc-index   -->  one-based index (useful for things)
-    loop.count       -->  total count of items in this list
-    loop.outer       -->  a reference to any loop variables from an outer loop.  outer can also have an outer, ad infinitum.
 
 ## Templates can Inherit Structure from other Templates
 
