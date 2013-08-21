@@ -2386,10 +2386,9 @@ inside a template.
     (render (assoc request :lakes lakes))))
 
 ;; now the request map looks something like this:
-
-;; {:lakes [{:name "Huron"} 
-;;          {:name "Erie"} 
-;;          {:name "Crater"}]}
+{:lakes [{:name "Huron"} 
+         {:name "Erie"} 
+         {:name "Crater"}]}
 ```
 
 Traversing a loop is simple.  In the "lake" template:
