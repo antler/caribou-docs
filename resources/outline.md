@@ -2322,12 +2322,79 @@ true.
 
 # Rendering Templates
 
-## Data from the Render Map is Accessible in Templates
+Caribou comes with a built-in template rendering system called
+[antlers](https://github.com/antler/antlers).  When a defined page specifies a
+`:template` key, it will search for the given template in the
+`resources/templates` directory of your project and associate a function to
+render that template into the incoming request in a controller action under the
+`:template` key.  When that action calls `caribou.app.controller/render`, it
+will look for this function under the `:template` key and pass it the map
+`render` receives as its main argument.  This is reflected in the canonical
+controller action pattern of usage:
+
+```clj
+(defn some-action
+  [request]
+  (caribou.app.controller/render request))
+```
+
+In this case the controller is doing nothing but passing the request map it
+received on to the template to be rendered.  Inside `request` lives a key
+`:template` which is a function taking a single argument: the map of data
+available to the template during render time.  Any key in this map can be
+accessed from inside a template like so:
+
+```html
+Hello template argument :tundra -- {{tundra}}
+```
+
+Now if the request map contains the value "Arctic" under the key `:tundra`,
+this will render as:
+
+```html
+Hello template argument :tundra -- Arctic
+```
+
+If the map is nested, successive maps can be accessed through the '.' pattern.
+So if this is the template:
+
+```html
+Hello nested template argument -- {{tundra.denizens}} !
+```
+
+And it is given a map like this:
+
+```clj
+{:tundra {:denizens "Caribou"}}
+```
+
+Then the template will render out like this:
+
+```html
+Hello nested template argument -- Caribou !
+```
+
 ## Template Helpers
 ## Existing Helpers
 ## Working with Assets
 ## Templates can Inherit Structure from other Templates
 ## Templates can Invoke other Templates as Partials
+
+## Swapping out the template engine
+
+There is nothing special about the function that lives under the `:template` key
+passed into `caribou.app.controller/render` besides the fact that it takes a map
+of values as an argument and produces a string representing a rendered template.  
+
+If you want to use a different template engine simply swap out the function
+living under `:template` with your own:
+
+```clj
+(defn some-action
+  [request]
+  (let [template (my-template-engine "where.html")]
+    (caribou.app.controller/render (assoc request :template template))))
+```
 
 # Miscellaneous Topics
 
