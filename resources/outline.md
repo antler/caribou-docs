@@ -2409,7 +2409,59 @@ Or with a value from the same map:
 ```
 
 ## Existing Helpers
-## Working with Assets
+
+There are many helpers Caribou provides by default, but the two most important
+are `route-for` and `resize`.  These are explained in turn.
+
+* route-for
+
+`route-for` is a way to generate a url based on a key and some parameters.  This
+is a helpful alternative to simply hard-coding urls throughout your templates,
+since it means that you are free to change your routes at will and all of the
+urls in your templates will immediately reflect this.
+
+`route-for` takes the key for a route and a map of params to be substituted into
+the variable parts of the route.  So say you have a route defined like this:
+
+```clj
+["/place/:where" :somewhere []]
+```
+
+Then you need to link to this route in a template somewhere.  To generate the
+url using `route-for`, in your template:
+
+```html
+<a href="{{route-for :somewhere {:where "yellow"} }}">somewhere yellow</a>
+```
+
+This will produce:
+
+```html
+<a href="/place/yellow">somewhere yellow</a>
+```
+
+Of course, the value of the params can also be a value in the request map.  So
+if you want the url to depend on the value of `:where` in the render map, simply
+refer to that in your params map:
+
+```html
+<a href="{{route-for :somewhere {:where where} }}">somewhere {{where}}</a>
+```
+
+Then if you pass in a map to render like this:
+
+```clj
+{:where "pink"}
+```
+
+Your template will render out as:
+
+```html
+<a href="/place/pink">somewhere pink</a>
+```
+
+* resize
+
 ## Templates can Inherit Structure from other Templates
 ## Templates can Invoke other Templates as Partials
 
