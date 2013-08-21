@@ -2274,6 +2274,52 @@ the `:content` key:
 
 ## Defining Pre-Actions
 
+Sometimes you find yourself writing the same code over and over for many
+different actions.  This can be to add some information into the request or to
+prevent the action from running entirely if certain conditions aren't met.
+Rather than include the same block of code or call to the same function at the
+beginning of every action like this, you can instead register a pre-action for
+these actions.
+
+Say your desired pre-action is simply adding something to the request map:
+
+```clj
+(defn pre-tundraize
+  [action request]
+  (action (assoc request :tundra "The serene open tundra")))
+```
+
+Notice pre-actions take two arguments, the action that would have originally be
+called and the incoming request.  This pre-action unconditionally calls the
+original action with a new `:tundra` key in the request map.  To register this
+as a pre-action for a given controller action, simply call
+`caribou.app.routing/register-pre-action` with the slug of the page governing
+this action:
+
+```clj
+(caribou.app.routing/register-pre-action :home pre-tundraize)
+```
+
+Another use case is to prevent the action from running at all in certain cases,
+for example if the request is not authorized in some way:
+
+```clj
+(defn ensure-authorized
+  [action request]
+  (if (authorized? request)
+    (action request)
+    {:status 401 :body "Not authorized!"}))
+```
+
+Then you could register this pre-action in the same way as before: 
+
+```clj
+(caribou.app.routing/register-pre-action :protected ensure-authorized)
+```
+
+Now this action will only be run if the call to `(authorized? request)` returns
+true.
+
 # Rendering Templates
 
 ## Data from the Render Map is Accessible in Templates
