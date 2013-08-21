@@ -2431,7 +2431,7 @@ Then you need to link to this route in a template somewhere.  To generate the
 url using `route-for`, in your template:
 
 ```html
-<a href="{{route-for :somewhere {:where "yellow\"} }}">somewhere yellow</a>
+<a href="{{route-for :somewhere {:where "yellow"} }}">somewhere yellow</a>
 ```
 
 This will produce:
