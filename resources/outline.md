@@ -2375,6 +2375,39 @@ Hello nested template argument -- Caribou !
 ```
 
 ## Template Helpers
+
+Template helpers are simply functions which live in the render map.  They are
+easy to invoke, and accept arguments which can be literals or other values from
+the render map:
+
+```clj
+(defn some-action
+  [request]
+  (caribou.app.controller/render 
+   (assoc request :excite (fn [s] (str s "!")))))
+```
+
+Then in the template:
+
+```html
+{{excite "yellow"}}  -->   yellow!
+```
+
+Or with a value from the same map:
+
+```clj
+(defn some-action
+  [request]
+  (caribou.app.controller/render 
+   (assoc request 
+     :antler "Velvet"
+     :excite (fn [s] (str s "!")))))
+```
+
+```html
+{{excite antler}}  -->   Velvet!
+```
+
 ## Existing Helpers
 ## Working with Assets
 ## Templates can Inherit Structure from other Templates
