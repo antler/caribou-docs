@@ -2387,12 +2387,13 @@ passed into `caribou.app.controller/render` besides the fact that it takes a map
 of values as an argument and produces a string representing a rendered template.  
 
 If you want to use a different template engine simply swap out the function
-living under `:template` with your own:
+living under `:template` with your own, as long as you can wrap it into the same
+form:
 
 ```clj
 (defn some-action
   [request]
-  (let [template (my-template-engine "where.html")]
+  (let [template (fn [render-values] (my-template-engine/render "where.html" render-values))]
     (caribou.app.controller/render (assoc request :template template))))
 ```
 
