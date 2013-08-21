@@ -2462,7 +2462,43 @@ Your template will render out as:
 
 * **resize**
 
+`resize` takes existing images and resizes them to dimensions given by `:width`
+and `:height` parameters.  If only `:width` or only `:height` is supplied, it
+scales the image to maintain the aspect ratio of the original image.  There is
+also a `:quality` option that governs the image quality of the resized image.
 
+The first argument to `resize` is an image map, which can be obtained from a
+model containing an "asset" field.  So if you have a Slide model with an "image"
+field of type "asset", the resize call would work like the following.
+
+In the controller:
+
+```clj
+(defn display-slide
+  [request]
+  (let [slide (model/pick :slide {:where {:slug (-> request :params :slide)}})]
+    (render (assoc request :slide slide))))
+```
+
+To render the image at the original size:
+
+```html
+<img src="/{{slide.image.path}}" />
+```
+
+To resize it to have a width of 500:
+
+```html
+<img src="{{resize slide.image {:width 500} }}" />
+```
+
+Or a height of 200 with a quality of 0.7:
+
+```html
+<img src="{{resize slide.image {:height 200 :quality 0.7} }}" />
+```
+
+You get the idea.
 
 ## Templates can Inherit Structure from other Templates
 ## Templates can Invoke other Templates as Partials
