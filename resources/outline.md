@@ -2500,8 +2500,93 @@ Or a height of 200 with a quality of 0.7:
 
 You get the idea.
 
+## Using Loops with Sequences from the Render Map
+
+Traversing a loop is simple:
+
+    (antlers/render-file "lake" 
+     {:lakes [{:name "Huron"} 
+              {:name "Erie"} 
+              {:name "Crater"}]})
+
+In the "lake" template:
+
+    {{#lakes}}
+      {{name}}
+    {{/lakes}}
+
+    --> Huron 
+        Erie 
+        Crater
+
+But what if we want the last one to be emphasized?  This works:
+
+    {{#lakes}}
+      {{name}}{{#loop.last}}!!!{{/loop.last}}
+    {{/lakes}}
+
+    --> Huron 
+        Erie 
+        Crater!!!
+
+Other loop variables include:
+
+    loop.first       -->  true/false
+    loop.last        -->  true/false
+    loop.item        -->  the current item in the loop
+    loop.index       -->  the current index
+    loop.inc-index   -->  one-based index (useful for things)
+    loop.count       -->  total count of items in this list
+    loop.outer       -->  a reference to any loop variables from an outer loop.  outer can also have an outer, ad infinitum.
+
 ## Templates can Inherit Structure from other Templates
-## Templates can Invoke other Templates as Partials
+
+Sometimes you have a set of templates that all share a common markup layout, and
+really only differ in one content block somewhere in the middle.  This is what
+template inheritance is for, which is provided in antlers in the form of blocks.
+
+To declare a block, use the `{{%...}}` syntax, as in the following example.
+
+Suppose you have a file "layout" which looks something like this:
+
+    HEADER
+      MONOLITHIC BODY
+    FOOTER
+
+But you would like to have other bodies, like `BODY OF MODULARITY`, without
+replicating `HEADER` and `FOOTER` over and over again.  Here is the perfect use
+case for a block:
+
+    HEADER
+      {{%body}}{{/body}}
+    FOOTER
+
+Then, in another file "modular" can be the content:
+
+    {{< templates/layout}}
+    {{%body}}BODY OF MODULARITY{{/body}}
+
+Which, when called with `(antlers/render-file "modular" {})` yields:
+
+    HEADER
+      BODY OF MODULARITY
+    FOOTER
+
+Now, you can have another file called "alternate" which can have totally
+different contents for the `body` block.  You only need to specify the changes
+in the blocks, not the rest of the file:
+
+    {{< layout}}
+    {{%body}}This is a more conversational body for the same layout template{{/body}}
+
+Which yields when rendering "alternate":
+
+    HEADER
+      This is a more conversational body for the same layout template
+    FOOTER
+
+In this way you can reuse layouts repeatedly and only need to specify what is
+different.
 
 ## Swapping out the template engine
 
