@@ -1,6 +1,6 @@
 # Caribou Documentation
 
-* This project no longer holds the Caribou documentation! *
+### This project no longer holds the Caribou documentation!
 
 Access Caribou docs here: http://caribou.github.io/caribou/docs/outline.html
 
